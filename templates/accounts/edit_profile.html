@@ -1,0 +1,50 @@
+{% extends 'userbase.html' %} 
+{% load static %} 
+{% block title %}Edit Profile{% endblock %} 
+
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5 mb-5">
+
+    <div class="col-md-6">
+        <div class="row mt-5">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
+
+                </nav>
+            </div>
+        </div>
+        <form style="align-items: center;" action="{% url 'edit_profile' user.id %}" method="POST" class="border border-dark rounded p-4">
+            {% csrf_token %}
+            <div class="text-center text-dark">
+            <h3>Edit Your Profile</h3>
+            </div>
+            <hr>
+            <div class="form-group mt-4">
+                <label for="name">First Name</label>
+                <input required type="text" class="form-control" id="name" name="first_name" value="{{ user.first_name }}">
+            </div>
+            <div class="form-group mt-4">
+                <label for="name">Last Name</label>
+                <input type="text" class="form-control" id="name" name="last_name" value="{{ user.last_name }}">
+            </div>
+            <div class="form-group mt-4">
+                <label for="name" >Email Address</label>
+                <input type="email" class="form-control" id="number" value="{{ user.email }}" disabled>
+            </div>
+            <div class="form-group mt-4">
+                <label for="name">Phone Number</label>
+                <input type="number" class="form-control" id="number" name="phone_number" value="{{ user.phone_number }}">
+            </div>
+                {% comment %} <div class="form-group mt-4">
+                    <label for="name">Profile Picture</label>
+                    <input type="file" class="form-control" id="image" name="first_name" placeholder="Profile pic change">
+                </div> {% endcomment %}
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-dark mt-4 p-2">Cancel</a>
+            <button type="submit" class="btn btn-dark mt-4 p-2">Save Changes</button>
+        </form> 
+    
+    </div>
+</div>
+
+{% endblock %}

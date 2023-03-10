@@ -1,0 +1,97 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+
+<!-- Section: Design Block -->
+<section class="text-center">
+    <!-- Background image -->
+    <div
+        class="p-2 bg-image"
+        style="background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg'); height: 300px"
+    >
+    </div>
+    <!-- Background image -->
+
+    <div
+        class="card mx-4 mx-md-5 shadow-5-strong"
+        style="margin-top: -100px; background: hsla(0, 0%, 100%, 0.8); backdrop-filter: blur(30px)"
+    >
+        <div class="card-body px-md-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8" style="font-family: 'IBM Plex Mono', monospace; font-size: 20px">
+                    <h2 class="fw-bold mb-5 text-dark">Sign up now</h2>
+
+                    {% include 'includes/alerts.html' %}
+
+                    <form action="{% url 'register' %}" method="POST">
+                        {% csrf_token %} 
+
+                        <!-- First Name input -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form.first_name}}
+                                    <label class="form-label" for="form3Example1"></label>
+                                </div>
+                            </div>
+
+                            <!-- Last Name input -->
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form.last_name}}
+                                    <label class="form-label" for="form3Example1"></label>
+                                </div>
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="col-md-6 mb-4">
+                                {{form.email}}
+                                <label class="form-label" for="form3Example3"></label>
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="col-md-6 mb-4">
+                                {{form.phone_number}}
+                                <label class="form-label" for="form3Example3"></label>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="col-md-6 mb-4">
+                                {{ form.password}}
+                                <label class="form-label" for="form3Example4"></label>
+                            </div>
+
+                            <!-- Confirm Password input -->
+                            <div class="col-md-6 mb-4">
+                                {{form.confirm_password}}
+                                <label class="form-label" for="form3Example4"></label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <!-- Submit button -->
+                            <button
+                                type="submit"
+                                class="btn btn-primary fw-bold btn-block"
+                                style="font-size: 20px; border-radius: 10px; margin-top: -5px"
+                                action=""
+                            >
+                                Sign Up
+                            </button>
+                            <h5 style="color: red;">{{form.email.errors}}{{form.non_field_errors}}</h5>
+                            
+                            <div class="form-outline">
+                                <p class="mb-0">
+                                    Alredy have an account? <a href="{% url 'login' %}" class="fw-bold">Login</a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock  %}

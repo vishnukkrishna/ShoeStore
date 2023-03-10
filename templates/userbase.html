@@ -1,0 +1,543 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>{% block title %}ShoeStore{% endblock title %}</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/png" href="{% static 'img/shoe-store-logo-photoaidcom-cropped.png' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/linearicons-v1.0.0/icon-font.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/MagnificPopup/magnific-popup.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+        <!--===============================================================================================-->
+        <!--===============================================================================================-->
+        <!--===============================================================================================-->
+
+        <link
+            href="{% static 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' %}"
+            rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <body>
+
+    <!-- Header NavBar -->
+    <header style="margin-bottom: 5%;">
+    <!-- Header desktop -->
+    <div class="container-menu-desktop">
+        <!-- Topbar -->
+        <div class="top-bar">
+            <div class="content-topbar flex-sb-m h-full container"></div>
+        </div>
+
+        <div class="wrap-menu-desktop">
+            <nav class="limiter-menu-desktop container">
+                <!-- Logo desktop -->
+                <!-- ***** Logo Start ***** -->
+                <a href="{% url 'home' %}" class="logo">
+                    <img src="{% static 'img/Logo.png' %}" style="width: 85%" />
+                </a>
+                <!-- ***** Logo End ***** -->
+
+                <!-- Menu desktop -->
+                <div class="menu-desktop">
+                    <ul class="main-menu">
+                        <li class="{% if '/' == request.path %}active-menu{% endif %}">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="{% if '/store/allproduct/' == request.path %}active-menu{% endif %}">
+                            <a href="{% url 'store' %}">Shop</a>
+                        </li>
+                        <li class="main-menu {% if '/store/search/mens/' == request.path %}active-menu{% endif %}">
+                            <a href="">Category</a>
+                            <ul class="sub-menu">
+                                {% for category in all_categories %}
+                                <li>
+                                    <a href="{{category.get_absolute_url}}">{{category.name | capfirst}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li class="main-menu {% if '/store/brand/adidas/' == request.path %}active-menu{% endif %}">
+                            <a href="">Brands</a>
+                            <ul class="sub-menu">
+                                {% for brand in all_brands %}
+                                <li>
+                                    <a href="{{brand.get_absolute_url}}">{{brand.name | capfirst}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li class="{% if '/#footer1' == request.path %}active-menu{% endif %}">
+                            <a href="#footer1">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Icon header -->
+                <div class="wrap-icon-header flex-w flex-r-m">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                        <i class="zmdi zmdi-search" style="color: black;"></i>
+                    </div>
+
+                   <div class="menu-desktop">
+                        <ul class="main-menu">
+                            <li>
+                                <a class="">                
+                                    <i style="font-size: 20px; color: black;" class="fa fa-user"></i>
+                                </a>
+                                <ul class="sub-menu">
+                                    {% if user.id is None %}
+                                    <li><a href="{% url 'register' %}">Register</a></li>
+                                    <li><a href="{% url 'login' %}">Login</a></li>
+                                </ul>
+                                {% else %}
+                                <ul class="text-center fw-bold">
+                                    <li>Welcome <span class="text-danger text-uppercase">{{user.first_name}}</span></li>
+                                    <li><a href="{% url 'dashboard' %}">Profile</a></li>
+                                    <li><a href="{% url 'logout' %}">LogOut</a></li>
+                                </ul>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                    {% comment %} <div class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11" data-notify="0">
+                        <a href="{% url 'wishlist' %}">
+                            <i class="zmdi zmdi-favorite-outline" style="color: black;"></i>
+                        </a>
+                    </div>
+                    {% comment %} icon-header-noti {% endcomment %}
+                    {% comment %} <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="cart-qty" id="">
+                        <a href="{% url 'cart-summary' %}">
+                            <i class="zmdi zmdi-shopping-cart" style="color: black;"></i>
+                        </a>
+                    </div> {% endcomment %}
+                    <a href="{% url 'wishlist' %}"
+                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                        data-notify="0">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                    <a href="{% url 'cart-summary' %}">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                            data-notify="{{cart_count}}">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Responsive header -->
+        <!--==============================================================-->
+        <div class="wrap-header-mobile">
+
+            <!-- Logo Responsive -->
+            <!--==============================================================-->
+            <div class="logo-mobile">
+                <a href=""><img src="{% static 'img/Logo.png' %}" alt="IMG-LOGO"></a>
+            </div>
+
+            <!-- Icon headers -->
+            <!--==============================================================-->
+            <div class="wrap-icon-header flex-w flex-r-m m-r-15">
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <div class="menu-desktop">
+                    <ul class="main-menu">
+                        <li>
+                            <a class="">                
+                                <i style="font-size: 20px;" class="fa fa-user"></i>
+                            </a>
+                            <ul class="sub-menu">
+                                {% if user.id is None %}
+                                <li><a href="#">Register</a></li>
+                                <li><a href="#">Login</a></li>
+                            </ul>
+                            {% else %}
+                            <ul class="sub-menu">
+                                <li><a href="">{{user.first_name}}</a></li>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">LogOut</a></li>
+                            </ul>
+                            {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+                    data-notify="2"><a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                    
+                </div>
+
+                <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                    data-notify="0">
+                    <i class="fa-regular fa-heart"></i>
+                </a>
+            </div>
+
+            <!-- Menubar admin -->
+            <!--==============================================================-->
+            <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- Collpsed menu -->
+        <!--==============================================================-->
+        <div class="menu-mobile">
+            <ul class="main-menu-m">
+                <li><a href="#">Home</a></li>
+
+                <li><a href="#">Shop</a></li>
+
+                <li>
+                    <a href="#">Categories</a>
+                    <ul class="sub-menu-m">
+                        <li><a href="#">Mens</a></li>
+                        <li><a href="#">Womens</a></li>
+                        <li><a href="#">Kids</a></li>
+                    </ul>
+                    <span class="arrow-main-menu-m">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </span>
+                </li>
+
+                <li>
+                    <a href="#">Brands</a>
+                    <ul class="sub-menu-m">
+                        <li><a href="#">Adidas</a></li>
+                        <li><a href="#">Nike</a></li>
+                        <li><a href="#">Puma</a></li>
+                        <li><a href="#">Reebok</a></li>
+                    </ul>
+                    <span class="arrow-main-menu-m">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </span>
+                </li>
+
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+    <!-- Modal Search -->
+    <!-- Search modal -->
+    <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+        <div class="container-search-header">
+            <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+                <img src="{% static 'images/icons/icon-close2.png' %}" alt="CLOSE">
+            </button>
+
+            <form action="{% url 'search' %}" class="wrap-search-header flex-w p-l-15" method="GET">
+                <input class="plh3" type="text" placeholder="Search..." name="keyword">
+                <button class="flex-c-m trans-04 me-3" type="submit">
+                    <i class="zmdi zmdi-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+</header>
+{% comment %} NavBar End {% endcomment %}
+<!--===============================================================================================-->	
+        {% block content %}{% endblock content %}
+<!--===============================================================================================-->	
+
+
+{% comment %} Footer {% endcomment %}
+        <footer id="footer1" class="bg3 p-t-75 p-b-32 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3 p-b-50">
+                        <h4 class="stext-301 cl0 p-b-30">
+                            Categories
+                        </h4>
+        
+                        <ul>
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    Womens
+                                </a>
+                            </li>
+        
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    Mens
+                                </a>
+                            </li>
+        
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    Kids
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <div class="col-sm-6 col-lg-3 p-b-50">
+                        <h4 class="stext-301 cl0 p-b-30">
+                            Help
+                        </h4>
+        
+                        <ul>
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    Track Order
+                                </a>
+                            </li>
+        
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    Returns 
+                                </a>
+                            </li>
+        
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    Shipping
+                                </a>
+                            </li>
+        
+                            <li class="p-b-10">
+                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+                                    FAQs
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <div class="col-sm-6 col-lg-3 p-b-50">
+                        <h4 class="stext-301 cl0 p-b-30">
+                            GET IN TOUCH
+                        </h4>
+        
+                        <p class="stext-107 cl7 size-201">
+                            Mountain View, California, United States (+1) 010-020-0340
+                        </p>
+        
+                        <div class="p-t-27">
+                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+        
+                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+        
+                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                <i class="fa fa-pinterest-p"></i>
+                            </a>
+        
+                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+        
+                    <div class="col-sm-6 col-lg-3 p-b-50">
+                        <h4 class="stext-301 cl0 p-b-30">
+                            Newsletter
+                        </h4>
+        
+                        <form>
+                            <div class="wrap-input1 w-full p-b-4">
+                                <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="shoestore.company@gmail.com">
+                                <div class="focus-input1 trans-04"></div>
+                            </div>
+        
+                            <div class="p-t-18">
+                                <button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+                                    Subscribe
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        
+                <div class="p-t-40">
+                    <div class="flex-c-m flex-w p-b-18">
+                        <a href="#" class="m-all-1">
+                            <img src="{% static 'images/icons/icon-pay-01.png' %}" alt="ICON-PAY">
+                        </a>
+        
+                        <a href="#" class="m-all-1">
+                            <img src="{% static 'images/icons/icon-pay-02.png' %}" alt="ICON-PAY">
+                        </a>
+        
+                        <a href="#" class="m-all-1">
+                            <img src="{% static 'images/icons/icon-pay-03.png' %}" alt="ICON-PAY">
+                        </a>
+        
+                        <a href="#" class="m-all-1">
+                            <img src="{% static 'images/icons/icon-pay-04.png' %}" alt="ICON-PAY">
+                        </a>
+        
+                        <a href="#" class="m-all-1">
+                            <img src="{% static 'images/icons/icon-pay-05.png' %}" alt="ICON-PAY">
+                        </a>
+                    </div>
+        
+                    <p class="stext-107 cl6 txt-center">Copyright © 2023 ShoeStore Company Ltd. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+{% comment %} Footer End {% endcomment %}
+
+<!--===============================================================================================-->	
+<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/slick/slick.min.js' %}"></script>
+	<script src="{% static 'js/slick-custom.js' %}"></script>
+	<script src="https://kit.fontawesome.com/ca6b256fcb.js" crossorigin="anonymous"></script>
+</script>
+<script src="{% static 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js' %}" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/parallax100/parallax100.js' %}"></script>
+	<script>
+        $('.parallax100').parallax100();
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/MagnificPopup/jquery.magnific-popup.min.js' %}"></script>
+	<script>
+		$('.gallery-lb').each(function() { // the containers for all your galleries
+			$(this).magnificPopup({
+		        delegate: 'a', // the selector for gallery item
+		        type: 'image',
+		        gallery: {
+		        	enabled:true
+		        },
+		        mainClass: 'mfp-fade'
+		    });
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<script>
+		$('.js-addwish-b2').on('click', function(e){
+			e.preventDefault();
+		});
+
+		$('.js-addwish-b2').each(function(){
+			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to wishlist !", "success");
+
+				$(this).addClass('js-addedwish-b2');
+				$(this).off('click');
+			});
+		});
+
+		$('.js-addwish-detail').each(function(){
+			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to wishlist !", "success");
+
+				$(this).addClass('js-addedwish-detail');
+				$(this).off('click');
+			});
+		});
+
+		/*---------------------------------------------*/
+
+		$('.js-addcart-detail').each(function(){
+			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to cart !", "success");
+			});
+		});
+
+        setTimeout(function(){
+            $('#message').fadeOut('slow')
+        }, 2000)
+	
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+    </body>
+	<script src="{% static 'js/zoomsl.js' %}"></script>
+	<script src="{% static 'js/zoomsl.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+          $(".big_img").imagezoomsl({
+              zoomrange:[-4,-4]
+          })
+        })
+      </script>
+</html>

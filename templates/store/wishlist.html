@@ -1,0 +1,74 @@
+{% extends 'userbase.html' %} 
+{% load static %} 
+{% block title %}Wishlist{% endblock %} 
+{% block content %}
+
+<!-- Wish List -->
+{% if not wishlist_items %}
+<div class="container d-flex justify-content-center m-t-70 w-70">
+    <div class="p-5 text-center">
+        <img style="width:380px;" src="{% static 'img/cart-empty.png' %}" alt="">
+        <h3 class="text-dark py-5 rounded fw-75">Your Wish List is empty
+            <br>
+        </h3>
+        <a href="{% url 'home' %}" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
+            Continue Shopping
+        </a>
+    </div>
+</div>
+{% else %}
+<form class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                <div class="m-l-25 m-r--38 m-lr-0-xl ">
+                    <div class="wrap-table-shopping-cart text-center">
+                        <table class="table-shopping-cart">
+                            <tr class="table">
+                                <th class=" text-center">Product</th>
+                                <th class=" text-center">Name</th>
+                                <th class=" text-center">Price</th>
+                                <th class=" text-center">Action</th>
+                            </tr>
+                            {% for wishlist_item in wishlist_items %}
+                            <tr class="table_row">
+                                <td class="column-1">
+                                    <div class="how-itemcart1">
+                                        <img src="{{wishlist_item.product.image.url}}" alt="IMG">
+                                    </div>
+                                </td>
+                                <td class="column-2 p-r-15">
+                                    <a style="color: rgb(164, 16, 16); font-size: 100%;" href="{{wishlist_item.product.get_absolute_url}}">{{wishlist_item.product.title}}</a>
+                                </td>
+                                <td class="column-3">
+                                    <div class="price-wrap">
+                                        <h6 class="price">Rs. {{wishlist_item.product.price}}</h6>
+                                        <small class="text-muted"></small>
+                                    </div>
+                                </td>
+                                <td class="column text-center">
+                                    <a href="{% url 'remove_wishlistitem' wishlist_item.product.id %}">
+                                        <button type="button" class="btn btn-danger btn-floating">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </a>
+                                    <a href="{% url 'add_cart' wishlist_item.product.id %}" value="{{product.id}}">
+                                        <button type="button" class="btn btn-primary btn-floating">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </button>
+                                    </a>
+                                    
+                                </td>
+                                {% endfor %} 
+                                
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+
+{% endblock %}
