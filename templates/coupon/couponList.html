@@ -1,0 +1,199 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block title %}Coupun List{% endblock  %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Coupon Lists</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Coupons</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    <table class="table table-striped">
+        <thead>
+            <tr class="">
+              <th scope="col">Coupon Code</th>
+              <th scope="col">Percentage Off</th>
+              <th scope="col">Max Discount</th>
+              <th scope="col">Expiry Date</th>
+              <th scope="col">Minimum Purchase Amount</th>
+              <th class="text-center" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <th scope="row">WELCOME50</th>
+                <td>25</td>
+                <td>200000</td>
+                <td>Mar 10th 23</td>
+                <td>5000000</td>
+                <td class="text-center">
+                <!-- Edit Button -->
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">
+                    <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
+                </button>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="edit{{forloop.counter}}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">
+                                Edit Coupon</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" enctype="multipart/form-data" method="POST" class="row g-2">
+                                {% csrf_token %}
+                                <div class="form-outline mb-3">
+                                    <input required name="code" value="" type="text"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Coupon Code</label>
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input required name="percentage" value="" type="number"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Percentage Off</label>
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input required name="discount" value="" type="number"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Max Discount</label>
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input required name="expiry" value="" type="date"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Expiry Date</label>
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input required name="minimumamt" value="" type="number"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Minimum Purchase Amount</label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Button trigger modal -->
+                <button
+                type="button"
+                class="btn btn-outline-danger text-black"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal-{{forloop.counter}}"
+            >
+                Delete
+            </button>
+
+            <!-- Delete Modal -->
+            <div
+                class="modal fade"
+                id="exampleModal-{{forloop.counter}}"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-danger text-center" id="exampleModalLabel">
+                                Delete Coupon
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-dark"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            </tr>
+            
+          </tbody>
+    </table>
+    <button type="button" class="btn btn-outline-primary m-3 sticky-bottom" style="float:right" data-bs-toggle="modal"
+        data-bs-target="#addcategory_modal-{{forloop.counter}}">
+        Add Coupon
+    </button>
+
+    <!--Add Modal -->
+    <div class="modal fade" id="addcategory_modal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">Add Coupon</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" enctype="multipart/form-data" method="POST" class="row g-2">
+                        {% csrf_token %}
+                        
+                        <div class="form-outline mb-3">
+                            <input required name="code" value="" type="text"
+                                id="form3Example1cg" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Coupon Code</label>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <input required name="percentage" value="" type="number"
+                                id="form3Example1cg" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Percentage Off</label>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <input required name="discount" value="" type="number"
+                                id="form3Example1cg" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Max Discount</label>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <input required name="expiry" value="" type="date"
+                                id="form3Example1cg" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Expiry Date</label>
+                        </div>
+                        <div class="form-outline mb-3">
+                            <input required name="minimumamt" value="" type="number"
+                                id="form3Example1cg" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Minimum Purchase Amount</label>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-outline-dark btn-lg ">Save</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

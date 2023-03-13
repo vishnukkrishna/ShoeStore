@@ -1,0 +1,27 @@
+{% extends 'userbase.html' %} 
+{% load static %} 
+{% block title %}Add New Address{% endblock %} 
+{% block content %}
+
+<section style="background-color: #eee">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <form action="" method="POST">
+                                {% csrf_token %} {{form.as_p}}
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

@@ -21,7 +21,7 @@
                 <div class="col-lg-8" style="font-family: 'IBM Plex Mono', monospace; font-size: 20px">
                     <h2 class="fw-bold mb-5 text-dark">Login Now</h2>
                     {% include 'includes/alerts.html' %}
-                    <form action="{% url 'login' %}" method="POST">
+                    <form action="{% url 'userlogin' %}" method="POST">
                         {% csrf_token %}
                         <div class="form-outline mb-4">
                             <input

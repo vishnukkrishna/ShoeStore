@@ -1,0 +1,28 @@
+{% extends 'userbase.html' %} {% load static %} {% block title %}Add New Address{% endblock %} {% block content %}
+
+<div class="col-lg-8">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h1>Add Address</h1>
+
+            <div class="row">
+                <form action="" method="POST">
+                    {% csrf_token %} {{form.as_p}}
+                    <button
+                        type="submit"
+                        class="btn btn-primary fw-bold btn-block w-50"
+                        style="font-size: 20px; border-radius: 10px; margin-top: -5px padding-top: 20px;"
+                        action="">Save
+                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>
+
+{% endblock %}

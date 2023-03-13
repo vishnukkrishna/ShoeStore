@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
-from store .models import Product
-from .models import Account
-from . forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+
+from store.models import Carousel_Home
+from store .models import Product
+from .models import Account
+from . forms import RegistrationForm
+from userhome.models import userAddress
 
 # Verification Email
 from django.contrib.sites.shortcuts import get_current_site
@@ -15,6 +18,7 @@ from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+
 # Create your views here.
 
 
@@ -23,7 +27,13 @@ def home(request):
 
     all_products = Product.objects.all()
 
-    context = {'products': all_products}
+    context = {
+
+        'products': all_products,
+
+        'banner':Carousel_Home.objects.all().order_by('id'),
+
+    }
 
     return render(request, 'userindex.html', context)
 
@@ -86,7 +96,7 @@ def register(request):
 
             messages.success(request, "Thank you for registering with us. We have sent you a verification email to your email address. Please verify it.")
 
-            return redirect('register')
+            return redirect(register)
 
 
     else:
@@ -103,7 +113,7 @@ def register(request):
 
 
 # User Login
-def login(request):
+def userlogin(request):
 
     if request.method == 'POST':
 
@@ -121,7 +131,7 @@ def login(request):
 
             # messages.success(request, 'You are now logged in.')
 
-            return redirect('home')
+            return redirect(home)
         
         else:
 
@@ -137,13 +147,13 @@ def login(request):
 
 # User Logout
 @login_required(login_url = 'login')
-def logout(request):
+def userlogout(request):
 
     auth.logout(request)
 
     messages.success(request, 'You are logged out.')
 
-    return redirect('login')
+    return redirect(userlogin)
 
 
 
@@ -169,13 +179,13 @@ def activate(request, uidb64, token):
 
         messages.success(request, 'Congratulations! Your account is now activeed')
 
-        return redirect('login')
+        return redirect(userlogin)
     
     else:
 
         messages.error(request, 'Invalid activation link')
 
-        return redirect('register')
+        return redirect(register)
 
 
 
@@ -220,7 +230,7 @@ def forgotPassword(request):
 
             messages.success(request, 'Password reset eamil has been sent to your email address.')
 
-            return redirect('login')
+            return redirect(userlogin)
 
 
         else:
@@ -253,13 +263,13 @@ def resetpassword_validate(request, uidb64, token):
 
         messages.success(request, 'Please reset your password')
 
-        return redirect('resetPassword')
+        return redirect(resetPassword)
     
     else:
 
         messages.error(request, 'This link has been expired. Please try again')
 
-        return redirect('login')
+        return redirect(userlogin)
     
 
 
@@ -286,28 +296,35 @@ def resetPassword(request):
 
             messages.success(request, 'Password reset successful')
 
-            return redirect('login')
+            return redirect(userlogin)
 
 
         else:
 
             messages.error(request, 'Password do not match')
 
-            return redirect('resetPassword')
+            return redirect(resetPassword)
         
     else:
 
         return render(request, 'accounts/resetPassword.html')
     
 
-
+# User dashboard
 @login_required(login_url = 'login')
 def dashboard(request):
 
-    return render(request, 'accounts/dashboard.html')
+    context = {
+
+        'address':userAddress.objects.filter(user=request.user),
+    } 
+
+    return render(request, 'accounts/dashboard.html', context)
 
 
 
+
+# User Profile Edit
 @login_required(login_url = 'login')
 def edit_profile(request, user_id):
 
@@ -325,13 +342,14 @@ def edit_profile(request, user_id):
 
         messages.success(request,'Profile Details updated successfully')
 
-        return redirect('dashboard')
+        return redirect(dashboard)
     
     return render(request, 'accounts/edit_profile.html')
 
 
 
 
+# User profile Password Change
 @login_required(login_url = 'login')
 def change_password(request, user_id):
 
@@ -363,7 +381,7 @@ def change_password(request, user_id):
 
                 messages.success(request, 'Password changed succesfully!Please login again!')
 
-                return redirect(login)
+                return redirect(userlogin)
             
             else:
 
@@ -372,3 +390,26 @@ def change_password(request, user_id):
                 return redirect(dashboard)
             
     return render(request,'accounts/change_password.html')
+
+
+
+
+# User Profile DP change
+def change_dp(request):
+
+    user_id = request.user.id
+
+    user = Account.objects.get(id=user_id)
+
+    try:
+        image = request.FILES['user_image']
+
+        user.user_image = image
+
+        user.save()
+
+    except:
+
+        pass
+
+    return redirect(dashboard)

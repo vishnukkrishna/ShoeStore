@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Category, Product, Brand, Color
+from . models import Category, Product, Brand, Color, ReviewRating, Carousel_Home, multipleImage
 
 # Register your models here.
 
@@ -22,3 +22,11 @@ class ColorAdmin(admin.ModelAdmin):
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug' : ('name',)}
+
+
+
+admin.site.register(ReviewRating)
+
+admin.site.register(Carousel_Home)
+
+admin.site.register(multipleImage)

@@ -37,7 +37,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
         <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />
         <!--===============================================================================================-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!--===============================================================================================-->
 
         <link
@@ -120,13 +122,13 @@
                                 <ul class="sub-menu">
                                     {% if user.id is None %}
                                     <li><a href="{% url 'register' %}">Register</a></li>
-                                    <li><a href="{% url 'login' %}">Login</a></li>
+                                    <li><a href="{% url 'userlogin' %}">Login</a></li>
                                 </ul>
                                 {% else %}
                                 <ul class="text-center fw-bold">
                                     <li>Welcome <span class="text-danger text-uppercase">{{user.first_name}}</span></li>
                                     <li><a href="{% url 'dashboard' %}">Profile</a></li>
-                                    <li><a href="{% url 'logout' %}">LogOut</a></li>
+                                    <li><a href="{% url 'userlogout' %}">LogOut</a></li>
                                 </ul>
                                 {% endif %}
                             </li>
@@ -185,14 +187,14 @@
                             </a>
                             <ul class="sub-menu">
                                 {% if user.id is None %}
-                                <li><a href="#">Register</a></li>
-                                <li><a href="#">Login</a></li>
+                                <li><a href="{% url 'register' %}">Register</a></li>
+                                <li><a href="{% url 'userlogin' %}">Login</a></li>
                             </ul>
                             {% else %}
                             <ul class="sub-menu">
                                 <li><a href="">{{user.first_name}}</a></li>
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">LogOut</a></li>
+                                <li><a href="{% url 'dashboard' %}">Profile</a></li>
+                                <li><a href="{% url 'userlogout' %}">LogOut</a></li>
                             </ul>
                             {% endif %}
                             </ul>
@@ -200,12 +202,12 @@
                     </ul>
                 </div>
 
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-                    data-notify="2"><a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                    data-notify="2"><a href="{% url 'cart-summary' %}"><i class="fa-solid fa-cart-shopping"></i></a>
                     
                 </div>
 
-                <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
                     data-notify="0">
                     <i class="fa-regular fa-heart"></i>
                 </a>
@@ -226,9 +228,9 @@
         <!--==============================================================-->
         <div class="menu-mobile">
             <ul class="main-menu-m">
-                <li><a href="#">Home</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
 
-                <li><a href="#">Shop</a></li>
+                <li><a href="{% url 'store' %}">Shop</a></li>
 
                 <li>
                     <a href="#">Categories</a>
@@ -255,7 +257,7 @@
                     </span>
                 </li>
 
-                <li><a href="#">Contact</a></li>
+                <li><a href="#footer1">Contact</a></li>
             </ul>
         </div>
 

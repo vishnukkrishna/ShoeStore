@@ -3,6 +3,8 @@ from store.models import Product
 
 # Create your models here.
 
+
+
 class Cart(models.Model):
 
     cart_id = models.CharField(max_length=250, blank=True,null=True)
@@ -31,6 +33,7 @@ class CartItem(models.Model):
     def sub_total(self):
 
         return self.product.price * self.quantity   
+
 
     def _str_(self):
 

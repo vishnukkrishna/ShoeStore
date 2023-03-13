@@ -75,6 +75,8 @@ class Account(AbstractBaseUser):
 
     phone_number = models.CharField(max_length=50)
 
+    user_image = models.ImageField(upload_to='profile',blank=True, null=True,default='profile/vk-high.png')
+
 
     # Required
 

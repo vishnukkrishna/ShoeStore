@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from accounts.models import Account
 
 
 
@@ -48,13 +49,13 @@ class Product(models.Model):
 
     description = models.TextField(blank=True)
 
-    price = models.IntegerField()
+    price = models.PositiveBigIntegerField()
 
     image = models.ImageField(upload_to='products', blank=True)
 
     color = models.CharField(max_length=100, blank=True)
 
-    stock = models.IntegerField()
+    stock = models.PositiveIntegerField()
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
@@ -94,6 +95,8 @@ class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     slug = models.SlugField(max_length=255, unique=True)
+
+    image = models.ImageField(upload_to='brands', blank=True)
 
 
 
@@ -143,3 +146,65 @@ class Color(models.Model):
     def __str__(self):
 
         return self.product.title
+
+
+
+
+# Class ReviewRate Model
+class ReviewRating(models.Model):
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+
+    subject = models.CharField(max_length=100, blank=True)
+
+    review = models.TextField(max_length=500, blank=True)
+
+    rating = models.FloatField()
+
+    ip = models.CharField(max_length=20, blank=True)
+
+    status = models.BooleanField(default=True)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    updated_date = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        
+        return self.subject
+    
+
+
+
+# Carousel Banner Model
+class Carousel_Home(models.Model):
+
+    carousel_img  =models.ImageField(upload_to='banner')
+
+    carousel_heading =models.CharField(max_length=200)
+
+    carousel_text =models.CharField(max_length=200)
+
+
+    def __str__(self):
+
+        return self.carousel_heading
+    
+
+
+
+# Multiple Image Fields
+class multipleImage(models.Model):
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    images = models.ImageField(upload_to='multipleImages')
+    
+
+    def __str__(self):
+
+        return self.product.title
+    

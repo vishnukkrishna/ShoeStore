@@ -1,0 +1,180 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block title %}Brand List{% endblock  %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Brand Lists</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Brands</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    <table class="table table-striped">
+        <thead>
+            <tr class="">
+              <th scope="col">#</th>
+              <th scope="col">Brand Name</th>
+              <th scope="col">Images</th>
+              <th class="text-center" scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in brand %}
+            <tr>
+              <th scope="row">{{b.id}}</th>
+              <td>{{b.name}}</td>
+              <td>
+                <div style="width: 100px;" class="card-header category-image position overflow-hidden bg-transparent border p-0"><img class="img-fluid w-100" src="{{b.image.url}}" alt=""></div>
+              </td>
+              <td class="text-center">
+                <!-- Edit Button -->
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">
+                    <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
+                </button>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="edit{{forloop.counter}}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">
+                                Edit Category</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'editbrand' b.id %}" enctype="multipart/form-data" method="POST" class="row g-2">
+                                {% csrf_token %}
+                                <div class="form-outline mb-3">
+                                    <input required name="name" value="{{b.name}}" type="text"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Brand name</label>
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input required name="slug" value="{{b.slug}}" type="text"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">Brand slug</label>
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input  name="image" value="{{b.image}}" type="file"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Example1cg">image</label>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Button trigger modal -->
+                <button
+                type="button"
+                class="btn btn-outline-danger text-black"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal-{{forloop.counter}}"
+            >
+                Delete
+            </button>
+
+            <!-- Delete Modal -->
+            <div
+                class="modal fade"
+                id="exampleModal-{{forloop.counter}}"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-danger text-center" id="exampleModalLabel">
+                                Delete Brand
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-dark">{{b.name}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <form action="{% url 'deletebrand' b.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
+    <button type="button" class="btn btn-outline-primary m-3 sticky-bottom" style="float:right" data-bs-toggle="modal"
+        data-bs-target="#addcategory_modal-{{forloop.counter}}">
+        Add Brand
+    </button>
+
+    <!--Add Modal -->
+    <div class="modal fade" id="addcategory_modal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">Add Brand</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'addbrand' %}" enctype="multipart/form-data" method="POST" class="row g-2">
+                        {% csrf_token %}
+                        
+                        <div class="form-outline mb-3">
+                            <input required name="name"  type="text" id="form3Example1cg"
+                                class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Brand name</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input required name="slug"  type="text" id="form3Example1cg"
+                                class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Brand slug</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input name="image" type="file" id="form3Example3cg"
+                                class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example3cg">Image</label>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-outline-dark btn-lg ">Save</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

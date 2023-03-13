@@ -4,11 +4,11 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
 
-    path('register', views.register, name='register'),
+    path('register/', views.register, name='register'),
 
-    path('login', views.login, name='login'),
+    path('userlogin/', views.userlogin, name='userlogin'),
 
-    path('logout', views.logout, name='logout'),
+    path('userlogout/', views.userlogout, name='userlogout'),
 
     path('social-auth/', include('social_django.urls', namespace='social')),  # <-- here
 
@@ -26,6 +26,8 @@ urlpatterns = [
     path('edit_profile/<int:user_id>/', views.edit_profile, name="edit_profile"),
 
     path('change_password/<int:user_id>/', views.change_password, name="change_password"),
+
+    path('change_dp/', views.change_dp, name="change_dp"),
 
 
 

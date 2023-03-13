@@ -26,13 +26,33 @@ urlpatterns = [
     # Account url
     path('', include('accounts.urls')),
 
-    # Store url
+    # User Store url
     path('store/', include('store.urls')),
 
-    # Cart url
+    # User Cart url
     path('cart/', include('cart.urls')),
 
+    # User Home url
+    path('userhome/', include('userhome.urls')),
+
+    # User Wishlist url
     path('wishlist/', include('wishlist.urls')),
+
+    # AdminAccounts url
+    path('ad/', include('adminaccounts.urls')),
+
+    # Admin User Management
+    path('ad/user/', include('usermanagement.urls')),
+
+    # Admin Product Management
+    path('ad/product/', include('productmanagement.urls')),
+
+    # Admin Category Management
+    path('ad/category/', include('categorymanagement.urls')),
+
+    # Admin Coupons Management
+    path('ad/coupons/', include('coupon.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

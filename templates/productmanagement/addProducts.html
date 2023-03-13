@@ -1,0 +1,81 @@
+{% extends 'adminbase.html' %}
+{% load static %} 
+{% block title %}Add Products{% endblock %} 
+
+{% block content %}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Add Products</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Add Products</li>
+            </ol>
+        </nav>
+    </div>
+    {% for m in messages %}
+    <div class="alert alert-danger text-center py-1" role="alert">{{m}}</div>
+    {% endfor %}
+
+    <form action="{% url 'addproduct' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label fw-bold">Product Name</label>
+                <input value="" name="title" type="text" class="form-control" id="exampleFormControlInput1" />
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label fw-bold">Slug</label>
+                <input value="" name="slug" type="text" class="form-control" id="exampleFormControlInput1" />
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="dropdownInput" class="form-label fw-bold">Category</label>
+                <select name="category" class="form-control" id="dropdownInput">
+                    {% for c in category %}
+                    <option value="{{c.id}}">{{c.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label fw-bold">Color</label>
+                <input value="" name="color" type="text" class="form-control" id="exampleFormControlInput1" />
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label fw-bold">Price</label>
+                <input name="price" type="number" class="form-control" id="exampleFormControlInput1" />
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label fw-bold">Stock</label>
+                <input name="stock" type="number" class="form-control" id="exampleFormControlInput1" />
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="dropdownInput" class="form-label fw-bold">Brands</label>
+                <select name="brand" class="form-control" id="dropdownInput">
+                    {% for b in brand %}
+                    <option value="{{b.id}}">{{b.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="formFile" class="form-label fw-bold">Image</label>
+                <input name="image" class="form-control" type="file" id="formFile" />
+            </div>
+        </div>    
+        <hr>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label fw-bold">Description</label>
+            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

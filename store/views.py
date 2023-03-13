@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
-from . models import Category, Product, Brand
+from . models import Category, Product, Brand, ReviewRating, multipleImage
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cart.models import CartItem
 from cart.views import _cart_id
+from accounts.models import Account
+from .forms import ReviewForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -90,7 +93,14 @@ def product_info(request, product_slug):
 
     in_cart=CartItem.objects.filter(cart__cart_id=_cart_id(request),product=product).exists()
 
-    context = {'product':product, 'in_cart':in_cart}
+    context = {
+
+        'product':product,
+
+        'in_cart':in_cart,
+
+        'images':multipleImage.objects.filter(product=product),
+    }
 
     return render(request, 'store/product_info.html', context)
 
@@ -128,4 +138,52 @@ def search(request):
 def orderSuccessfully(request):
 
     return render(request, 'orders/orderSuccessfully.html')
+
+
+
+
+
+def submit_review(request, product_id):
+
+    url = request.META.get('HTTP_REFERER')
+
+    if request.method == 'POST':
+
+        try:
+
+            reviews = ReviewRating.objects.get(user__id=request.user.id, product__id=product_id)
+
+            form = ReviewForm(request.POST, instance=reviews)
+
+            form.save()
+
+            messages.success(request, 'Thank you! Your review has been updated.')
+
+            return redirect(url)
+
+        except ReviewRating.DoesNotExist:
+
+            form = ReviewForm(request.POST)
+
+            if form.is_valid():
+
+                data = ReviewRating()
+
+                data.subject = form.cleaned_data['subject']
+
+                data.rating = form.cleaned_data['rating']
+
+                data.review = form.cleaned_data['review']
+
+                data.ip = request.META.get('REMOTE_ADDR')
+
+                data.product_id = product_id
+
+                data.user_id = request.user.id
+
+                data.save()
+
+                messages.success(request, 'Thank you! Your review has been submitted.')
+
+                return redirect(url)
 

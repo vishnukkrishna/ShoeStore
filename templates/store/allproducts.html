@@ -1,12 +1,9 @@
-{% extends 'userbase.html' %} 
-{% load static %} 
-{% block title %}Products{% endblock title %} 
-{% block content %}
+{% extends 'userbase.html' %} {% load static %} {% block title %}Products{% endblock title %} {% block content %}
 
 <!-- Product -->
 <div class="bg0 m-t-23 p-b-140">
     <div class="container">
-        <br>
+        <br />
         <div class="flex-w flex-sb-m p-b-52">
             <div class="flex-w flex-l-m filter-tope-group m-tb-10">
                 {% if 'search' in request.path %}
@@ -24,7 +21,7 @@
                 </div>
 
                 <form action="{% url 'search' %}" class="flex-c-m stext-108 cl6 size-105 bor4" method="GET">
-                    <input class="plh3" type="text" placeholder="Search...." name="keyword">
+                    <input class="plh3" type="text" placeholder="Search...." name="keyword" />
                     <button class="flex-c-m trans-04 me-3" type="submit">
                         <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
                     </button>
@@ -49,21 +46,13 @@
 
             <!-- Filter -->
             <div class="dis-none panel-filter w-full p-t-10 text-center">
-                <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+                <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm d-flex justify-content-between">
                     <div class="filter-col1 p-r-15 p-b-27">
                         <div class="mtext-102 cl2 p-b-15">Sort By</div>
 
                         <ul>
                             <li class="p-b-6">
                                 <a href="#" class="filter-link stext-106 trans-04"> Default </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Popularity </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Average rating </a>
                             </li>
 
                             <li class="p-b-6">
@@ -80,32 +69,24 @@
                         </ul>
                     </div>
 
-                    <div class="filter-col2 p-r-15 p-b-27">
-                        <div class="mtext-102 cl2 p-b-15">Price</div>
+                    <div class="filter-col1 p-r-15 p-b-27">
+                        <div class="mtext-102 cl2 p-b-15">Brands</div>
 
                         <ul>
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04 filter-link-active"> All </a>
+                                <a href="#" class="filter-link stext-106 trans-04 filter-link-active"> Adidas </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> $0.00 - $50.00 </a>
+                                <a href="#" class="filter-link stext-106 trans-04"> Nike </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> $50.00 - $100.00 </a>
+                                <a href="#" class="filter-link stext-106 trans-04"> Puma </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> $100.00 - $150.00 </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> $150.00 - $200.00 </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> $200.00+ </a>
+                                <a href="#" class="filter-link stext-106 trans-04"> Reebok </a>
                             </li>
                         </ul>
                     </div>
@@ -115,8 +96,7 @@
 
         {% comment %} Products List {% endcomment %}
         <div class="row isotope-grid">
-            {% if products %}
-            {% for product in products %}
+            {% if products %} {% for product in products %}
             <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
                 <!-- Block2 -->
                 <div class="block2">
@@ -141,7 +121,10 @@
                         </div>
 
                         <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                            <a
+                                href="{% url 'add_wishlist' product.id %}"
+                                class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
+                            >
                                 <img
                                     class="icon-heart1 dis-block trans-04"
                                     src="{% static 'images/icons/icon-heart-01.png' %}"
@@ -157,13 +140,11 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            {% else %}
+            {% endfor %} {% else %}
             <div>
                 <h2>No result found. Please try again.</h2>
             </div>
             {% endif %}
-            
         </div>
 
         <!-- Paginator buttons -->
@@ -171,25 +152,20 @@
             <nav aria-label="page navigation sample">
                 {% if products.has_other_pages %}
                 <ul class="pagination">
-
                     {% if products.has_previous %}
-                    <li class="page-item "><a href="?page={{products.previous_page_number}}"
-                            class="page-link text-dark">Previous</a></li>
+                    <li class="page-item">
+                        <a href="?page={{products.previous_page_number}}" class="page-link text-dark">Previous</a>
+                    </li>
                     {% else %}
                     <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
-                    {% endif %}
-
-                    {% for i in products.paginator.page_range %}
-                    {% if products.number == i %}
+                    {% endif %} {% for i in products.paginator.page_range %} {% if products.number == i %}
                     <li class="page-item active"><a href="#" class="page-link">{{i}}</a></li>
                     {% else %}
                     <li class="page-item"><a href="?page={{i}}" class="page-link text-dark">{{i}}</a></li>
-                    {% endif %}
-                    {% endfor %}
-
-                    {% if products.has_next %}
-                    <li class="page-item"><a href="?page={{products.next_page_number}}"
-                            class="page-link text-dark p-lr-25">Next</a></li>
+                    {% endif %} {% endfor %} {% if products.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{products.next_page_number}}" class="page-link text-dark p-lr-25">Next</a>
+                    </li>
                     {% else %}
                     <li class="page-item disabled"><a href="#" class="page-link p-lr-25">Next</a></li>
                     {% endif %}
@@ -198,7 +174,6 @@
                 {% endif %}
             </nav>
         </div>
-
     </div>
 </div>
 <!--End Products card-->
