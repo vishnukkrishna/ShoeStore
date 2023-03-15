@@ -90,7 +90,7 @@
                             </ul>
                         </li>
 
-                        <li class="main-menu {% if '/store/brand/adidas/' == request.path %}active-menu{% endif %}">
+                        <li class="main-menu {% if '/store/brand/reebok/' == request.path %}active-menu{% endif %}">
                             <a href="">Brands</a>
                             <ul class="sub-menu">
                                 {% for brand in all_brands %}
@@ -146,13 +146,13 @@
                         </a>
                     </div> {% endcomment %}
                     <a href="{% url 'wishlist' %}"
-                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                        data-notify="0">
+                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 "
+                        data-notify="">
                         <i class="fa-regular fa-heart"></i>
                     </a>
                     <a href="{% url 'cart-summary' %}">
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                            data-notify="{{cart_count}}">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 "
+                            data-notify="">
                             <i class="fa-solid fa-cart-shopping"></i>
                         </div>
                     </a>
@@ -422,10 +422,16 @@
                 </div>
             </div>
         </footer>
-{% comment %} Footer End {% endcomment %}
+        <!-- Footer End -->
+        <!-- Back to top -->
+        <div class="btn-back-to-top" id="myBtn">
+            <span class="symbol-btn-back-to-top">
+                <i class="zmdi zmdi-chevron-up"></i>
+            </span>
+        </div>
 
 <!--===============================================================================================-->	
-<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->
 	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
 <!--===============================================================================================-->

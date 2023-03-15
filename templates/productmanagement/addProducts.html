@@ -9,7 +9,7 @@
         <h1>Add Products</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
                 <li class="breadcrumb-item active">Add Products</li>
             </ol>
         </nav>
@@ -65,7 +65,7 @@
             </div>
             <div class="mb-3 col-md-6">
                 <label for="formFile" class="form-label fw-bold">Image</label>
-                <input name="image" class="form-control" type="file" id="formFile" />
+                <input name="image" class="form-control" type="file" multiple id="formFile" />
             </div>
         </div>    
         <hr>

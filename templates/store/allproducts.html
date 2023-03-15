@@ -73,21 +73,22 @@
                         <div class="mtext-102 cl2 p-b-15">Brands</div>
 
                         <ul>
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04 filter-link-active"> Adidas </a>
-                            </li>
+                            {% for brand in all_brands %}
+                                <li>
+                                    <a href="{{brand.get_absolute_url}}" class="filter-link stext-106 trans-04">{{brand.name | capfirst}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="filter-col1 p-r-15 p-b-27">
+                        <div class="mtext-102 cl2 p-b-15">Category</div>
 
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Nike </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Puma </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Reebok </a>
-                            </li>
+                        <ul>
+                            {% for category in all_categories %}
+                                <li>
+                                    <a class="filter-link stext-106 trans-04" href="{{category.get_absolute_url}}">{{category.name | capfirst}}</a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -125,11 +126,11 @@
                                 href="{% url 'add_wishlist' product.id %}"
                                 class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
                             >
-                                <img
+                                {% comment %} <img
                                     class="icon-heart1 dis-block trans-04"
                                     src="{% static 'images/icons/icon-heart-01.png' %}"
                                     alt="ICON"
-                                />
+                                /> {% endcomment %}
                                 <img
                                     class="icon-heart2 dis-block trans-04 ab-t-l"
                                     src="{% static 'images/icons/icon-heart-02.png' %}"

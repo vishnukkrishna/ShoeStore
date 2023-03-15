@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from store.models import Product
 from .models import Wishlist,WishlistItem
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -41,6 +42,8 @@ def _wishlist_id(request):
     return wishlist
 
 
+
+@login_required(login_url = 'userlogin')
 def add_wishlist(request,product_id):
 
     product = Product.objects.get(id=product_id)

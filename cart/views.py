@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -67,6 +68,7 @@ def _cart_id(request):
     return cart
 
 
+@login_required(login_url = 'userlogin')
 def add_cart(request,product_id):
 
     product=Product.objects.get(id=product_id)

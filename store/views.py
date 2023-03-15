@@ -99,7 +99,7 @@ def product_info(request, product_slug):
 
         'in_cart':in_cart,
 
-        'images':multipleImage.objects.filter(product=product),
+        'images':multipleImage.objects.filter(product=product), 
     }
 
     return render(request, 'store/product_info.html', context)

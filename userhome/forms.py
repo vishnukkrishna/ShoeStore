@@ -8,7 +8,7 @@ class AddressForm(forms.ModelForm):
 
         model = userAddress
 
-        fields = ['house_name', 'landmark','city',  'pincode', 'district', 'state','country']
+        fields = ['house_name', 'landmark', 'city',  'pincode', 'district', 'state', 'country']
     
     def __init__(self, *args, **kwargs):
 

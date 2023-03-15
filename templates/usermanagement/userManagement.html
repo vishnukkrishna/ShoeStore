@@ -4,7 +4,7 @@
         <h1>Users Lists</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
                 <li class="breadcrumb-item active">Users</li>
             </ol>
         </nav>
@@ -107,42 +107,6 @@
                         </div>
                     </div>
                 </td>
-
-                
-                {% comment %} <td>
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger px-4"
-                        data-bs-toggle="modal"
-                        data-bs-target="#delete{{ forloop.counter }}"
-                    >
-                        Block
-                    </button>
-                </td>
-                <div
-                    class="modal fade"
-                    id="delete{{ forloop.counter }}"
-                    tabindex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                >
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Block User</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body"></div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <a href="">
-                                    <button type="button" class="btn btn-primary">Confirm</button></a
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
                 {% if u.is_active%}
                 <td class="text-center text-success">ACTIVE</td>
                 {% else %}
@@ -151,7 +115,7 @@
 
                 <td class="text-center">
 
-                    {% if d.is_active%}
+                    {% if u.is_active%}
                     <a href="{% url 'blockunblock' u.id %}" type="submit" class="btn btn-danger">Block</a>
                     {% else %}
                     <a href="{% url 'blockunblock' u.id %}" type="submit" class="btn btn-success">Unblock</a>

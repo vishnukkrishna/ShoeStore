@@ -153,9 +153,9 @@
             <div class="tab01">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs text-center" role="tablist">
-                    <li class="nav-item p-b-10">
+                    {% comment %} <li class="nav-item p-b-10">
                         <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
-                    </li>
+                    </li> {% endcomment %}
                     {% include 'includes/alerts.html' %}
                     <li class="nav-item p-b-10">
                         <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Customer Reviews✨</a>
@@ -165,15 +165,15 @@
                 <!-- Tab panes -->
                 <div class="tab-content p-t-43">
                     <!-- - -->
-                    <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    {% comment %} <div class="tab-pane fade show active" id="description" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md">
                             <p class="stext-102 cl6">Hiiiiiiiiiiiiiiiiiiiiiii</p>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
 
                     <!-- - -->
                     <!-- - -->
-                    <div class="tab-pane fade" id="reviews" role="tabpanel">
+                    <div class="tab-pane fade fade show active" id="reviews" role="tabpanel">
                         <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                             <div class="p-b-30 m-lr-15-sm">
                                 <!-- Review -->
@@ -256,7 +256,7 @@
                                     </button> 
                                     {% comment %} <input type="submit" value="Submit Review" class="btn btn-primary"> {% endcomment %}
                                     {% else %}
-                                    <p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login Now</a></span></p>
+                                    <p>You must be logged in to post a review. <span><a href="{% url 'userlogin' %}">Login Now</a></span></p>
                                     {% endif %}
                                 </form>
                             </div>

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'productmanagement', # adminSide
     'categorymanagement', # adminSide
     'coupon', # adminSide
+    'orders', # adminSide
     
     'mathfilters',
 

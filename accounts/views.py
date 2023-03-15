@@ -137,7 +137,7 @@ def userlogin(request):
 
             messages.error(request, 'Invalid login credentials')
 
-            return redirect('login')
+            return redirect(userlogin)
 
     return render(request, 'accounts/loginpage.html')
 
@@ -146,7 +146,7 @@ def userlogin(request):
 
 
 # User Logout
-@login_required(login_url = 'login')
+@login_required(login_url = 'userlogin')
 def userlogout(request):
 
     auth.logout(request)
@@ -311,7 +311,7 @@ def resetPassword(request):
     
 
 # User dashboard
-@login_required(login_url = 'login')
+@login_required(login_url = 'userlogin')
 def dashboard(request):
 
     context = {
@@ -325,7 +325,7 @@ def dashboard(request):
 
 
 # User Profile Edit
-@login_required(login_url = 'login')
+@login_required(login_url = 'userlogin')
 def edit_profile(request, user_id):
 
     if request.method == 'POST':
@@ -350,7 +350,7 @@ def edit_profile(request, user_id):
 
 
 # User profile Password Change
-@login_required(login_url = 'login')
+@login_required(login_url = 'userlogin')
 def change_password(request, user_id):
 
     if request.method == 'POST':

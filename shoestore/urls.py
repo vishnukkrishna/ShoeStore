@@ -53,6 +53,9 @@ urlpatterns = [
     # Admin Coupons Management
     path('ad/coupons/', include('coupon.urls')),
 
+    # Admin Order Management
+    path('ad/order/', include('orders.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

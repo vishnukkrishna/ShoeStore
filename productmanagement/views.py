@@ -206,6 +206,13 @@ def addProducts(request):
                     messages.info(request, 'Price should be a positive number')
 
                     return redirect(addProducts)
+                
+                if int(stock) < 0:
+
+                    messages.info(request, 'Stock should be a non-negative number')
+
+                    return redirect(addProducts)
+
 
         add_product = Product.objects.create(
 
@@ -283,7 +290,7 @@ def editProduct(request, id):
 
         brand = request.POST['brand']
 
-        stock = request.POST['stock']
+        stock = int(request.POST['stock'])
 
         price = request.POST['price']
 
@@ -339,6 +346,13 @@ def editProduct(request, id):
                     messages.info(request, 'Price should be a positive number')
 
                     return redirect(productManagement)
+                
+                if stock < 0:
+
+                    messages.info(request, 'Stock should be a non-negative number')
+
+                    return redirect(productManagement)
+
 
 
 
