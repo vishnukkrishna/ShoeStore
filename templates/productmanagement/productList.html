@@ -22,7 +22,7 @@
                 <th scope="col">Serial No</th>
                 <th scope="col">Image</th>
                 <th scope="col">Name</th>
-                <th scope="col">Color</th>
+                {% comment %} <th scope="col">Color</th> {% endcomment %}
                 <th scope="col">Description</th>
                 <th scope="col">Category</th>
                 <th scope="col">Brands</th>
@@ -46,7 +46,7 @@
 
                 </td>
                 <td>{{p.title}}</td>
-                <td>{{p.color}}</td>
+                {% comment %} <td>{{p.color}}</td> {% endcomment %}
                 <td>{{p.description}}</td>
                 <td>{{p.category}}</td>
                 <td>{{p.brand}}</td>
@@ -104,11 +104,11 @@
                                         id="form3Example1cg" class="form-control form-control-lg" />
                                     <label class="form-label" for="form3Example1cg">Description</label>
                                 </div>
-                                <div class="form-outline mb-3">
+                                {% comment %} <div class="form-outline mb-3">
                                     <input required name="color" value="{{p.color}}" type="text"
                                         id="form3Example1cg" class="form-control form-control-lg" />
                                     <label class="form-label" for="form3Example1cg">Color</label>
-                                </div>
+                                </div> {% endcomment %}
                                 <div class="form-outline mb-3">
                                     <input name="stock" value="{{ p.stock }}" type="number"
                                         id="form3Example3cg" class="form-control form-control-lg" />

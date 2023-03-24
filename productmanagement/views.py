@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from store.models import Product, Category, Brand
+from store.models import Product, Category, Brand, multipleImage
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 # Create your views here.
@@ -110,6 +110,8 @@ def deleteBrand(request, id):
 
 
 
+
+
 ########################################################################
 
 
@@ -151,13 +153,14 @@ def addProducts(request):
 
         stock = request.POST['stock']
 
-        image = request.FILES['image']
+        p_image = request.FILES['image']
 
         brand = request.POST['brand']
 
         category = request.POST['category']
 
-        color = request.POST['color']
+
+        multi_image = request.FILES.getlist('imagess')
 
         category_instance = Category.objects.get(id=category)
 
@@ -224,19 +227,23 @@ def addProducts(request):
 
             description=description,
 
-            color=color,
-
             price=price,
 
             stock=stock,
 
-            image=image,
+            image=p_image,
 
             brand=brand_instance
         )
 
-        
-        add_product.save()
+        for image in multi_image:
+
+            multipleImage.objects.create(
+
+                product=add_product,
+
+                images=image
+            )  
 
         return redirect(addProducts)
 
@@ -294,7 +301,6 @@ def editProduct(request, id):
 
         price = request.POST['price']
 
-        color = request.POST['color']
 
         brand_instance = Brand.objects.get(id=brand)
 
@@ -354,9 +360,7 @@ def editProduct(request, id):
                     return redirect(productManagement)
 
 
-
-
-        edit_pro.update(title=title, description=description, category=category_instance, stock=stock, price=price, color=color, brand=brand_instance)
+        edit_pro.update(title=title, description=description, category=category_instance, stock=stock, price=price, brand=brand_instance)
 
         context = {
 

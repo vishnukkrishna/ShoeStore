@@ -1,0 +1,97 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% load tz %}
+
+{% block title %}Order tracking{% endblock %}
+
+{% block link %}
+
+{% endblock %}
+{% block content %}
+
+
+<section class="vh-100 gradient-custom-2 m-t-85">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+                <div class="card card-stepper mt-2" style="border-radius: 16px;">
+                    <div class="card-header p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-dark mb-2">Tracking ID: <span class="fw-bold text-body"><b>{{ item.id }}</b></span>
+                                </p>
+                                <p class="text-dark mb-0"> Place On: <span class="fw-bold text-body"><b>{{item.order.ordered_date}}</b></span> </p>
+                            </div>
+                            {% comment %} <div>
+                                <h6 class="mb-0"> <a href="#">View Details</a> </h6>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-row mb-4 pb-2">
+                            <div class="flex-fill">
+                                <h5 class="text-dark mt-4"><b>{{item.product}}</b></h5>
+                                <h6 class="bold text-dark mt-2">Price: <i class="text-danger">₹{{item.item_price}}.00 </i>
+                                    x {{item.quantity}}
+                                </h6>
+                                {% comment %} <p class="text-dark mt-2">Qty: {{item.quantity}} </p> {% endcomment %}
+                                <h6 class="mb-3 mt-2 text-dark">Total :<i class="text-danger">₹{{item.item_total}}.00</i>
+                                    <span class="small text-muted">({{item.order.payment.payment_method}})</span></h6>
+
+                                <p class="text-dark">Tracking Status on:
+                                    <span class="text-body"><b>{{ current_date|timezone:"Asia/Kolkata"|date:"F j, Y"}}</b></span>
+                                </p>
+
+                            </div>
+
+                            <div class="m-l-50">
+                                <img class="align-self-center img-fluid"
+                                    src="{{item.product.image.url}}"
+                                    width="150">
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========== order status ================ -->
+                        <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+
+                            {% if item.order_status == 'Ordered' %}
+                            <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
+                            <li class="step0 text-muted text-center" id="step2"><span>SHIPPED</span></li>
+                            <li class="step0 text-muted text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+
+                            {% elif item.order_status == 'Shipped' %}
+                            <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
+                            <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
+                            <li class="step0 text-muted text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+
+                            {% elif item.order_status == 'Delivered' %}
+                            <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
+                            <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
+                            <li class="step0 active text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+                            {% endif %}
+
+                        </ul>
+                        <!-- ========= order status end ============== -->
+
+                    </div>
+
+                    <div class="card-footer p-4">
+                        <div class="d-flex justify-content-between">
+
+                            <div class="border-start h-100"></div>
+                            <h5 class="fw-normal mb-0"><a href="#!">Cancel Order</a></h5>
+                            {% comment %} <h5 class="fw-normal mb-0"><a href="#!">Submit Review</a></h5> {% endcomment %}
+                            <div class="border-start h-100"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

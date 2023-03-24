@@ -1,8 +1,7 @@
-{% extends 'userbase.html' %}
+ {% extends 'userbase.html' %}
 
 {% load static %}
 
-{% load mathfilters %}
 
 {% block title %}Shopping Cart{% endblock title %}
 
@@ -12,7 +11,7 @@
 
 
 
-{% if not cart_item %}
+{% if not cart_items %}
 <div class="container d-flex justify-content-center m-t-70 w-70">
     <div class="p-5 text-center">
         <img style="width:380px;" src="{% static 'img/cart-empty.png' %}" alt="">
@@ -26,7 +25,6 @@
 </div>
 {% else %}
 <!-- Cart -->
-<form class="bg0 p-t-75 p-b-85">
 
     <div class="container">
         <div class="p-b-32">
@@ -68,7 +66,7 @@
                                 <th class="column-6 ">Action</th>
                             </tr>
 
-                            {% for item in cart_item %}
+                            {% for item in cart_items %}
                             <!-- {% with product=item.product %} -->
                             <tr class="table_row">
                                 <td class="column-1">
@@ -78,7 +76,11 @@
                                 </td>
                                 <td class="column-2 p-r-15">
                                     <a style="color: rgb(164, 16, 16); font-size: 88%;" href="{{item.product.get_absolute_url}}">{{product.title}}</a>
-                                    
+                                    <p class="text-muted small">
+                                        {% if item.variant %}
+                                        {{ item.variant }}<br>
+                                        {% endif %}
+                                    </p>
                                 </td>
                                 <td class="column-3">
                                     <div class="price-wrap">
@@ -87,11 +89,11 @@
                                     </div>
                                 </td>
 
-                                <td class="column-4 text-center">
+                                {% comment %} <td class="column-4 text-center">
                                     <input type="hidden" class="prod_id" value="{{product.}}">
                                     
                                     <div data-index="{{product.id}}" class="wrap-num-product flex-w py-1">
-                                        <a href="{% url 'remove_cart' item.product.id %}" data-index="" type="button" class=" btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" id="">
+                                        <a href="{% url 'remove_cart' item.product.id item.id %}" data-index="" type="button" class=" btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" id="">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
                                         </a>
                                         <input id="quantity" class="mtext-104 cl3 txt-center num-product" type="number"
@@ -100,17 +102,40 @@
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </a>
                                     </div>
+                                </td> {% endcomment %}
+                                <td class="column-4 text-center">
+                                    <div class="wrap-num-product flex-w py-1">
+
+                                        <a href="{% url 'remove_cart' item.product.id item.id %}">
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                                            </div>
+                                        </a>
+
+                                        <input class="mtext-104 cl3 txt-center num-product" type="number"
+                                            name="num-product1" value="{{ item.quantity }}">
+
+                                        <form action="{% url 'add_cart' item.product.id %}?variant={{item.variant.color}}" method="POST">
+                                            {% csrf_token %}
+                                                <input type="hidden" name="{{ item.variation_category | lower }}"
+                                                    value="{{ item.variant.variation | capfirst }}">
+                                                <button type="submit" class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                </button>
+                                        </form>
+
+                                    </div>
                                 </td>
                                 <td class="column-3">
                                     <div class="price-wrap">
-                                        <h6 class="price">Rs. {{item.sub_total}}</h6>
+                                        <h6 class="price">Rs. {{item.get_sub_total}}</h6>
                                     </div>
                                 </td>
 
 
                                 <td class="column-5 text-center">
                                     <button class="delete-button" type="button" id="delete-button" data-index="{{product.id}}">
-                                        <a href="{% url 'remove_cart_item' item.product.id %}"><i class="fa-solid fa-trash" style="color:red;"></i><a>
+                                        <a href="{% url 'remove_cart_item' item.product.id item.id %}"><i class="fa-solid fa-trash" style="color:red;"></i><a>
                                     </button>
                                 </td>
 
@@ -119,20 +144,47 @@
                             {% endfor %}
                         </table>
                     </div>
+                    <br>
+                    <div style="padding-left: 4%;">
+                        {% if coupon %}
+                        <h5>Available Coupon</h5>
+                        {% else %}
+                        <h6>No Coupon</h6>
+                        {% endif %}
+                        {% for c in coupon %}
+                        <br>
+                        <h6 style="color:red;">{{c.coupon_code}}</h6>
+                        {% endfor %}
+                        
 
-                    <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm" style="align-items: center;">
-                        <div class="flex-w flex-m m-r-20 m-tb-5" style="margin-right: 10%;">
-                            <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="Coupon Code">
-                                
-                            <div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-                                Apply coupon
+                    </div>
+
+                    <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+                        
+                        {% if cart.coupon %}
+                            <span class="m-r-10">Applied Coupon (Tap to Remove) :</span>
+                            <a href="{% url 'remove_coupon' %}"
+                            class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" type="submit">
+                            {{cart.coupon.coupon_code}}
+                            </a>
+                            
+                        {% else %}
+                        <span class="m-r-10">Have Coupon?</span>
+                        <form action="{% url 'apply_coupon' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="flex-w flex-m m-r-20 m-tb-5">
+                                <input required class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
+                                    name="coupon" placeholder="Coupon Code">
+
+                                <button
+                                    class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" type="submit">
+                                    Apply coupon
+                                </button>
                             </div>
-                        </div>
+                        </form>
+                        {% endif %}
+                        {% include 'includes/alerts.html' %}
 
-                        <!-- <div
-                            class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-                            Update Cart
-                        </div> -->
                     </div>
                 </div>
 
@@ -163,7 +215,7 @@
 
                         <div class="size-209" id="total">
                             <span class="mtext-110 cl2">
-                                Rs. {{total}}
+                                Rs. {{ cart.get_cart_total }}/-
                             </span>
                         </div>
                         <br><br>
@@ -174,7 +226,7 @@
                         </div>
                         <div class="size-209">
                             <span class="mtext-110 cl2">
-                                {{tax}}
+                                Rs. {{ cart.get_tax }}/-
                             </span>
                         </div>
                     </div>
@@ -184,18 +236,18 @@
                     <div class="flex-w flex-t p-t-27 p-b-33">
                         <div class="size-208">
                             <span class="mtext-101 cl2">
-                                Total :
+                                Total:
                             </span>
                         </div>
 
                         <div class="size-209 p-t-1">
                             <span class="mtext-110 cl2">
-                                Rs. {{grand_total}}
+                                Rs. {{ cart.get_grand_total }}/-
                             </span>
                         </div>
                     </div>
 
-                    <a href="" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
+                    <a href="{% url 'checkout' %}" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
                         Proceed to Checkout
                     </a>
                     <a href="{% url 'home' %}" class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10">
@@ -207,6 +259,6 @@
 
         </div>
     </div>
-</form>
+
 {% endif %}
 {% endblock content %}

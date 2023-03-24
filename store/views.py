@@ -1,12 +1,9 @@
 from django.shortcuts import render,redirect
-from . models import Category, Product, Brand, ReviewRating, multipleImage
+from . models import Category, Product, Brand, ReviewRating, multipleImage, Variation, Color
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
 from django.db.models import Q
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from cart.models import CartItem
-from cart.views import _cart_id
-from accounts.models import Account
+from django.core.paginator import Paginator
+
 from .forms import ReviewForm
 from django.contrib import messages
 
@@ -17,13 +14,32 @@ def store(request):
 
     all_products = Product.objects.all()
 
+    review = ReviewRating.objects.all()
+
+    if request.GET.get('sortby'):
+            
+            sort = request.GET.get('sortby')
+
+            if sort == 'new':
+
+                all_products = Product.objects.all().order_by('-created_date')
+
+            elif sort == 'lth':
+
+                all_products = Product.objects.all().order_by('price')
+
+            elif sort == 'htl':
+                
+                all_products = Product.objects.all().order_by('-price')
+
+
     paginator = Paginator(all_products, 8)
 
     page = request.GET.get('page')
 
     paged_products = paginator.get_page(page)
 
-    context = {'products': paged_products}
+    context = {'products': paged_products, 'review': review}
 
     return render(request, 'store/allproducts.html', context)
 
@@ -91,16 +107,39 @@ def product_info(request, product_slug):
 
     product = get_object_or_404(Product, slug=product_slug)
 
-    in_cart=CartItem.objects.filter(cart__cart_id=_cart_id(request),product=product).exists()
+    variants = Variation.objects.filter(product=product)
 
     context = {
 
         'product':product,
 
-        'in_cart':in_cart,
+        'images':multipleImage.objects.filter(product=product),
 
-        'images':multipleImage.objects.filter(product=product), 
+        'review': ReviewRating.objects.filter(product=product),
+
+        'variants': variants,
+
     }
+
+    if request.GET.get('variant'):
+            
+            color = request.GET.get('variant')
+
+            variation = Color.objects.get(color=color)
+
+            variant=Variation.objects.get(color=variation,product=product)
+
+            variant_price = product.get_product_price(variation)
+
+            context.update({
+
+                'selected_variant': variant,
+
+                'variant_price': variant_price,
+
+                'color' : color,
+              
+            })
 
     return render(request, 'store/product_info.html', context)
 
@@ -130,15 +169,6 @@ def search(request):
 
 
     return render(request, 'store/allproducts.html', context)
-
-
-
-
-
-def orderSuccessfully(request):
-
-    return render(request, 'orders/orderSuccessfully.html')
-
 
 
 
@@ -175,6 +205,8 @@ def submit_review(request, product_id):
 
                 data.review = form.cleaned_data['review']
 
+                data.image = request.FILES.get('image')
+
                 data.ip = request.META.get('REMOTE_ADDR')
 
                 data.product_id = product_id
@@ -187,3 +219,13 @@ def submit_review(request, product_id):
 
                 return redirect(url)
 
+
+
+
+def deleteReview(request, id):
+
+    del_review = ReviewRating.objects.filter(id=id)
+
+    del_review.delete()
+
+    return redirect(product_info)

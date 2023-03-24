@@ -37,24 +37,22 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="mb-3 col-md-6">
+            {% comment %} <div class="mb-3 col-md-6">
                 <label for="exampleFormControlInput1" class="form-label fw-bold">Color</label>
                 <input value="" name="color" type="text" class="form-control" id="exampleFormControlInput1" />
-            </div>
-        </div>
-        <hr>
-        <div class="row">
+            </div> {% endcomment %}
             <div class="mb-3 col-md-6">
                 <label for="exampleFormControlInput1" class="form-label fw-bold">Price</label>
                 <input name="price" type="number" class="form-control" id="exampleFormControlInput1" />
             </div>
+        </div>
+        <hr>
+        <div class="row">
+            
             <div class="mb-3 col-md-6">
                 <label for="exampleFormControlInput1" class="form-label fw-bold">Stock</label>
                 <input name="stock" type="number" class="form-control" id="exampleFormControlInput1" />
             </div>
-        </div>
-        <hr>
-        <div class="row">
             <div class="mb-3 col-md-6">
                 <label for="dropdownInput" class="form-label fw-bold">Brands</label>
                 <select name="brand" class="form-control" id="dropdownInput">
@@ -63,9 +61,16 @@
                     {% endfor %}
                 </select>
             </div>
+        </div>
+        <hr>
+        <div class="row">
             <div class="mb-3 col-md-6">
                 <label for="formFile" class="form-label fw-bold">Image</label>
-                <input name="image" class="form-control" type="file" multiple id="formFile" />
+                <input name="image" class="form-control" type="file" id="formFile" />
+            </div>
+            <div class="mb-3 col-md-6">
+                <label for="formFile" class="form-label fw-bold">Multiple Image</label>
+                <input name="imagess" class="form-control" type="file" multiple id="formFile" />
             </div>
         </div>    
         <hr>

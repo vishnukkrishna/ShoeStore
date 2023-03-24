@@ -47,7 +47,7 @@
                                     </div>
                                 </td>
                                 <td class="column text-center">
-                                    <a href="{% url 'remove_wishlistitem' wishlist_item.product.id %}">
+                                    <a href="{% url 'remove_wishlistitem' wishlist_item.product.id wishlist_item.id %}">
                                         <button type="button" class="btn btn-danger btn-floating">
                                             <i class="fa fa-trash"></i>
                                         </button>

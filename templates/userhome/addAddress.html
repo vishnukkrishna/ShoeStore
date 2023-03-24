@@ -1,28 +1,61 @@
 {% extends 'userbase.html' %} {% load static %} {% block title %}Add New Address{% endblock %} {% block content %}
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-4">
+    </div>
+</div>
+</div>
 <div class="col-lg-8">
     <div class="card mb-4">
         <div class="card-body">
             <h1>Add Address</h1>
 
             <div class="row">
-                <form action="" method="POST">
-                    {% csrf_token %} {{form.as_p}}
-                    <button
-                        type="submit"
-                        class="btn btn-primary fw-bold btn-block w-50"
-                        style="font-size: 20px; border-radius: 10px; margin-top: -5px padding-top: 20px;"
-                        action="">Save
-                    </button>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                    </div>
+                <form method="post" action="{% url 'addaddress' %}" class="account-form" name="address_form" enctype="multipart/form-data">
+                    {% if form.error%}
+                    <div class="alert alert-primary" role="alert">
+                        Errror: Plese try agin
+                    {% endif %}
+
+                        {% csrf_token %}
+
+                        <label class="small fw-bold">Full Name</label>
+                        {{ form.full_name }}
+
+                        <label class="small fw-bold">House Name</label>
+                        {{ form.house_name }}
+
+                        <label class="small fw-bold">Phone Number</label>
+                        {{ form.phone_number }}
+
+                        <label class="small fw-bold">City</label>
+                        {{ form.city }}
+
+                        <label class="small fw-bold">Landmark</label>
+                        {{ form.landmark }}
+
+                        <label class="small fw-bold">District</label>
+                        {{ form.district }}
+
+                        <label class="small fw-bold">State</label>
+                        {{ form.state }}
+
+                        <label class="small fw-bold">Country</label>
+                        {{ form.country }}
+
+                        <label class="small fw-bold">PIN Cdde</label>
+                        {{ form.pincode }}
+
+                        <button class="btn btn-dark cap btn-block py-2 mb-4 mt-4 fw-bold w-100" type="submit">Add Address</button>
                 </form>
+
             </div>
             <hr />
         </div>
     </div>
+</div>
+
 </div>
 
 {% endblock %}

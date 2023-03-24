@@ -8,8 +8,6 @@ urlpatterns = [
     # Store main page
     path('allproduct/', views.store, name='store'),
 
-    path('ordersuccess/', views.orderSuccessfully, name='ordersuccess'),
-
     # Individual product
     path('product/<slug:product_slug>/', views.product_info, name='product_info'),
 
@@ -22,4 +20,8 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 
     path('submit_review/<int:product_id>', views.submit_review, name='submit_review'),
+
+    path('deletereview/<int:id>/', views.deleteReview, name='deletereview'),
+
+    path('sorted/', views.store, name="sorting"),
 ]

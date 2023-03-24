@@ -1,0 +1,76 @@
+{%extends 'adminbase.html'%}
+{% load static %}
+{% block title %}Orders{% endblock  %}
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Orders Lists</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
+                <li class="breadcrumb-item active">Order</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+        <div class="row">
+    </section>
+
+
+    {% comment %} <div class="input-group">
+        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+            aria-describedby="search-addon" />
+        <button type="button" class="btn btn-outline-primary">search</button>
+    </div> {% endcomment %}
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Date</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <th scope="row">{{item.order.order_id}}</th>
+                <th scope="row">{{item.order.ordered_date}}</th>
+                <td>{{item.order.user}}</td>
+                <td>
+            
+                        {{item.product}}
+                   
+                </td>
+                <td>
+                  {{item.item_total}}
+                </td>
+                <td><span class="badge bg-success">{{item.order.status}}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    </div>
+    </div>
+    </div><!-- End Recent Sales -->
+
+    </div>
+    </div><!-- End Left side columns -->
+
+
+
+</main>
+
+
+
+
+
+
+{% endblock %}

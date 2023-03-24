@@ -5,7 +5,11 @@ from . import views
 
 urlpatterns = [
 
-    path('couponlist', views.couponManagement, name='couponlist'),    
+    path('couponlist', views.couponManagement, name='couponlist'), 
+
+    path('add_coupon',views.add_coupon,name="add_coupon"),
+
+    path('delete_coupon',views.delete_coupon,name="delete_coupon"),   
   
          
 ]

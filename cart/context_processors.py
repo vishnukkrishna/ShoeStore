@@ -1,16 +1,5 @@
 
-# from .cart import Cart
-
-
-
-
-# def cart(request):
-
-#     return {'cart': Cart(request)}
-
-
 from .models import Cart,CartItem
-from .views import _cart_id
 
 
 
@@ -24,25 +13,19 @@ def counter(request):
         return {}
     
     else:
+        if request.user.is_authenticated:
+            try:
 
-        try:
+                cart = Cart.objects.get(user=request.user, is_paid=True)
 
-            cart = Cart.objects.filter(cart_id=_cart_id(request))
+                cart_items = CartItem.objects.all().filter(cart=cart[:1])
 
-            # if request.user.is_authenticated:
+                for cart_item in cart_items:
 
-            #     cart_items = CartItem.objects.all().filter(user=request.user)
+                    cart_count  += 1
 
-            # else:
+            except Cart.DoesNotExist:
 
-            cart_items = CartItem.objects.all().filter(cart=cart[:1])
-
-            for cart_item in cart_items:
-
-                cart_count  += 1
-
-        except Cart.DoesNotExist:
-
-            cart_count=0
+                cart_count=0
 
     return dict(cart_count=cart_count)

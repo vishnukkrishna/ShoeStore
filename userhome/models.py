@@ -8,6 +8,10 @@ class userAddress(models.Model):
 
     user = models.ForeignKey(Account,on_delete=models.CASCADE)
 
+    full_name = models.CharField(max_length=100, null=True)
+
+    phone_number = models.CharField(max_length=20, null=True)
+
     house_name = models.CharField(max_length=100)
 
     landmark = models.CharField(max_length=100)
@@ -22,6 +26,12 @@ class userAddress(models.Model):
 
     pincode = models.CharField(max_length=10)
 
+    default = models.BooleanField(default=False)
+
+
+    class Meta:
+        verbose_name = 'userAddress'
+        verbose_name_plural = 'userAddresss'
 
     def __str__(self):
 

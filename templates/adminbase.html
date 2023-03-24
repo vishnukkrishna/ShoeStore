@@ -81,6 +81,12 @@
                             </li>
 
                             <li>
+                                <a class="dropdown-item d-flex align-items-center" href="{% url 'adminprofile' %}">
+                                    <i class="bi bi-person-circle"></i>
+                                    <span>Profile</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item d-flex align-items-center" href="{% url 'adminlogout' %}">
                                     <i class="bi bi-box-arrow-right"></i>
                                     <span>LogOut</span>
@@ -129,6 +135,13 @@
                     </a>
                 </li>
 
+                {% comment %} <li class="nav-item">
+                    <a class="nav-link collapsed" href="">
+                        <i class="bi bi-palette"></i>
+                        <span>Color Variants</span>
+                    </a>
+                </li> {% endcomment %}
+
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'categorymanagement' %}">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -151,7 +164,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#">
+                    <a class="nav-link collapsed" href="{% url 'ordermanagement' %}">
                         <i class="fa-solid fa-handshake"></i>
                         <span>Orders</span>
                     </a>

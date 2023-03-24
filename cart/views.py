@@ -1,153 +1,225 @@
 from django.shortcuts import render, redirect
-from .models import Cart, CartItem
-from store.models import Product
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.http import HttpResponse
-from django.core.exceptions import ObjectDoesNotExist
+from .models import Cart, CartItem, Coupon
+from store.models import Product, Variation, Color
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 
 # Create your views here.
 
 
-def cart_summary(request,total=0,quantity=0,cart_items=None):
+# this is a private method where our session id is stored
 
-    tax=0
+@login_required
+def cart_summary(request):
 
-    grand_total=0
+    cart=None
+
+    cart_items=None
+
+    coupon = Coupon.objects.all()
 
     try:
 
-        cart_instance =Cart.objects.get(cart_id=_cart_id(request))
+        cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
 
-        cart_items=CartItem.objects.filter(cart=cart_instance, is_active=True)
+        print(cart)
 
-        for cart_item in cart_items:
-
-            total +=(cart_item.product.price * cart_item.quantity)
-
-            quantity += cart_item.quantity
-
-        tax=(2*total)/100
-
-        grand_total=total +tax
-
-    except ObjectDoesNotExist:
-
-        pass
+        print('Loading')
 
 
-    context={
+        cart_items=CartItem.objects.filter(cart=cart, is_active=True)
 
-        'total':total,
 
-        'quantity':quantity,
+    except Exception as e:
 
-        'cart_item':cart_items,
+        print(e)
 
-        'tax':tax,
+    if request.method=='POST':
 
-        'grand_total':grand_total,
+        coupon = request.POST.get('coupon')
+
+        coupon_obj=Coupon.objects.filter(coupon_code__icontains=coupon)
+
+        if not coupon_obj.exists():
+
+            messages.error(request,'invalid Coupon')
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        
+        if cart.coupon:
+
+            messages.warning(request, 'Coupon Already applied')
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        if cart.get_cart_total() < coupon_obj[0].min_amount:
+
+            messages.warning(
+
+                request, f'Total amount should be greater than ₹{coupon_obj[0].min_amount} excluding tax')
+            
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        if coupon_obj[0].is_expired:
+             
+             messages.warning(request, 'This coupon has expired')
+
+             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        cart.coupon = coupon_obj[0]
+
+        cart.save()
+
+        messages.success(request, 'Coupon Applied')
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+    context = {
+
+        'cart_items': cart_items,
+        'cart': cart,
+        'coupon':coupon,
     }
-
 
     return render(request,"carts/cart_summary.html",context)
 
 
 
 
-def _cart_id(request):
-
-    cart=request.session.session_key
-
-    if not cart:
-
-        cart=request.session.create()
-
-    return cart
-
-
-@login_required(login_url = 'userlogin')
+@login_required
 def add_cart(request,product_id):
 
-    product=Product.objects.get(id=product_id)
+    product_variant = None
 
     try:
+   
+        variation = request.GET.get('variant')
 
-        cart=Cart.objects.get(cart_id=_cart_id(request))
+        color = Color.objects.get(color=variation)
+       
+        product = Product.objects.get(id=product_id)
 
-    except Cart.DoesNotExist:
+        user = request.user
 
-        cart=Cart.objects.create(
+        if color:
 
-            cart_id=_cart_id(request)
+            product_variant = Variation.objects.get(product=product, color=color)
 
-        )
+      
+        cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
+       
 
-    cart.save()
+        is_cart_item = CartItem.objects.filter(
+
+            cart=cart, product=product, variant=product_variant
+
+        ).exists()
+        
+        
+
+        if is_cart_item:
+
+            cart_item = CartItem.objects.get(
+
+                cart=cart, product=product, variant=product_variant
+            )
+            
+            cart_item.quantity += 1
+
+            cart_item.save()
+
+        else:
+
+            cart_item = CartItem.objects.create(
+
+                product=product, quantity=1, cart=cart, variant=product_variant
+            )
+
+            cart_item.save()
+
+    except:
+
+        pass
+
+
+    return redirect(cart_summary)
+
+
+
+
+def remove_cart(request,product_id,cart_item_id):
     
     try:
 
-        cart_item=CartItem.objects.get(product=product,cart=cart)
+        product = Product.objects.get(id=product_id)
 
-        cart_item.quantity +=1 # cart_item.quantity=cart_item.quantity +1
+        cart = Cart.objects.get(user=request.user, is_paid=False)
 
-        cart_item.save()
+        cart_item = CartItem.objects.get(
 
-    except CartItem.DoesNotExist:
-
-        cart_item=CartItem.objects.create(
-
-            product=product,
-
-            quantity=1,
-
-            cart=cart,
+            product=product, id=cart_item_id, cart=cart
         )
 
-        cart_item.save()
+        if cart_item.quantity > 1:
+            
+            cart_item.quantity -= 1
 
-    return redirect(cart_summary)
-    # return render(request,"user_side/cart.html")
+            cart_item.save()
 
+        else:
+          
+            pass
 
-# descrease the cart_item
+    except:
 
-def remove_cart(request,product_id):
+        pass
 
-    cart=Cart.objects.get(cart_id=_cart_id(request))
-
-    product=get_object_or_404(Product,id=product_id)
-
-    cart_item= CartItem.objects.get(product=product,cart=cart)
-
-    if cart_item.quantity >1:
-
-        cart_item.quantity -=1
-
-        cart_item.save()
-    else:
-       
-       pass
 
     return redirect(cart_summary)
 
 
 
-def remove_cart_item(request,product_id):
 
-    cart=Cart.objects.get(cart_id=_cart_id(request))
 
-    product=get_object_or_404(Product,id=product_id)
+def remove_cart_item(request,product_id,cart_item_id):
 
-    cart_item=CartItem.objects.get(product=product,cart=cart)
+    product = Product.objects.get(id=product_id)
 
+    cart = Cart.objects.get(user=request.user, is_paid=False)
+
+    cart_item = CartItem.objects.filter(
+
+        product=product, id=cart_item_id, cart=cart
+    )
+    
     cart_item.delete()
 
     return redirect(cart_summary)
 
 
+
+
+def remove_coupon(request):
+
+    try:
+
+        cart = Cart.objects.get(user=request.user,is_paid=False)
+
+        cart.coupon = None
+
+        cart.save()
+
+        messages.success(request, 'Coupon removed successfully')
+
+    except:
+
+        pass
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 

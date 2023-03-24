@@ -51,20 +51,20 @@
                         <div class="mtext-102 cl2 p-b-15">Sort By</div>
 
                         <ul>
-                            <li class="p-b-6">
+                            {% comment %} <li class="p-b-6">
                                 <a href="#" class="filter-link stext-106 trans-04"> Default </a>
+                            </li> {% endcomment %}
+
+                            <li class="p-b-6">
+                                <a href="{% url 'sorting' %}?sortby=new" class="filter-link stext-106 trans-04 filter"> Newness </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04 filter-link-active"> Newness </a>
+                                <a href="{% url 'sorting' %}?sortby=lth" class="filter-link stext-106 trans-04"> Price: Low to High </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Price: Low to High </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="#" class="filter-link stext-106 trans-04"> Price: High to Low </a>
+                                <a href="{% url 'sorting' %}?sortby=htl" class="filter-link stext-106 trans-04"> Price: High to Low </a>
                             </li>
                         </ul>
                     </div>
@@ -74,9 +74,11 @@
 
                         <ul>
                             {% for brand in all_brands %}
-                                <li>
-                                    <a href="{{brand.get_absolute_url}}" class="filter-link stext-106 trans-04">{{brand.name | capfirst}}</a>
-                                </li>
+                            <li>
+                                <a href="{{brand.get_absolute_url}}" class="filter-link stext-106 trans-04"
+                                    >{{brand.name | capfirst}}</a
+                                >
+                            </li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -85,9 +87,11 @@
 
                         <ul>
                             {% for category in all_categories %}
-                                <li>
-                                    <a class="filter-link stext-106 trans-04" href="{{category.get_absolute_url}}">{{category.name | capfirst}}</a>
-                                </li>
+                            <li>
+                                <a class="filter-link stext-106 trans-04" href="{{category.get_absolute_url}}"
+                                    >{{category.name | capfirst}}</a
+                                >
+                            </li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -117,8 +121,19 @@
                             <a href="{{product.get_absolute_url}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                 {{product.title | capfirst}}
                             </a>
-
                             <span class="stext-105 cl3"> Rs. {{product.price}} </span>
+                            {% comment %} <span class="fs-18 cl11">
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star-half"></i>
+                            </span> {% endcomment %}
+                            {% comment %} {% if review %}
+                            <span class="fs-18 cl11">
+                                <span>{{review.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
+                            </span>
+                            {% endif %} {% endcomment %}
                         </div>
 
                         <div class="block2-txt-child2 flex-r p-t-3">
@@ -126,11 +141,13 @@
                                 href="{% url 'add_wishlist' product.id %}"
                                 class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
                             >
-                                {% comment %} <img
+                                {% comment %}
+                                <img
                                     class="icon-heart1 dis-block trans-04"
                                     src="{% static 'images/icons/icon-heart-01.png' %}"
                                     alt="ICON"
-                                /> {% endcomment %}
+                                />
+                                {% endcomment %}
                                 <img
                                     class="icon-heart2 dis-block trans-04 ab-t-l"
                                     src="{% static 'images/icons/icon-heart-02.png' %}"

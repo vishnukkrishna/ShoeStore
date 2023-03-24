@@ -96,9 +96,10 @@ TEMPLATES = [
 
 # Social app custom settings 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.github.GithubOAuth2',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.github.GithubOAuth2',
+    
     'social_core.backends.google.GoogleOAuth2',
     
     'django.contrib.auth.backends.ModelBackend',
@@ -200,4 +201,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
+# Razorpay
+KEY = 'rzp_test_LXZDJ9u8i9F7vG'
+SECRET = 'cvpNwKv76S5fKAlTCrNo3Vii'

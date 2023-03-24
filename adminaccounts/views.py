@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
 from django.contrib import messages
-from store.models import Carousel_Home
+from store.models import Carousel_Home, Account
+
 # Create your views here.
 
 
@@ -10,6 +11,14 @@ from store.models import Carousel_Home
 
 # Admin HomePage
 def index(request):
+
+    if not request.user.is_authenticated:
+
+        return redirect(adminlogin)   
+    
+    elif not request.user.is_admin:
+
+        return redirect(adminlogin)
 
     return render(request, 'adminindex.html')
 
@@ -67,6 +76,9 @@ def adminlogout(request):
     messages.success(request, 'You are logged out.')
 
     return redirect(adminlogin)
+
+
+
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
@@ -160,3 +172,98 @@ def editBanner(request,id):
         messages.info(request, "Some fields is empty")
 
         return render(request, 'adminaccounts/Banner.html')
+
+
+
+
+def adminProfile(request):
+
+    return render(request, 'adminaccounts/adminProfile.html')
+
+
+
+
+def change_admin_password(request, user_id):
+
+    if request.method == 'POST':
+
+        old_password = request.POST['old_password']
+
+        new_password = request.POST['new_password']
+
+        confirm_new_password = request.POST['confirm_new_password']
+
+        user = Account.objects.get(id=user_id)
+        
+        if not user.check_password(old_password):
+
+            messages.error(request, 'Incorrect password')
+
+            return redirect(adminProfile)
+        
+        else:
+
+            if new_password == confirm_new_password:
+
+                user.set_password(new_password)
+                
+                auth.login(request,user)
+
+                messages.success(request, 'Password changed succesfully!')
+
+                return redirect(adminProfile)
+            
+            else:
+                messages.error(request, 'Password doesnot match.')
+
+                return redirect(adminProfile)
+            
+    return render(request,'adminaccounts/adminProfile.html')
+
+
+
+
+
+def admin_change_dp(request):
+
+    user_id = request.user.id
+
+    user = Account.objects.get(id=user_id)
+
+    try:
+
+        image = request.FILES['user_image']
+
+        user.user_image=image
+
+        user.save()
+
+    except:
+
+        pass
+       
+    return redirect(adminProfile)
+
+
+
+
+
+def admin_profile_edit(request):
+
+    user_id = request.user.id
+
+    if request.method == "POST":
+
+        name = request.POST['name']
+
+        email = request.POST['email']
+
+        update_profile = Account.objects.filter(id=user_id) 
+
+        update_profile.update(first_name=name, email=email)
+
+        messages.success(request, 'updated successfully !!')
+
+        return redirect(adminProfile)
+
+    return render(request, 'adminaccounts/adminProfile.html')

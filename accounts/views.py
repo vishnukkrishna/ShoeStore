@@ -1,14 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import render, redirect, HttpResponseRedirect
 
-from store.models import Carousel_Home
+
+from store.models import Carousel_Home, Brand
 from store .models import Product
 from .models import Account
 from . forms import RegistrationForm
 from userhome.models import userAddress
+
 
 # Verification Email
 from django.contrib.sites.shortcuts import get_current_site
@@ -33,9 +36,10 @@ def home(request):
 
         'banner':Carousel_Home.objects.all().order_by('id'),
 
-    }
+        'all_brands':Brand.objects.all(),
 
-    return render(request, 'userindex.html', context)
+    }
+    return render(request,'userindex.html',context)   
 
 
 
@@ -73,7 +77,7 @@ def register(request):
 
             current_site = get_current_site(request)
 
-            mail_subject = 'Pleace activate your account'
+            mail_subject = 'Please activate your account'
 
             message = render_to_string('accounts/account_verification_email.html', {
 
@@ -115,6 +119,10 @@ def register(request):
 # User Login
 def userlogin(request):
 
+    if request.user.is_authenticated:
+
+        return redirect(home)
+
     if request.method == 'POST':
 
         email = request.POST['email']
@@ -129,15 +137,15 @@ def userlogin(request):
 
             auth.login(request, user)
 
-            # messages.success(request, 'You are now logged in.')
+            print(request.path_info)
 
-            return redirect(home)
+            return HttpResponseRedirect(request.path_info)
         
         else:
-
+            
             messages.error(request, 'Invalid login credentials')
 
-            return redirect(userlogin)
+            return HttpResponseRedirect(request.path_info)
 
     return render(request, 'accounts/loginpage.html')
 
@@ -310,6 +318,8 @@ def resetPassword(request):
         return render(request, 'accounts/resetPassword.html')
     
 
+
+
 # User dashboard
 @login_required(login_url = 'userlogin')
 def dashboard(request):
@@ -402,6 +412,7 @@ def change_dp(request):
     user = Account.objects.get(id=user_id)
 
     try:
+        
         image = request.FILES['user_image']
 
         user.user_image = image

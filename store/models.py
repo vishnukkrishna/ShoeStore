@@ -85,6 +85,13 @@ class Product(models.Model):
         return reverse("product_info", args=[self.slug])
     
 
+    def get_product_price(self, variant):
+        
+        return self.price
+    
+
+    
+
 
 
 
@@ -128,7 +135,7 @@ class Brand(models.Model):
 # Color Model
 class Color(models.Model):
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='product_colors')
+    # product = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='product_colors',null=True,blank=True)
 
     color = models.CharField(max_length=200)
 
@@ -145,7 +152,7 @@ class Color(models.Model):
     # To convert object into a string
     def __str__(self):
 
-        return self.product.title
+        return self.color
 
 
 
@@ -162,6 +169,8 @@ class ReviewRating(models.Model):
     review = models.TextField(max_length=500, blank=True)
 
     rating = models.FloatField()
+
+    image = models.ImageField(upload_to='productreview', blank=True)
 
     ip = models.CharField(max_length=20, blank=True)
 
@@ -208,3 +217,41 @@ class multipleImage(models.Model):
 
         return self.product.title
     
+
+
+
+variation_category_choice = (
+
+    ('color', 'color'),
+)
+
+
+
+
+class Variation(models.Model):
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    color = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True)
+
+    is_active = models.BooleanField(default=True)
+
+    created_date = models.DateTimeField(auto_now=True)
+
+
+
+    # def __unicode__(self):
+
+    #     return self.variation_value
+
+    def save(self, *args, **kwargs):
+
+        self.variation = f"{self.color}"
+
+        super().save(*args, **kwargs)
+
+
+
+    def __str__(self):
+
+        return self.color.color

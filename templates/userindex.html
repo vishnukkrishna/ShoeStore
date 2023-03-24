@@ -1,8 +1,4 @@
-{% extends 'userbase.html' %} 
-{% load static %} 
-{% block title %}Home{% endblock title %} 
-
-{% block content %}
+{% extends 'userbase.html' %} {% load static %} {% block title %}Home{% endblock title %} {% block content %}
 
 <!-- Cart -->
 <div class="wrap-header-cart js-panel-cart">
@@ -96,14 +92,13 @@
                             <h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">{{ b.carousel_text }}</h2>
                         </div>
 
-                        {% comment %} <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-                            <a
-                                href="#"
-                                class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04"
-                            >
+                        {% comment %}
+                        <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
+                            <a href="#" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                 Shop Now
                             </a>
-                        </div> {% endcomment %}
+                        </div>
+                        {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -114,27 +109,27 @@
 <!-- Banner End-->
 
 {% comment %} Category {% endcomment %}
-
+<hr>
 <div class="sec-banner bg0 p-t-80 p-b-50">
-    <div class="container"> 
+    <div class="container">
         <div class="row">
             {% for category in all_categories %}
             <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
                 <!-- Block1 -->
                 <div class="block1 wrap-pic-w">
                     <img src="{{category.image.url}}" alt="IMG-BANNER" />
-                    <a href="{{category.get_absolute_url}}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-                        <div class="block1-txt-child1 flex-col-l">
-                        </div>
+                    <a
+                        href="{{category.get_absolute_url}}"
+                        class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3"
+                    >
+                        <div class="block1-txt-child1 flex-col-l"></div>
                         <div class="block1-txt-child2 p-b-4 trans-05">
                             <div class="block1-link stext-101 cl0 trans-09">Shop Now</div>
                         </div>
                     </a>
                 </div>
                 <div>
-                    <span class="block1-name trans-04 p-b-8 fs-25">
-                        {{category.name | capfirst}}
-                    </span>
+                    <span class="block1-name trans-04 p-b-8 fs-25"> {{category.name | capfirst}} </span>
                 </div>
             </div>
             {% endfor %}
@@ -142,21 +137,38 @@
     </div>
 </div>
 
+<hr>
+<div class="sec-banner bg0 p-t-95 p-b-55">
+    <div class="container">
+        <div class="row">
+            {% for b in all_brands %}
+            <div class="col-md-3 col-lg-2 p-b-30 m-lr-auto">
+                <!-- Block1 -->
+                <div class="block1 wrap-pic-w">
+                    <img src="{{b.image.url}}" alt="IMG-BANNER"  width="100" height="100" />
+                    <a href="{{b.get_absolute_url}}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+                        <div class="block1-txt-child2 p-b-4 trans-05">
+                            <div class="block1-link stext-101 cl0 trans-09">Shop Now</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<hr>
 <!-- Products -->
 <section class="bg0 p-t-23 p-b-140">
     <div class="container">
         <div class="p-b-32">
-            <h3 class="ltext-105 cl5 txt-center respon1">
-                Store Overview
-            </h3>
+            <h3 class="ltext-105 cl5 txt-center respon1">Store Overview</h3>
         </div>
 
         <div class="flex-w flex-sb-m p-b-52">
             <div class="flex-w flex-l-m filter-tope-group m-tb-10">
                 <a href="">
-                    <span class="block1-name trans-04 p-b-8 fs-20" style="text-decoration: underline;">
-                        
-                    </span>
+                    <span class="block1-name trans-04 p-b-8 fs-20" style="text-decoration: underline"> </span>
                 </a>
             </div>
         </div>
@@ -185,15 +197,24 @@
                             </a>
 
                             <span class="stext-105 cl3"> Rs. {{product.price}} </span>
+                            {% comment %} <span class="fs-18 cl11">
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star-half"></i>
+                            </span> {% endcomment %}
                         </div>
 
                         <div class="block2-txt-child2 flex-r p-t-3">
                             <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                {% comment %} <img
+                                {% comment %}
+                                <img
                                     class="icon-heart1 dis-block trans-04"
                                     src="{% static 'images/icons/icon-heart-01.png' %}"
                                     alt="ICON"
-                                /> {% endcomment %}
+                                />
+                                {% endcomment %}
                                 <img
                                     class="icon-heart2 dis-block trans-04 ab-t-l"
                                     src="{% static 'images/icons/icon-heart-02.png' %}"
@@ -206,7 +227,6 @@
             </div>
             {% endfor %}
         </div>
-
     </div>
 </section>
 <!-- Prodocts End -->

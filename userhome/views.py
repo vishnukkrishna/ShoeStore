@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import userAddress
 from .forms import AddressForm
+from django.contrib.auth.decorators import login_required
+from orders.views import checkOut
 # Create your views here.
 
 
@@ -20,10 +22,8 @@ def addAddress(request):
     address = userAddress.objects.filter(user=request.user)
 
     if request.method == 'POST':
-
-        print(address)
         
-        form = AddressForm(request.POST)
+        form = AddressForm(data=request.POST)
 
         if form.is_valid():
 
@@ -69,3 +69,15 @@ def deleteAddress(request,address_id):
     userAddress.objects.get(id=address_id).delete()
 
     return redirect(viewAddress)
+
+
+
+
+@login_required       
+def default_address(request,address_id,num=0):
+
+    userAddress.objects.filter(user=request.user,default=True).update(default=False)
+
+    userAddress.objects.filter(id=address_id,user=request.user).update(default=True)
+         
+    return redirect(checkOut)

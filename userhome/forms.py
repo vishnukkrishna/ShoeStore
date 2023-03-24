@@ -8,13 +8,21 @@ class AddressForm(forms.ModelForm):
 
         model = userAddress
 
-        fields = ['house_name', 'landmark', 'city',  'pincode', 'district', 'state', 'country']
+        fields = ['full_name','phone_number','house_name', 'landmark', 'city',  'pincode', 'district', 'state', 'country']
     
     def __init__(self, *args, **kwargs):
 
         super(AddressForm, self).__init__(*args, **kwargs )
 
         self.fields['house_name'].widget.attrs['placeholder'] = 'Enter House name'
+
+        self.fields["full_name"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form","placeholder":"Full Name"}
+        )
+        self.fields["phone_number"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form","pattern":"[0-9]{10}","placeholder":"Phone Number"}
+        )
+
 
         self.fields['landmark'].widget.attrs['placeholder'] = 'Enter Your Landmark'
 

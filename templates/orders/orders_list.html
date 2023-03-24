@@ -1,0 +1,249 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% block title %}Order details{% endblock %}
+
+
+{% block link %}
+<link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css"
+    integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv" crossorigin="anonymous">
+
+<style>
+    /* My Account */
+    .payments-item img.mr-3 {
+        width: 47px;
+    }
+
+    .order-list .btn {
+        border-radius: 2px;
+        min-width: 121px;
+        font-size: 13px;
+        padding: 7px 0 7px 0;
+    }
+
+    .osahan-account-page-left .nav-link {
+        padding: 18px 20px;
+        border: none;
+        font-weight: 600;
+        color: #eee;
+    }
+
+    .osahan-account-page-left .nav-link i {
+        width: 28px;
+        height: 28px;
+        background: #535665;
+        display: inline-block;
+        text-align: center;
+        line-height: 29px;
+        font-size: 15px;
+        border-radius: 50px;
+        margin: 0 7px 0 0px;
+        color: #fff;
+    }
+
+    .osahan-account-page-left .nav-link.active {
+        background: #eee;
+        color: #282c3f !important;
+    }
+
+    .osahan-account-page-left .nav-link.active i {
+        background: #282c3f !important;
+    }
+
+    .osahan-user-media img {
+        width: 90px;
+    }
+
+    .card offer-card h5.card-title {
+        border: 2px dotted #000;
+    }
+
+    .card.offer-card h5 {
+        border: 1px dotted #daceb7;
+        display: inline-table;
+        color: #17a2b8;
+        margin: 0 0 19px 0;
+        font-size: 15px;
+        padding: 6px 10px 6px 6px;
+        border-radius: 2px;
+        background: #fffae6;
+        position: relative;
+    }
+
+    .card.offer-card h5 img {
+        height: 22px;
+        object-fit: cover;
+        width: 22px;
+        margin: 0 8px 0 0;
+        border-radius: 2px;
+    }
+
+    .card.offer-card h5:after {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-bottom: 4px solid #daceb7;
+        content: "";
+        left: 30px;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .card.offer-card h5:before {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #daceb7;
+        content: "";
+        left: 30px;
+        position: absolute;
+        top: 0;
+    }
+
+    .payments-item .media {
+        align-items: center;
+    }
+
+    .payments-item .media img {
+        margin: 0 40px 0 11px !important;
+    }
+
+    .reviews-members .media .mr-3 {
+        width: 56px;
+        height: 56px;
+        object-fit: cover;
+    }
+
+    .order-list img.mr-4 {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+        border-radius: 2px;
+    }
+
+    .osahan-cart-item p.text-gray.float-right {
+        margin: 3px 0 0 0;
+        font-size: 12px;
+    }
+
+    .osahan-cart-item .food-item {
+        vertical-align: bottom;
+    }
+
+    .h1,
+    .h2,
+    .h3,
+    .h4,
+    .h5,
+    .h6,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #000000;
+    }
+
+    .shadow-sm {
+        box-shadow: 0.010rem .010rem .010rem .050rem rgba(0, 0, 0, 0) !important;
+    }
+
+    .rounded-pill {
+        border-radius: 50rem !important;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="container m-t-120 mb-5">
+
+    <div class="row mt-3 justify-content-center">
+
+        <!-- <div class="col-md-4">
+            <div class="osahan-account-page-left shadow-sm" style=" background-color: #eee!important;">
+                <div class="border-bottom p-4">
+
+                    <div class="osahan-user text-center">
+                        <div class="osahan-user-media">
+                            <img class="mb-3 rounded-pill shadow-sm mt-1" src="{{ user.user_image.url }}"
+                                alt="{{user.first_name}}">
+                            <div class="osahan-user-media-body">
+                                <h4 class="mt-2">{{user.first_name.upper}}</h4>
+                                <hr>
+                                <h6 class="mt-3">{{user.phone_number}}</h6>
+                                <h6 class="mt-3">{{user.email}}</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+
+        <div class="col-md-12">
+            <div class="osahan-account-page-right shadow-sm p-4 h-100">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane  fade  active show" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+
+                        <nav aria-label="breadcrumb mb-0" class="bg-dark rounded-3 p-2 mb-3">
+
+                            <h3 class="text-center text-light">Your Orders</h3>
+                        </nav>
+
+                        {% for order in orders %}
+                        <div class="bg-white card mb-2 order-list shadow-sm">
+                            <div class="gold-members p-4">
+
+                                <div class="media">
+                                  
+                                        <img class="mr-4" src="{{user.user_image.url}}"
+                                            alt="Generic placeholder image">
+                                    
+                                    <div class="media-body">
+                                        {% comment %} <a href="#">
+                                            <span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i
+                                                    class="icofont-check-circled text-success"></i></span>
+                                        </a> {% endcomment %}
+                                        <h6 class="mb-2">
+                                            <p class="text-tertiary">Order ID: <a href="{% url 'order_details' order.uid %}">order{{order.order_id }}</a></p>
+                                        </h6>
+                                       
+                                        <p class="text-gray mb-3"><i class="icofont-list"></i> Transaction ID: {{order.payment.transaction_id}}
+                                            <i class="icofont-clock-time ml-2"><br>
+                                            </i> Ordered date: {{ order.ordered_date }}
+                                        </p>
+                            
+                                        <hr>
+                                        <div class="float-right">
+                                            <a class="btn btn-sm btn-outline-dark rounded-pill" href="{% url 'order_invoice' order.uid %}">View Invoice</a>
+                                            <a class="btn btn-sm btn-dark rounded-pill" href="{% url 'order_details' order.uid %}">View Order <i class="fa-regular fa-eye"></i></a>
+                                        </div>
+                                        <p class="mb-0 text-black text-danger pt-2"><span
+                                                class="text-black font-weight-bold"> Total Paid:</span> ₹{{order.payment.grand_total}}.00
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
