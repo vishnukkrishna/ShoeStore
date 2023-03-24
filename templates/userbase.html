@@ -50,235 +50,216 @@
         />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     </head>
-    <body>
+        <body class="animsition">
 
-    <!-- Header NavBar -->
-    <header style="margin-bottom: 5%;">
-    <!-- Header desktop -->
-    <div class="container-menu-desktop">
-        <!-- Topbar -->
-        <div class="top-bar">
-            <div class="content-topbar flex-sb-m h-full container"></div>
-        </div>
+            <!-- Header NavBar -->
+            <header style="margin-bottom: 5%;">
+                <!-- Header desktop -->
+                <div class="container-menu-desktop">
+                <!-- Topbar -->
+                    <div class="top-bar">
+                        <div class="content-topbar flex-sb-m h-full container"></div>
+                    </div>
 
-        <div class="wrap-menu-desktop">
-            <nav class="limiter-menu-desktop container">
-                <!-- Logo desktop -->
-                <!-- ***** Logo Start ***** -->
-                <a href="{% url 'home' %}" class="logo">
-                    <img src="{% static 'img/Logo.png' %}" style="width: 85%" />
-                </a>
-                <!-- ***** Logo End ***** -->
+                    <div class="wrap-menu-desktop bg-light">
+                        <nav class="limiter-menu-desktop container">
+                            <!-- Logo desktop -->
+                            <a href="{% url 'home' %}" class="logo">
+                                <img src="{% static 'img/Logo.png' %}" style="width: 85%" />
+                            </a>
+                            <!-- ***** Logo End ***** -->
 
-                <!-- Menu desktop -->
-                <div class="menu-desktop">
-                    <ul class="main-menu">
-                        <li class="{% if '/' == request.path %}active-menu{% endif %}">
-                            <a href="{% url 'home' %}">Home</a>
-                        </li>
-                        <li class="{% if '/store/allproduct/' == request.path %}active-menu{% endif %}">
-                            <a href="{% url 'store' %}">Shop</a>
-                        </li>
-                        <li class="main-menu {% if '/store/search/mens/' == request.path %}active-menu{% endif %}">
-                            <a href="">Category</a>
-                            <ul class="sub-menu">
+                            <!-- Menu desktop -->
+                            <div class="menu-desktop">
+                                <ul class="main-menu">
+                                    <li class="{% if '/' == request.path %}active-menu{% endif %}">
+                                        <a href="{% url 'home' %}">Home</a>
+                                    </li>
+                                    <li class="{% if '/store/allproduct/' == request.path %}active-menu{% endif %}">
+                                        <a href="{% url 'store' %}">Shop</a>
+                                    </li>
+                                    <li class="main-menu {% if '/store/search/mens/' == request.path %}active-menu{% endif %}">
+                                        <a href="">Category</a>
+                                        <ul class="sub-menu">
+                                            {% for category in all_categories %}
+                                            <li>
+                                                <a href="{{category.get_absolute_url}}">{{category.name | capfirst}}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                    <li class="main-menu {% if '/store/brand/reebok/' == request.path %}active-menu{% endif %}">
+                                        <a href="">Brands</a>
+                                            <ul class="sub-menu">
+                                            {% for brand in all_brands %}
+                                            <li>
+                                                <a href="{{brand.get_absolute_url}}">{{brand.name | capfirst}}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                    <li class="{% if '/#footer1' == request.path %}active-menu{% endif %}">
+                                        <a href="#footer1">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Icon header -->
+                            <div class="wrap-icon-header flex-w flex-r-m">
+                                <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                                    <i style="font-size: 28px; color: black;" class="zmdi zmdi-search"></i>
+                                </div>
+
+                                <div class="menu-desktop">
+                                    <ul class="main-menu">
+                                        <li>
+                                            <a class="">                
+                                                <i style="font-size: 20px; color: black;" class="fa fa-user"></i>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                {% if user.id is None %}
+                                                <li><a href="{% url 'register' %}">Register</a></li>
+                                                <li><a href="{% url 'userlogin' %}">Login</a></li>
+                                            </ul>
+                                            {% else %}
+                                            <ul class="text-center fw-bold">
+                                                <li>Welcome <span class="text-danger text-uppercase">{{user.first_name}}</span></li>
+                                                <li><a href="{% url 'dashboard' %}">Profile</a></li>
+                                                <li><a href="{% url 'userlogout' %}">LogOut</a></li>
+                                            </ul>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="">
+                                    <i class="zmdi zmdi-favorite-outline"></i>
+                                </a>
+                                <a href="{% url 'cart-summary' %}">
+                                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="">
+                                        <i class="zmdi zmdi-shopping-cart"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="container-menu-desktop"></div>
+
+                <!-- Responsive header -->
+                <!--==============================================================-->
+                <div class="wrap-header-mobile">
+
+                    <!-- Logo Responsive -->
+                    <!--==============================================================-->
+                    <div class="logo-mobile">
+                        <a href="{% url 'home' %}"><img src="{% static 'img/Logo.png' %}" alt="IMG-LOGO"></a>
+                    </div>
+
+                    <!-- Icon headers -->
+                    <!--==============================================================-->
+                    <div class="wrap-icon-header flex-w flex-r-m m-r-15">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                            <i style="font-size: 30px; color: black;" class="zmdi zmdi-search"></i>
+                        </div>
+                    </div>
+
+                    <!-- Menubar admin -->
+                    <!--==============================================================-->
+                    <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- Collpsed menu -->
+                <!--==============================================================-->
+                <div class="menu-mobile">
+                    <ul class="main-menu-m">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+
+                        <li><a href="{% url 'store' %}">Shop</a></li>
+
+                        <li>
+                            <a href="#">Categories</a>
+                            <ul class="sub-menu-m">
                                 {% for category in all_categories %}
                                 <li>
                                     <a href="{{category.get_absolute_url}}">{{category.name | capfirst}}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
+                            <span class="arrow-main-menu-m">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </span>
                         </li>
 
-                        <li class="main-menu {% if '/store/brand/reebok/' == request.path %}active-menu{% endif %}">
-                            <a href="">Brands</a>
-                            <ul class="sub-menu">
+                        <li>
+                            <a href="#">Brands</a>
+                            <ul class="sub-menu-m">
                                 {% for brand in all_brands %}
                                 <li>
                                     <a href="{{brand.get_absolute_url}}">{{brand.name | capfirst}}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
+                            <span class="arrow-main-menu-m">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </span>
+                        </li>
+                        <li>
+                            <a href="{% url 'cart-summary' %}">My Cart</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'wishlist' %}">My Wishlist</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'dashboard' %}">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'userlogout' %}">LogOut</a>
                         </li>
 
-                        <li class="{% if '/#footer1' == request.path %}active-menu{% endif %}">
+                        {% else %}
+                        <li>
+                            <a href="{% url 'userlogin' %}">LogIn</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'register' %}">SignUp</a>
+                        </li>
+                        {% endif %}
+
+                        <li>
                             <a href="#footer1">Contact</a>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Icon header -->
-                <div class="wrap-icon-header flex-w flex-r-m">
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-                        <i class="zmdi zmdi-search" style="color: black;"></i>
+                <!-- Modal Search -->
+                <!-- Search modal -->
+                <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+                    <div class="container-search-header">
+                        <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+                            <img src="{% static 'images/icons/icon-close2.png' %}" alt="CLOSE">
+                        </button>
+
+                        <form action="{% url 'search' %}" class="wrap-search-header flex-w p-l-15" method="GET">
+                            <input class="plh3" type="text" placeholder="Search..." name="keyword">
+                            <button class="flex-c-m trans-04 me-3" type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
                     </div>
-
-                   <div class="menu-desktop">
-                        <ul class="main-menu">
-                            <li>
-                                <a class="">                
-                                    <i style="font-size: 20px; color: black;" class="fa fa-user"></i>
-                                </a>
-                                <ul class="sub-menu">
-                                    {% if user.id is None %}
-                                    <li><a href="{% url 'register' %}">Register</a></li>
-                                    <li><a href="{% url 'userlogin' %}">Login</a></li>
-                                </ul>
-                                {% else %}
-                                <ul class="text-center fw-bold">
-                                    <li>Welcome <span class="text-danger text-uppercase">{{user.first_name}}</span></li>
-                                    <li><a href="{% url 'dashboard' %}">Profile</a></li>
-                                    <li><a href="{% url 'userlogout' %}">LogOut</a></li>
-                                </ul>
-                                {% endif %}
-                            </li>
-                        </ul>
-                    </div>
-                    {% comment %} <div class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11" data-notify="0">
-                        <a href="{% url 'wishlist' %}">
-                            <i class="zmdi zmdi-favorite-outline" style="color: black;"></i>
-                        </a>
-                    </div>
-                    {% comment %} icon-header-noti {% endcomment %}
-                    {% comment %} <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="cart-qty" id="">
-                        <a href="{% url 'cart-summary' %}">
-                            <i class="zmdi zmdi-shopping-cart" style="color: black;"></i>
-                        </a>
-                    </div> {% endcomment %}
-                    <a href="{% url 'wishlist' %}"
-                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 "
-                        data-notify="">
-                        <i class="fa-regular fa-heart"></i>
-                    </a>
-                    <a href="{% url 'cart-summary' %}">
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 "
-                            data-notify="">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </div>
-                    </a>
-
-                </div>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Responsive header -->
-        <!--==============================================================-->
-        <div class="wrap-header-mobile">
-
-            <!-- Logo Responsive -->
-            <!--==============================================================-->
-            <div class="logo-mobile">
-                <a href=""><img src="{% static 'img/Logo.png' %}" alt="IMG-LOGO"></a>
-            </div>
-
-            <!-- Icon headers -->
-            <!--==============================================================-->
-            <div class="wrap-icon-header flex-w flex-r-m m-r-15">
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
 
-                <div class="menu-desktop">
-                    <ul class="main-menu">
-                        <li>
-                            <a class="">                
-                                <i style="font-size: 20px;" class="fa fa-user"></i>
-                            </a>
-                            <ul class="sub-menu">
-                                {% if user.id is None %}
-                                <li><a href="{% url 'register' %}">Register</a></li>
-                                <li><a href="{% url 'userlogin' %}">Login</a></li>
-                            </ul>
-                            {% else %}
-                            <ul class="sub-menu">
-                                <li><a href="">{{user.first_name}}</a></li>
-                                <li><a href="{% url 'dashboard' %}">Profile</a></li>
-                                <li><a href="{% url 'userlogout' %}">LogOut</a></li>
-                            </ul>
-                            {% endif %}
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                    data-notify="2"><a href="{% url 'cart-summary' %}"><i class="fa-solid fa-cart-shopping"></i></a>
-                    
-                </div>
-
-                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
-                    data-notify="0">
-                    <i class="fa-regular fa-heart"></i>
-                </a>
-            </div>
-
-            <!-- Menubar admin -->
-            <!--==============================================================-->
-            <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-                <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                </span>
-            </div>
-
-        </div>
-
-
-        <!-- Collpsed menu -->
-        <!--==============================================================-->
-        <div class="menu-mobile">
-            <ul class="main-menu-m">
-                <li><a href="{% url 'home' %}">Home</a></li>
-
-                <li><a href="{% url 'store' %}">Shop</a></li>
-
-                <li>
-                    <a href="#">Categories</a>
-                    <ul class="sub-menu-m">
-                        <li><a href="#">Mens</a></li>
-                        <li><a href="#">Womens</a></li>
-                        <li><a href="#">Kids</a></li>
-                    </ul>
-                    <span class="arrow-main-menu-m">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </span>
-                </li>
-
-                <li>
-                    <a href="#">Brands</a>
-                    <ul class="sub-menu-m">
-                        <li><a href="#">Adidas</a></li>
-                        <li><a href="#">Nike</a></li>
-                        <li><a href="#">Puma</a></li>
-                        <li><a href="#">Reebok</a></li>
-                    </ul>
-                    <span class="arrow-main-menu-m">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </span>
-                </li>
-
-                <li><a href="#footer1">Contact</a></li>
-            </ul>
-        </div>
-
-    <!-- Modal Search -->
-    <!-- Search modal -->
-    <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-        <div class="container-search-header">
-            <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-                <img src="{% static 'images/icons/icon-close2.png' %}" alt="CLOSE">
-            </button>
-
-            <form action="{% url 'search' %}" class="wrap-search-header flex-w p-l-15" method="GET">
-                <input class="plh3" type="text" placeholder="Search..." name="keyword">
-                <button class="flex-c-m trans-04 me-3" type="submit">
-                    <i class="zmdi zmdi-search"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-
-</header>
+            </header>
 {% comment %} NavBar End {% endcomment %}
 <!--===============================================================================================-->	
         {% block content %}{% endblock content %}
@@ -295,23 +276,11 @@
                         </h4>
         
                         <ul>
+                            {% for category in all_categories %}
                             <li class="p-b-10">
-                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                                    Womens
-                                </a>
+                                <a href="{{category.get_absolute_url}}" class="stext-107 cl7 hov-cl1 trans-04">{{category.name | capfirst}}</a>
                             </li>
-        
-                            <li class="p-b-10">
-                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                                    Mens
-                                </a>
-                            </li>
-        
-                            <li class="p-b-10">
-                                <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                                    Kids
-                                </a>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
         

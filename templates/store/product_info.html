@@ -110,80 +110,54 @@
             <div class="tab01">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs text-center" role="tablist">
-                    {% comment %} <li class="nav-item p-b-10">
-                        <a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a>
-                    </li> {% endcomment %}
-                    {% comment %} {% include 'includes/alerts.html' %} {% endcomment %}
                     <li class="nav-item p-b-10">
                         <a class="" style="font-size: large; color: black;" data-toggle="tab" href="#reviews" role="tab">Customer Reviews✨</a>
                     </li>
                     <hr>
                 </ul>
-                <hr>
-                {% comment %} <div>
-                    <ol class=" ">
-                        <li class="">
-                            {% for r in review %}
-                            <div class="ms-2">
-                                <div class="fw-bold">{{r.subject}}</div>
-                                {{r.review}}
-                            </div>
-                            <span class="badge bg-primary rounded-pill">{{r.rating}}</span>
-                            {% endfor %}
-                        </li>
-                    </ol>
-                </div> {% endcomment %}
-                {% if review %}
-                <section class="d-flex justify-content-center">
-                    {% for r in review %}
-                    <div class="col-md-4 mb-5 mb-md-0 text-center">
-                        <div class="d-flex justify-content-center mb-4">
-                            <img src="{{r.user.user_image.url}}"
-                                class="rounded-circle shadow-1-strong" width="80" height="80" />
-                        </div>
-                        
-                        <h5 class="mb-3">{{r.user.first_name}}</h5>
-                        <h6 class="mb-3">{{r.subject}}</h6>
-                        <h6 class="px-xl-3">{{r.review}}</h6>
-                        
-                        {% comment %} <ul class="list-unstyled d-flex justify-content-center mb-0">
-                            <li>
-                                <i class="fas fa-star fa-sm text-warning"></i>
-                            </li>
-                            <li>
-                                <i class="fas fa-star fa-sm text-warning"></i>
-                            </li>
-                            <li>
-                                <i class="fas fa-star fa-sm text-warning"></i>
-                            </li>
-                            <li>
-                                <i class="fas fa-star fa-sm text-warning"></i>
-                            </li>
-                            <li>
-                                <i class="fas fa-star-half-alt fa-sm text-warning"></i>
-                            </li>
-                        </ul> {% endcomment %}
-                        <span class="fs-18 cl11">
-                            <span>{{r.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
-                        </span>
-                    </div>
-                    {% endfor %}
-                    
-                </section>
-                {% endif %}
+
                 <hr>
 
+                <div class="container">
+                    <div class="row isotope-grid">
+                        {% if review %}
+                        {% for r in review %}
+                        <div class="col-sm-6 col-md-4 col-lg-4 p-b-35 isotope-item">
+                            <!-- Block2 -->
+                            <div class="block2">
+                                <div class="block2-pic hov-img0 text-center">
+                                    <img style="height: 100px;  width: 100px;" src="{{r.user.user_image.url}}" alt="AVATAR">
+
+                                </div>
+
+                                <div class="block2-txt flex-w flex-t p-t-14 ">
+                                    <div class="block2-txt-child1 flex-col-l justify-content-center">
+                                        <a href="" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
+                                            {{r.user.first_name}}
+                                        </a>
+
+                                        <p class="stext-105 cl3">
+                                            {{r.subject}}
+                                        </p>
+                                        <p class="stext-105 cl3">
+                                            {{r.review}}
+                                        </p>
+                                        <p class="fs-18 cl11">
+                                            <span>{{r.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <hr>
 
                 <!-- Tab panes -->
                 <div class="tab-content p-t-43">
-                    <!-- - -->
-                    {% comment %} <div class="tab-pane fade show active" id="description" role="tabpanel">
-                        <div class="how-pos2 p-lr-15-md">
-                            <p class="stext-102 cl6">Hiiiiiiiiiiiiiiiiiiiiiii</p>
-                        </div>
-                    </div> {% endcomment %}
-
-                    <!-- - -->
                     <!-- - -->
                     <div class="tab-pane fade fade show active" id="reviews" role="tabpanel">
                         <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
@@ -206,10 +180,7 @@
                                                 <i class="zmdi zmdi-star-half"></i>
                                             </span>
                                         </div>
-                                        {% comment %} <a href="{% url 'editreview' review.id %}"><button type="button" class="btn btn-outline-dark btn-sm" style="margin-left: 87%;">Edit Review</button></a> {% endcomment %}
                                         <br>&nbsp;&nbsp;&nbsp;
-                                        {% comment %} <a href="{% url 'deletereview' product.id %}"><button type="button" class="btn btn-outline-dark btn-sm" style="margin-left: 87%;">Delete</button></a> {% endcomment %}
-                                        {% comment %} <p class="stext-102 cl6">{{product.description}}</p> {% endcomment %}
                                         
                                     </div>
                                 </div>
@@ -223,16 +194,8 @@
                                     <h5 class="mtext-108 cl2 p-b-7">Add a review</h5>
                                     {% endif %}
                                     <div class="flex-w flex-m p-t-50 p-b-23">
-                                        <!-- <span class="stext-102 cl3 m-r-16 rate"> Your Rating </span> -->
                                         <label class="stext-102 cl3 m-r-16" for="">Your Rating</label><br>
-                                        <!-- <span class="wrap-rating fs-18 cl11 pointer">
-                                            <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                            <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                            <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                            <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                            <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                            <input class="dis-none" type="number" name="rating" />
-                                        </span> -->
+                                        
                                         <div class="rate">
                                             <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
                                             <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
@@ -257,15 +220,6 @@
                                                 name="subject"
                                             />
                                         </div>
-                                        {% comment %} <div class="col-12 p-b-5">
-                                            <label class="stext-102 cl3" for="image">Upload Picture :</label>
-                                            <input
-                                                class="size-111 bor8 stext-102 cl2 p-lr-20"
-                                                id="image"
-                                                type="file"
-                                                name="image"
-                                            />
-                                        </div> {% endcomment %}
                                         <div class="col-12 p-b-5">
                                             <label class="stext-102 cl3" for="review">Your review :</label>
                                             <textarea
@@ -282,7 +236,6 @@
                                     >
                                         Submit
                                     </button> 
-                                    {% comment %} <input type="submit" value="Submit Review" class="btn btn-primary"> {% endcomment %}
                                     {% else %}
                                     <p>You must be logged in to post a review. <span><a href="{% url 'userlogin' %}">Login Now</a></span></p>
                                     {% endif %}

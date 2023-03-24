@@ -3,9 +3,11 @@
     &nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;
-    <a href="{% url 'viewaddress' %}" class="btn btn-outline-dark py-2">Your Address</a>&nbsp;&nbsp;&nbsp;
-    <a href="{% url 'orders_list' %}" class="btn btn-outline-dark py-2">Your Orders</a>&nbsp;&nbsp;&nbsp;
-    <a href="{% url 'edit_profile' user.id %}" class="btn btn-outline-dark py-2">Edit Profile</a>&nbsp;&nbsp;&nbsp;
-    <a href="{% url 'change_password' user.id %}" class="btn btn-outline-dark py-2">Edit Password</a>&nbsp;&nbsp;&nbsp;
-    <a href="{% url 'userlogout' %}" class="btn btn-outline-dark py-2">Logout</a>
+    <div class="container">
+        <a href="{% url 'viewaddress' %}" class="btn btn-outline-dark py-2">Your Address</a>&nbsp;&nbsp;&nbsp;
+        <a href="{% url 'orders_list' %}" class="btn btn-outline-dark py-2">Your Orders</a>&nbsp;&nbsp;&nbsp;
+        <a href="{% url 'edit_profile' user.id %}" class="btn btn-outline-dark py-2">Edit Profile</a>&nbsp;&nbsp;&nbsp;
+        <a href="{% url 'change_password' user.id %}" class="btn btn-outline-dark py-2">Edit Password</a>&nbsp;&nbsp;&nbsp;
+        <a href="{% url 'userlogout' %}" class="btn btn-outline-dark py-2">Logout</a>
+    </div>
 </section>
