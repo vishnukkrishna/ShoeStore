@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from store.models import Product, Category, Brand, multipleImage
+from store.models import Product, Category, Brand, multipleImage, Variation, Color
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 # Create your views here.
@@ -376,3 +376,117 @@ def editProduct(request, id):
         messages.info(request, 'Some fields is empty')
 
         return render(request, 'productmanagement/productList.html', context)
+
+
+
+
+
+def variantsList(request):
+
+    variant = Variation.objects.all()
+
+    color = Color.objects.all()
+
+    product = Product.objects.all()
+
+    context = {
+
+        'variant': variant,
+        'color' : color,
+        'product': product,
+
+    }
+
+    return render(request, 'productmanagement/addVariants.html', context)
+
+
+
+
+
+
+def addColor(request):
+
+    if request.method == 'POST':
+
+        color = request.POST['color']
+
+        color_add = Color.objects.create(color=color)
+
+        color_add.save()
+
+        return redirect(variantsList)
+
+
+
+
+
+
+def addVariant(request):
+
+    if request.method=='POST':
+
+        color=request.POST['color']
+
+        product=request.POST['product']
+        
+        try:
+
+            product_instance=Product.objects.get(id=product)
+
+            color_intance=Color.objects.get(id=color)
+
+        except:
+
+            pass
+
+
+        variant=Variation.objects.create(color=color_intance,product=product_instance)
+
+        variant.save()
+
+        return redirect(variantsList)
+    
+    else:
+
+        return render(request, 'productmanagement/addVariants.html')
+
+
+
+def editVariant(request, id):
+
+    if request.method == 'POST':
+
+        color = request.POST['color']
+
+        try:
+
+            color_instance = Color.objects.get(id=color)
+
+        except:
+
+            pass
+
+
+        edit_variant = Variation.objects.filter(id=id)
+
+        edit_variant.update(color=color_instance)
+
+        return redirect(variantsList)
+    
+
+    else:
+
+        messages.info(request, 'Some fields is empty')
+
+        return redirect(variantsList)
+
+
+
+
+def deleteVariant(request,id):
+
+    del_variant = Variation.objects.filter(id=id)
+
+    del_variant.delete()
+
+    return redirect(variantsList)

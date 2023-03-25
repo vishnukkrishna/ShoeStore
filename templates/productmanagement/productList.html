@@ -22,7 +22,6 @@
                 <th scope="col">Serial No</th>
                 <th scope="col">Image</th>
                 <th scope="col">Name</th>
-                {% comment %} <th scope="col">Color</th> {% endcomment %}
                 <th scope="col">Description</th>
                 <th scope="col">Category</th>
                 <th scope="col">Brands</th>
@@ -46,7 +45,6 @@
 
                 </td>
                 <td>{{p.title}}</td>
-                {% comment %} <td>{{p.color}}</td> {% endcomment %}
                 <td>{{p.description}}</td>
                 <td>{{p.category}}</td>
                 <td>{{p.brand}}</td>
@@ -104,11 +102,6 @@
                                         id="form3Example1cg" class="form-control form-control-lg" />
                                     <label class="form-label" for="form3Example1cg">Description</label>
                                 </div>
-                                {% comment %} <div class="form-outline mb-3">
-                                    <input required name="color" value="{{p.color}}" type="text"
-                                        id="form3Example1cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example1cg">Color</label>
-                                </div> {% endcomment %}
                                 <div class="form-outline mb-3">
                                     <input name="stock" value="{{ p.stock }}" type="number"
                                         id="form3Example3cg" class="form-control form-control-lg" />
@@ -122,13 +115,13 @@
                                 </div>
                                 <div class="form-outline mb-3">
                                     <input required name="slug" value="{{p.slug}}" type="text"
-                                        id="form3Example1cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example1cg">Slug</label>
+                                        id="form3Example1cg" class="form-control form-control-lg" disabled/>
+                                    <label class="form-label" for="form3Example1cg">Slugfield</label>
                                 </div>
                                 <div class="form-outline mb-3">
                                     <input name="image" value="{{p.images}}" type="file"
                                         id="form3Example1cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example1cg">image</label>
+                                    <label class="form-label" for="form3Example1cg">Image</label>
                                 </div>
 
 

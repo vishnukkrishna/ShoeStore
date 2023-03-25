@@ -19,6 +19,17 @@ urlpatterns = [
 
     path('editproduct/<int:id>/', views.editProduct, name='editproduct'),
 
+    path('variants/', views.variantsList, name='variantslist'),
+
+    path('addcolor/', views.addColor, name='addcolor'),
+
+    path('addvariant/', views.addVariant, name='addvariant'),
+
+    path('editvariant/<int:id>/', views.editVariant, name='editvariant'),
+
+    path('deletevariant/<int:id>/', views.deleteVariant, name='deletevariant'),
+
+
 ]
 
 

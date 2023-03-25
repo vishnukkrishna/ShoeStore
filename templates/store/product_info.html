@@ -79,24 +79,30 @@
                                 </div>
                             </div>
                         </div>
-                        {% if product.stock < 0 %}
-                        <h4 class="text-center">Out of Stock</h4>
-                        {% else %}
-                        <div class="flex-w flex-r-m p-b-10">
-                            <div class="size-204 flex-w flex-m respon6-next">
-                                <a href="{% url 'add_cart' product.id %}?variant={{selected_variant}}"  
-                                class="btn btn-dark flex-c-m size-116 bor14 p-lr-15 js-addcart-detail mt-3" type="submit"> Add To Cart
-                                </a>
-                                <a
-                                    href="{% url 'add_wishlist' product.id %}"
-                                    class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10"
-                                    value="{{product.id}}"
-                                >
-                                    Add To WishList
-                                </a>
+                        <div class="align-items-center text-center">
+                            <div class="size-204 ">
+                                {% if product.stock < 1 %} 
+                                <img src="{% static 'img/out-of-stock.png' %}" width="150" height="150" alt="">
+                                    {% else %}
+                                    <a href="{% url 'add_cart' product.id %}?variant={{selected_variant}}"
+                                        type="submit" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15 js-addcart-detail m-t-10">
+                                        Add To Cart
+                                    </a>
+                                    {% endif %}
+
+                                    {% if in_wishlist %}
+                                    <a href="{% url 'add_wishlist' product.id %}"
+                                        class="btn btn-outline-success flex-c-m size-116 bor14 p-l-15 m-t-10">
+                                        Added to Wishlist
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'add_wishlist' product.id %}"
+                                        class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10">
+                                        Add To WishList
+                                    </a>
+                                    {% endif %}
                             </div>
                         </div>
-                        {% endif %}
                         <div>{% include 'includes/alerts.html' %}</div>
                     </div>
             </div>
@@ -111,55 +117,15 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs text-center" role="tablist">
                     <li class="nav-item p-b-10">
-                        <a class="" style="font-size: large; color: black;" data-toggle="tab" href="#reviews" role="tab">Customer Reviews✨</a>
+                        <a class="nav-link" style="font-size: large; color: black;" data-toggle="tab" href="#reviews" role="tab">Customer Reviews✨</a>
                     </li>
                     <hr>
                 </ul>
 
                 <hr>
 
-                <div class="container">
-                    <div class="row isotope-grid">
-                        {% if review %}
-                        {% for r in review %}
-                        <div class="col-sm-6 col-md-4 col-lg-4 p-b-35 isotope-item">
-                            <!-- Block2 -->
-                            <div class="block2">
-                                <div class="block2-pic hov-img0 text-center">
-                                    <img style="height: 100px;  width: 100px;" src="{{r.user.user_image.url}}" alt="AVATAR">
-
-                                </div>
-
-                                <div class="block2-txt flex-w flex-t p-t-14 ">
-                                    <div class="block2-txt-child1 flex-col-l justify-content-center">
-                                        <a href="" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
-                                            {{r.user.first_name}}
-                                        </a>
-
-                                        <p class="stext-105 cl3">
-                                            {{r.subject}}
-                                        </p>
-                                        <p class="stext-105 cl3">
-                                            {{r.review}}
-                                        </p>
-                                        <p class="fs-18 cl11">
-                                            <span>{{r.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-
-                <hr>
-
                 <!-- Tab panes -->
-                <div class="tab-content p-t-43">
-                    <!-- - -->
-                    <div class="tab-pane fade fade show active" id="reviews" role="tabpanel">
+                <div class="p-t-43">
                         <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                             <div class="p-b-30 m-lr-15-sm">
                                 <!-- Review -->
@@ -242,7 +208,42 @@
                                 </form>
                             </div>
                         </div>
+                </div>
+            </div>
+            <hr>
+            <div class="container">
+                <div class="row isotope-grid">
+                    {% if review %}
+                    {% for r in review %}
+                    <div class="col-sm-6 col-md-4 col-lg-4 p-b-35 isotope-item">
+                        <!-- Block2 -->
+                        <div class="block2">
+                            <div class="block2-pic hov-img0 text-center">
+                                <img style="height: 100px;  width: 100px;" src="{{r.user.user_image.url}}" alt="AVATAR">
+
+                            </div>
+
+                            <div class="block2-txt flex-w flex-t p-t-14 ">
+                                <div class="block2-txt-child1 flex-col-l justify-content-center">
+                                    <a href="" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
+                                        {{r.user.first_name}}
+                                    </a>
+
+                                    <p class="stext-105 cl3">
+                                        {{r.subject}}
+                                    </p>
+                                    <p class="stext-105 cl3">
+                                        {{r.review}}
+                                    </p>
+                                    <p class="fs-18 cl11">
+                                        <span>{{r.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

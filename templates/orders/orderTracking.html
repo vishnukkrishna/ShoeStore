@@ -5,7 +5,7 @@
 {% block title %}Order tracking{% endblock %}
 
 {% block link %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'css/tracking.css' %}">
 {% endblock %}
 {% block content %}
 
@@ -22,9 +22,6 @@
                                 </p>
                                 <p class="text-dark mb-0"> Place On: <span class="fw-bold text-body"><b>{{item.order.ordered_date}}</b></span> </p>
                             </div>
-                            {% comment %} <div>
-                                <h6 class="mb-0"> <a href="#">View Details</a> </h6>
-                            </div> {% endcomment %}
                         </div>
                     </div>
 
@@ -35,7 +32,6 @@
                                 <h6 class="bold text-dark mt-2">Price: <i class="text-danger">₹{{item.item_price}}.00 </i>
                                     x {{item.quantity}}
                                 </h6>
-                                {% comment %} <p class="text-dark mt-2">Qty: {{item.quantity}} </p> {% endcomment %}
                                 <h6 class="mb-3 mt-2 text-dark">Total :<i class="text-danger">₹{{item.item_total}}.00</i>
                                     <span class="small text-muted">({{item.order.payment.payment_method}})</span></h6>
 
@@ -71,6 +67,13 @@
                             <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
                             <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
                             <li class="step0 active text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+
+                            {% elif item.order_status == 'Cancelled' %}
+                            <h5> Order Cancelled. Amount will be refunded</h5>
+
+                            {% elif item.order_status == 'Refunded' %}
+                            <h5>Refund completed</h5>
+
                             {% endif %}
 
                         </ul>
@@ -82,8 +85,13 @@
                         <div class="d-flex justify-content-between">
 
                             <div class="border-start h-100"></div>
-                            <h5 class="fw-normal mb-0"><a href="#!">Cancel Order</a></h5>
-                            {% comment %} <h5 class="fw-normal mb-0"><a href="#!">Submit Review</a></h5> {% endcomment %}
+
+                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' %}
+                            <h5 class="fw-normal mb-0 text-secondary"><a>Cancelled Order</a></h5>
+                            {% else %}
+                            <h5 class="fw-normal mb-0 text-Primary"><a
+                                    href="{% url 'cancel_order' item.id item.order.order_id %}">Cancel Order</a></h5>
+                            {% endif %}
                             <div class="border-start h-100"></div>
                             
                         </div>

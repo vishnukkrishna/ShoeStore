@@ -3,10 +3,10 @@
     background: #a1c4fd;
     
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1));
+    background: -webkit-linear-gradient(to right, rgb(202, 222, 255), rgba(194, 233, 251, 1));
     
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1))
+    background: linear-gradient(to right, rgb(195, 215, 248), rgba(194, 233, 251, 1))
     }
     
     #progressbar-1 {
@@ -80,7 +80,7 @@
     
     #progressbar-1 li.active:before,
     #progressbar-1 li.active:after {
-    background: #1266f1;
+    background: #f11212;
     }
     
     .card-stepper {

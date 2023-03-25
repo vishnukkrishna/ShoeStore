@@ -26,7 +26,9 @@
                 <input value="" name="title" type="text" class="form-control" id="exampleFormControlInput1" />
             </div>
             <div class="mb-3 col-md-6">
-                <label for="exampleFormControlInput1" class="form-label fw-bold">Slug</label>
+                <label for="exampleFormControlInput1" class="form-label fw-bold">Slug</label>&nbsp;
+                <label class="form-label text-danger" for="">*optional
+                </label>
                 <input value="" name="slug" type="text" class="form-control" id="exampleFormControlInput1" />
             </div>
             <div class="mb-3 col-md-6">
@@ -37,10 +39,6 @@
                     {% endfor %}
                 </select>
             </div>
-            {% comment %} <div class="mb-3 col-md-6">
-                <label for="exampleFormControlInput1" class="form-label fw-bold">Color</label>
-                <input value="" name="color" type="text" class="form-control" id="exampleFormControlInput1" />
-            </div> {% endcomment %}
             <div class="mb-3 col-md-6">
                 <label for="exampleFormControlInput1" class="form-label fw-bold">Price</label>
                 <input name="price" type="number" class="form-control" id="exampleFormControlInput1" />
@@ -69,7 +67,10 @@
                 <input name="image" class="form-control" type="file" id="formFile" />
             </div>
             <div class="mb-3 col-md-6">
-                <label for="formFile" class="form-label fw-bold">Multiple Image</label>
+                <label for="formFile" class="form-label fw-bold">Multiple Image</label>&nbsp;
+                <label class="form-label text-danger" for="formFile">*Select two or more images for adding
+                    multiple
+                    images</label>
                 <input name="imagess" class="form-control" type="file" multiple id="formFile" />
             </div>
         </div>    
