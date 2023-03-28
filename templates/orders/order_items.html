@@ -1,0 +1,147 @@
+{% extends 'adminbase.html' %} 
+{% load static %} 
+{% block title %}Order management{% endblock %} 
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Order Management</h1>
+    </div>
+    <!-- End Page Title -->
+
+    <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+            <div class="card-body">
+                <h5 class="card-title">Ordered Item</h5>
+
+                {% include 'includes/alerts.html' %}
+
+                <table class="table table-borderless datatable">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 100px">Order ID</th>
+                            <th scope="col" class="text-center">Image</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col">Sub total</th>
+                            <th scope="col">Edit status</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_items %}
+                        <tr>
+                            <td style="width: 100px">{{item.order.order_id}}</td>
+                            <td class="text-center">
+                                <img
+                                    src="{{item.product.image.url}}"
+                                    style="width: 70px"
+                                    alt=".."
+                                />
+                            </td>
+                            <td>{{item.product}}</td>
+                            <td>₹{{item.item_price}}</td>
+                            <td class="text-center">{{item.quantity}}</td>
+                            <td>₹{{item.item_total}}</td>
+
+                            <td>
+                                <!--  Edit button -->
+                                <button
+                                    type="button"
+                                    class="btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editstatus{{ forloop.counter }}"
+                                >
+                                    <i class="fa-sharp fa-solid fa-pen-to-square fa-xl text-warning"></i>
+                                </button>
+                            </td>
+
+                            <td>
+                                {% if item.order_status == 'Ordered' %}
+                                <span class="badge bg-primary">{{item.order_status}}</span>
+
+                                {% elif item.order_status == 'Shipped' %}
+                                <span class="badge bg-warning">{{item.order_status}}</span>
+
+                                {% elif item.order_status == 'Delivered'%}
+                                <span class="badge bg-success">{{item.order_status}}</span>
+
+                                {% elif item.order_status == 'Cancelled' %}
+                                <span class="badge bg-secondary">{{item.order_status}}</span>
+
+                                {% else %}
+                                <span class="badge bg-danger">{{item.order_status}}</span>
+
+                                {% endif %}
+                            </td>
+
+                            <!-- Edit Modal -->
+                            <div
+                                class="modal fade"
+                                id="editstatus{{forloop.counter}}"
+                                tabindex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                            >
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Order Status</h1>
+                                            <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"
+                                            ></button>
+                                        </div>
+
+                                        <!-- Edit status-->
+                                        <div class="modal-body">
+                                            <form required
+                                                action="{% url 'status_update' item.id %}"
+                                                class="mx-1 mx-md-4"
+                                                method="POST">
+                                                {% csrf_token %}
+
+                                                <!-- CAtegory-->
+                                                <div class="mb-3">
+                                                    <select
+                                                        class="form-select"
+                                                        aria-label="Default select example"
+                                                        name="status"
+                                                        required
+                                                    >
+                                                        <option value="{{item.order_status}}" selected>
+                                                            {{item.order_status}}
+                                                        </option>
+                                                        {% for status in item.STATUS %}
+                                                        <option value="{{status.0}}">{{status.1}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-outline-dark"
+                                                        data-bs-dismiss="modal"
+                                                    >
+                                                        Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-dark">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end edit status -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

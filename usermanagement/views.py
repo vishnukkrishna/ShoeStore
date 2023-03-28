@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from accounts.models import Account
+from store.models import ReviewRating
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 # Create your views here.
 
 
@@ -51,3 +53,38 @@ def editUser(request, id):
     update_user.update(first_name=first_name, email=email)
 
     return redirect(userManagement)
+
+
+
+
+
+# Review Management #
+
+
+def review_management(request):
+
+    reviews = ReviewRating.objects.all()
+
+    return render(request, 'usermanagement/reviewManagement.html', {'reviews' : reviews})
+
+
+
+
+
+def remove_review(request, id):
+
+    try:
+
+        review = ReviewRating.objects.get(id=id)
+
+        review.delete()
+
+        messages.success(request, 'Review removed succesfully')
+
+        return redirect(review_management)
+    
+    except ReviewRating.DoesNotExist:
+
+        messages.warning(request, 'Oops!Something went wrong')
+
+        return redirect(review_management)

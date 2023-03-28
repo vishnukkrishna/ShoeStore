@@ -51,10 +51,22 @@
                             <h4 class="mtext-105 cl2 js-name-detail p-b-14">{{product.title}}</h4>
 
                             {% if variant_price %}
-                            <h3 class="mtext-106 cl2"> ₹{{ variant_price }}.00</h3>
+                            <h3 class="mtext-106 cl2"> ₹ {{ variant_price }}.00</h3>
                             {% else %}
-                            <h3 class="mtext-106 cl2">Rs: {{product.price}}</h3>
+                            <h3 class="mtext-106 cl2">₹ {{product.price}}</h3>
                             {% endif %}
+
+                            <span class="fs-18 cl11">
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star-half"></i>
+                            </span>
+                            <span>({{reviews}} Reviews)</span>  
+                            
+
+                            
 
                             <p class="stext-102 cl3 p-t-23">{{product.description}}</p>
                             <br /><br />
@@ -163,16 +175,16 @@
                                         <label class="stext-102 cl3 m-r-16" for="">Your Rating</label><br>
                                         
                                         <div class="rate">
-                                            <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
-                                            <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
-                                            <input type="radio" name="rating" id="rating8" value="4" required><label for="rating8" title="4"></label>
-                                            <input type="radio" name="rating" id="rating7" value="3.5" required><label for="rating7" title="3.5" class="half"></label>
-                                            <input type="radio" name="rating" id="rating6" value="3" required><label for="rating6" title="3"></label>
-                                            <input type="radio" name="rating" id="rating5" value="2.5" required><label for="rating5" title="2.5" class="half"></label>
-                                            <input type="radio" name="rating" id="rating4" value="2" required><label for="rating4" title="2"></label>
-                                            <input type="radio" name="rating" id="rating3" value="1.5" required><label for="rating3" title="1.5" class="half"></label>
-                                            <input type="radio" name="rating" id="rating2" value="1" required><label for="rating2" title="1"></label>
-                                            <input type="radio" name="rating" id="rating1" value="0.5" required><label for="rating1" title="0.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating10" value="5" required>  <label for="rating10" title="5"></label>
+                                            <input type="radio" name="rating" id="rating9" value="4.5" required> <label for="rating9" title="4.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating8" value="4" required>   <label for="rating8" title="4"></label>
+                                            <input type="radio" name="rating" id="rating7" value="3.5" required> <label for="rating7" title="3.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating6" value="3" required>   <label for="rating6" title="3"></label>
+                                            <input type="radio" name="rating" id="rating5" value="2.5" required> <label for="rating5" title="2.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating4" value="2" required>   <label for="rating4" title="2"></label>
+                                            <input type="radio" name="rating" id="rating3" value="1.5" required> <label for="rating3" title="1.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating2" value="1" required>   <label for="rating2" title="1"></label>
+                                            <input type="radio" name="rating" id="rating1" value="0.5" required> <label for="rating1" title="0.5" class="half"></label>
                                         </div>
                                     </div>
 

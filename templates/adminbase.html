@@ -29,6 +29,15 @@
 
         <!-- Template Main CSS File -->
         <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+
+        <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
+        <!-- data table links -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+                
     </head>
     <body>
 
@@ -44,12 +53,8 @@
             </div>
             <!-- End Logo -->
 
-            <div class="search-bar">
-                <form class="search-form d-flex align-items-center" method="POST" action="#">
-                    {% csrf_token %}
-                    <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
-                    <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-                </form>
+            <div class="" style="margin: 370px;">
+                <img src="{% static 'img/Logo.png' %}" style="width: 90%"/>
             </div>
             <!-- End Search Bar -->
 
@@ -64,8 +69,8 @@
 
                     <li class="nav-item dropdown pe-3">
                         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            <img src="{% static 'img/profile.png' %}" alt="Profile" class="rounded-circle" />
-                            <span class="d-none d-md-block dropdown-toggle ps-2">Vishnu K</span> </a
+                            <img src="{% static 'img/profile-pic3.jpg' %}" alt="Profile" class="rounded-circle" />
+                            <span class="d-none d-md-block dropdown-toggle ps-2">Vishnu Krishnakumar</span> </a
                         ><!-- End Profile Iamge Icon -->
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -116,14 +121,14 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'usermanagement' %}">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="bi bi-person"></i>
                         <span>Users</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'productmanagement' %}">
-                        <i class="fa-solid fa-bucket"></i>
+                        <i class="fa-brands fa-product-hunt"></i>
                         <span>Products</span>
                     </a>
                 </li>
@@ -144,14 +149,14 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'categorymanagement' %}">
-                        <i class="fa-solid fa-cart-shopping"></i>
+                        <i class="fa-sharp fa-solid fa-sitemap"></i>
                         <span>Categories</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'brandmanagement' %}">
-                        <i class="fa-brands fa-slack"></i>
+                        <i class="bi bi-menu-button-wide"></i>
                         <span>Brands</span>
                     </a>
                 </li>
@@ -165,8 +170,15 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'ordermanagement' %}">
-                        <i class="fa-solid fa-handshake"></i>
+                        <i class="bi bi-layout-text-window-reverse"></i>
                         <span>Orders</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'sales' %}">
+                        <i class="fa-regular fa-comments"></i>
+                        <span>Sales Report</span>
                     </a>
                 </li>
 
@@ -174,8 +186,15 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'couponlist' %}">
-                        <i class="bi bi-card-list"></i>
+                        <i class="fa-solid fa-ticket"></i>
                         <span>Coupons</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'review_management' %}">
+                        <i class="fa-regular fa-comments"></i>
+                        <span>Reviews</span>
                     </a>
                 </li>
             </ul>
@@ -194,6 +213,27 @@
         <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
         <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
         <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"> </script>
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"> </script>
+        <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons"></script>
+
+
+        <script>
+            $(document).ready(function() {
+            $('#example').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ]
+            } );
+        } );
+        </script>
 
         <!-- Template Main JS File -->
         <script src="{% static 'assets/js/main.js' %}"></script>

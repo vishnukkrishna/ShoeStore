@@ -4,6 +4,14 @@
 {% block content %}
 
 <!-- Checkout -->
+<style>
+    /* target the radio button */
+    input[type=radio] {
+        /* set width and height */
+        width: 18px;
+        height: 18px;
+    }
+</style>
 
 <div class="container">
   <div class="row m-t-100">
@@ -38,13 +46,8 @@
   
           {% for a in addresses %}
           {% if not a.id == default.default.id %}
-          <!-- <h3>{{forloop.counter}} address {{default.default.id}}</h3> -->
           <div class="card mb-3">
               <div class="card-body">
-                  {% comment %} {% if a.default %}
-                  Default
-                  <hr>
-                  {% endif %} {% endcomment %}
                   <h5 class="card-title">{{a.full_name}}<br>{{a.house_name}} (Ho), {{a.city}}</h5>
                   <p class="card-text">{{a.pincode}} </p>
                   <div>
@@ -57,10 +60,7 @@
                       <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_model-{{forloop.counter}}">
                           Delete
                       </a>
-  
-                      {% comment %} <a class="btn btn-light fw-bold" href="{% url 'default_address' a.id  %}">
-                          Default
-                      </a> {% endcomment %}
+
   
                       <!-- Modal -->
                       <div class="modal fade" id="delete_model-{{forloop.counter}}" tabindex="-1"
@@ -91,18 +91,44 @@
                       {% if not a.default %}
                       <a class="btn btn-sm btn-dark" href="{% url 'defaultaddress' a.id 2 %}">
                         Default
-                    </a>
+                      </a>
                     {% endif %}
                   </div>
               </div>
           </div>
           {% endif %}
           {% endfor %}
-  
-  
-  
+
+
+            {% comment %} {% for a in addresses %}
+            {% if not a.id == default.default.id %}
+            <div class="row mb-3">
+                <div class="col-lg-12 mb-3">
+                    <!-- Default checked radio -->
+                    <div class="form-check h-100 border rounded-3">
+                    <div class="p-3">
+                        <input class="form-check-input" type="radio" name="addressSelect" id="{{addresses}}" value="{{addresses.id}}" checked />
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            {{a.full_name}} <br />
+                            <small class="text-muted"> {{a.house_name}} (Ho), {{a.city}} </small>
+                        </label>
+                        <br>
+                        <a class="btn btn-sm btn-success" href="{% url 'editaddress' a.id %}">
+                            Edit
+                        </a>
+    
+                        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_model-{{forloop.counter}}">
+                            Delete
+                        </a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %} {% endcomment %}
+
+
           <a class="btn btn-primary cap" href="{% url 'addaddress' %}">Add new address</a></button>
-          </a>
           <br>
           <br>
           {% comment %} <div class="card">

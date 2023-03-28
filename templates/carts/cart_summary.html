@@ -88,21 +88,6 @@
                                         <small class="text-muted"></small>
                                     </div>
                                 </td>
-
-                                {% comment %} <td class="column-4 text-center">
-                                    <input type="hidden" class="prod_id" value="{{product.}}">
-                                    
-                                    <div data-index="{{product.id}}" class="wrap-num-product flex-w py-1">
-                                        <a href="{% url 'remove_cart' item.product.id item.id %}" data-index="" type="button" class=" btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" id="">
-                                            <i class="fs-16 zmdi zmdi-minus"></i>
-                                        </a>
-                                        <input id="quantity" class="mtext-104 cl3 txt-center num-product" type="number"
-                                            name="num-product1" value="{{item.quantity}}">
-                                        <a href="{% url 'add_cart' item.product.id %}" data-index=""  type="button" id="update-button" class="update-button plus-cart btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" id="{{product.id}}">
-                                            <i class="fs-16 zmdi zmdi-plus"></i>
-                                        </a>
-                                    </div>
-                                </td> {% endcomment %}
                                 <td class="column-4 text-center">
                                     <div class="wrap-num-product flex-w py-1">
 
@@ -182,6 +167,7 @@
                                 </button>
                             </div>
                         </form>
+                        
                         {% endif %}
                         {% include 'includes/alerts.html' %}
 

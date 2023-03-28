@@ -1,0 +1,102 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block title %}Review Management{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Review Lists</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
+                <li class="breadcrumb-item active">Users</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+
+
+            <div class="card-body">
+                <h5 class="card-title">Review List</h5>
+
+                {% include 'includes/alerts.html' %}
+                
+                <table class="table table-borderless datatable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Product</th>
+                            <th scope="col"></th>
+                            <th scope="col">User</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Review</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for r in reviews %}
+                    <tr>
+                        <th scope="row">{{r.id}}</th>
+                        <th scope="row">
+                            <img src="{{r.product.image.url}}" style="width:70px;" alt=..>
+                        </th>
+                        <td>{{r.product}}</td>
+                        <td>{{r.user.id}}</td>
+                        <td>{{r.subject}}</td>
+                        <td>{{r.review}}</td>
+                        <td>{{r.rating}}/5.0</td>
+
+                        <td>
+                                <!-- Delete Button -->
+                                <button type="button" class="btn" data-bs-toggle="modal"
+                                data-bs-target="#deletereview-{{ forloop.counter }}">
+                                <i class="fa-sharp fa-solid fa-trash fa-lg text-danger ms-2"></i>
+                            </button>
+
+                            <!--Modal: modalConfirmDelete-->
+                            <div class="modal fade" id="deletereview-{{forloop.counter}}" tabindex="-1"
+                                role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                                    <!--Content-->
+                                    <div class="modal-content text-center">
+                                        <!--Header-->
+                                        <div class="modal-header d-flex justify-content-center">
+                                            <p class="heading text-dark">Do you want to delete review for<br>
+                                                <b>{{r.product}}</b>?
+                                        </div>
+
+                                        <!--Body-->
+                                        <div class="modal-body">
+                                            <i class="fas fa-times fa-4x animated rotateIn text-dark"></i>
+                                        </div>
+
+                                        <!--Footer-->
+                                        <div class="modal-footer flex-center">
+                                            <a href="{% url 'remove_review' r.id %}"
+                                                class="btn  btn-outline-danger">Yes</a>
+                                            <button type="button" class="btn btn-danger waves-effect text-light"
+                                                data-bs-dismiss="modal">No</a>
+                                        </div>
+                                    </div>
+                                    <!--/.Content-->
+                                </div>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+{% endblock %}

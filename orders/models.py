@@ -43,7 +43,7 @@ class Order(BaseModel):
 
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True, blank=True)
 
-    ordered_date = models.DateTimeField(auto_now_add=True)
+    ordered_date = models.DateTimeField(auto_now_add=True, editable=False)
 
 
 
@@ -67,6 +67,9 @@ class OrderItem(models.Model):
         ('Refunded', 'Refunded')
 
     )
+
+    user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
+    
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

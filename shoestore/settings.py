@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dx@2hgkddvxaw2t!qe@5-c9)z9aurd+#gonoejfyn4ieu+8492'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -116,11 +119,11 @@ AUTH_USER_MODEL = 'accounts.Account'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shoestore',
-        'USER' : 'postgres',
-        'port' : '5432',
-        'PASSWORD' : '3254595',
-        'HOST' : 'localhost'
+        'NAME': os.getenv('NAME'),
+        'USER' : os.getenv('USER'),
+        'port' : os.getenv('PORT'),
+        'PASSWORD' : os.getenv('PASSWORD'),
+        'HOST' : os.getenv('HOST'),
     }
 }
 
@@ -174,11 +177,11 @@ MESSAGE_TAGS = {
 
 
 # SMTP Configuration
-EMAIL_HOST = 'smtp.gmail.com'
-EMAOL_PORT = 587
-EMAIL_HOST_USER = 'vishnukkrishna1999@gmail.com'
-EMAIL_HOST_PASSWORD = 'vuhhxgnaegjendwy'
-EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAOL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('TLS')
 
 
 LOGIN_URL = 'userlogin' #login
@@ -186,8 +189,8 @@ LOGOUT_URL = 'userlogout'  #logout
 LOGIN_REDIRECT_URL = 'home'
 # LOGOUT_REDIRECT_URL = 'userlogin' #login
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "564653391431-9f33d49sv5brs5j3pjq354nao0hp2qba.apps.googleusercontent.com"
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 # For extra info
 SOCIAL_AUTH_FACEBOOK_SCOPE = [
@@ -202,5 +205,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Razorpay
-KEY = 'rzp_test_LXZDJ9u8i9F7vG'
-SECRET = 'cvpNwKv76S5fKAlTCrNo3Vii'
+KEY = os.getenv('KEY')
+SECRET = os.getenv('SECRET')

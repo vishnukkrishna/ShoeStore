@@ -11,5 +11,9 @@ urlpatterns = [
 
     path('edituser/<int:id>', views.editUser, name='edituser'),
 
+    path('review-managemet/', views.review_management, name="review_management"),
+
+    path('remove-review/<int:id>/', views.remove_review, name="remove_review"),
+
 
 ]

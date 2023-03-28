@@ -50,7 +50,8 @@
         />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     </head>
-        <body class="animsition">
+    {% comment %} animsition {% endcomment %}
+        <body class="">
 
             <!-- Header NavBar -->
             <header style="margin-bottom: 5%;">
@@ -266,6 +267,12 @@
 <!--===============================================================================================-->	
 
 
+    <!-- Back to top -->
+    <div class="btn-back-to-top" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="zmdi zmdi-chevron-up"></i>
+        </span>
+    </div>
 {% comment %} Footer {% endcomment %}
         <footer id="footer1" class="bg3 p-t-75 p-b-32 mt-5">
             <div class="container">
@@ -392,12 +399,7 @@
             </div>
         </footer>
         <!-- Footer End -->
-        <!-- Back to top -->
-        <div class="btn-back-to-top" id="myBtn">
-            <span class="symbol-btn-back-to-top">
-                <i class="zmdi zmdi-chevron-up"></i>
-            </span>
-        </div>
+        
 
 <!--===============================================================================================-->	
     <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>

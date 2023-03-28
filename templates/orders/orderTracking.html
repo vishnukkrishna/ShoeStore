@@ -54,19 +54,41 @@
                         <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
 
                             {% if item.order_status == 'Ordered' %}
-                            <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
-                            <li class="step0 text-muted text-center" id="step2"><span>SHIPPED</span></li>
-                            <li class="step0 text-muted text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+                            <li class="step0 active" id="step1">
+                                <spanstyle="margin-left: 22px; margin-top:12px;">ORDERED</span>
+                            </li>
+                            <li class="step0 text-muted text-center" id="step2">
+                                <span>SHIPPED</span>
+                            </li>
+                            <li class="step0 text-muted text-right" id="step3">
+                                <spanstyle="">DELIVERED</span>
+                            </li>
+                            {% comment %} <li class="step0 text-muted text-right" id="step4"><spanstyle="margin-right:
+                                    22px;">DELIVERED</span></li>
+                            <li class="step0 text-muted text-right" id="step5"><spanstyle="margin-right:
+                                    22px;">DELIVERED</span></li> {% endcomment %}
 
                             {% elif item.order_status == 'Shipped' %}
-                            <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
-                            <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
-                            <li class="step0 text-muted text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+                            <li class="step0 active" id="step1">
+                                <spanstyle="margin-left: 22px; margin-top:12px;">ORDERED</span>
+                            </li>
+                            <li class="step0 active text-center" id="step2">
+                                <span>SHIPPED</span>
+                            </li>
+                            <li class="step0 text-muted text-right" id="step3">
+                                <spanstyle="margin-right:22px;">DELIVERED</span>
+                            </li>
 
                             {% elif item.order_status == 'Delivered' %}
-                            <li class="step0 active" id="step1"><spanstyle="margin-left: 22px; margin-top: 12px;">ORDERED</span></li>
-                            <li class="step0 active text-center" id="step2"><span>SHIPPED</span></li>
-                            <li class="step0 active text-end" id="step3"><spanstyle="margin-right: 22px;">DELIVERED</span></li>
+                            <li class="step0 active" id="step1">
+                                <spanstyle="margin-left: 22px; margin-top:12px;">ORDERED</span>
+                            </li>
+                            <li class="step0 active text-center" id="step2">
+                                <span>SHIPPED</span>
+                            </li>
+                            <li class="step0 active text-right" id="step3">
+                                <spanstyle="margin-right:22px;">DELIVERED</span>
+                            </li>
 
                             {% elif item.order_status == 'Cancelled' %}
                             <h5> Order Cancelled. Amount will be refunded</h5>

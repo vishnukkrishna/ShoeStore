@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from userhome.models import userAddress
 from django.contrib.auth.decorators import login_required
 from cart.models import Cart, CartItem
@@ -6,6 +6,8 @@ import razorpay
 from django.conf import settings
 from .models import Payment,Order,OrderItem
 from django.utils import timezone
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 
@@ -93,7 +95,7 @@ def orderSuccessfully(request):
 
         ordered_item = OrderItem.objects.create(
 
-            order=order, product=item.product, item_price=item.get_product_price(), quantity=item.quantity, item_total=item.get_sub_total()
+           user=user, order=order, product=item.product, item_price=item.get_product_price(), quantity=item.quantity, item_total=item.get_sub_total()
         )
 
         ordered_item.save()
@@ -191,10 +193,11 @@ def cancel_order(request, item_id=None, order_id=None):
 
     item = OrderItem.objects.get(order=order, id=item_id)
 
-    item_amount = item.item_total * 100
+    item_amount = int(item.item_total) * 100
 
 
     refund = client.payment.refund(payment_id,{'amount':item_amount})
+
 
     if refund is not None:
 
@@ -217,9 +220,9 @@ def orderManagement(request):
 
     context = {
 
-        'orders' : Order.objects.all(),
-
-        'items' : OrderItem.objects.all()
+        'orders' : Order.objects.all().order_by('-id'),
+        
+        'order_items' : OrderItem.objects.all()
 
     }
     
@@ -228,3 +231,80 @@ def orderManagement(request):
 
 
 
+
+def sales(request):
+
+    context = {}
+
+    if request.method == 'POST':
+
+        start_date = request.POST.get('start-date')
+
+        end_date = request.POST.get('end-date')
+
+        if start_date == '' or end_date == '':
+
+            messages.error(request,'Give date first')
+
+            return redirect(sales)
+
+        order_items = OrderItem.objects.filter(order__ordered_date__gte=start_date, order__ordered_date__lte=end_date)
+
+        if order_items:
+
+            print(order_items)
+
+            context.update(sales = order_items,s_date=start_date,e_date = end_date)
+
+        else:
+
+            messages.error(request,'no data found')
+
+    return render(request,'orders/salesReport.html',context)
+
+
+
+
+def order_items(request, id):
+
+    try:
+
+        order = Order.objects.get(id=id)
+
+        order_items = OrderItem.objects.filter(order=order).order_by('id')
+
+        return render(request, 'orders/order_items.html', {'order_items' : order_items})
+    
+    
+    except:
+
+        messages.error(request, 'Oops!Something gone wrong')
+
+        return redirect(orderManagement)
+    
+
+
+def status_update(request, id):
+
+    try:
+
+        order_item = OrderItem.objects.get(id=id, user=request.user)
+
+        if request.method == 'POST':
+
+            status = request.POST['status']
+
+            order_item.order_status = status
+
+            order_item.save()
+
+            messages.success(request, 'Status updated successfully')
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+
+    except OrderItem.DoesNotExist:
+
+        messages.error(request, 'Oops!Something gone wrong')
+        
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

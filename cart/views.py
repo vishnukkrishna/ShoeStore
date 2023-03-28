@@ -127,6 +127,12 @@ def add_cart(request,product_id):
 
                 cart=cart, product=product, variant=product_variant
             )
+
+            if cart_item.quantity >= product.stock:
+
+                messages.warning(request, "Sorry, the product is out of stock.")
+                
+                return redirect(cart_summary)
             
             cart_item.quantity += 1
 

@@ -109,6 +109,8 @@ def product_info(request, product_slug):
 
     variants = Variation.objects.filter(product=product)
 
+    reviews = ReviewRating.objects.filter(product=product).count()
+
     context = {
 
         'product':product,
@@ -118,6 +120,8 @@ def product_info(request, product_slug):
         'review': ReviewRating.objects.filter(product=product),
 
         'variants': variants,
+
+        'reviews': reviews
 
     }
 

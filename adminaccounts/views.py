@@ -3,13 +3,18 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from store.models import Carousel_Home, Account
-
+from store.models import Category, Product
+from orders.models import Order, Payment, OrderItem
+from cart.models import Coupon
+from django.db.models import  Sum
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 
 
 
 
 # Admin HomePage
+@login_required(login_url='adminlogin')
 def index(request):
 
     if not request.user.is_authenticated:
@@ -19,8 +24,58 @@ def index(request):
     elif not request.user.is_admin:
 
         return redirect(adminlogin)
+    
+    user = Account.objects.all().count()
 
-    return render(request, 'adminindex.html')
+    product = Product.objects.all().count()
+
+    category = Category.objects.all().count()
+
+    sales = OrderItem.objects.count()
+
+    orders = Order.objects.all().count()
+
+    item = OrderItem.objects.all()
+
+    delivered_orders = OrderItem.objects.filter().values('item_total')
+
+    revenue = 0
+
+    for order in delivered_orders:
+        
+        revenue += order['item_total']
+
+
+    recent_sale = OrderItem.objects.all().order_by('-id')[:5]
+
+    total_income = Payment.objects.aggregate(Sum('grand_total'))['grand_total__sum']
+
+    total_income = round(total_income, 2)
+
+
+    context = {
+
+        'user': user,
+
+        'category': category,
+
+        'product': product,
+
+        'sales': sales,
+
+        'orders': orders,
+
+        'item': item,
+
+        'total_income': total_income,
+        
+        'recent_sales':recent_sale,
+
+    }
+
+    
+
+    return render(request, 'adminindex.html', context)
 
 
 

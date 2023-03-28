@@ -1,10 +1,5 @@
-{% extends 'adminbase.html' %}
-{% load static %} 
-{% block title %}Admin Home{% endblock %} 
-
-{% block content %}
-
-{% comment %} Dashboard Nav {% endcomment %}
+{% extends 'adminbase.html' %} {% load static %} {% block title %}Admin Home{% endblock %} {% block content %} {% comment %}
+Dashboard Nav {% endcomment %}
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Dashboard</h1>
@@ -22,35 +17,15 @@
                 <div class="row">
                     <!-- Sales Card -->
                     <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"
-                                    ><i class="bi bi-three-dots"></i
-                                ></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
+                        <div class="card info-card revenue-card">
                             <div class="card-body">
-                                <h5 class="card-title">Sales <span>| Today</span></h5>
-
+                                <h5 class="card-title">Total Users</h5>
                                 <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                    >
-                                        <i class="bi bi-cart"></i>
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        {% comment %} <i class="fa-regular fa-user"></i> {% endcomment %}
                                     </div>
                                     <div class="ps-3">
-                                        <h6>145</h6>
-                                        {% comment %} <span class="text-success small pt-1 fw-bold">12%</span>
-                                        <span class="text-muted small pt-2 ps-1">increase</span> {% endcomment %}
+                                        <h6>{{user}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -61,34 +36,15 @@
                     <!-- Revenue Card -->
                     <div class="col-xxl-4 col-md-6">
                         <div class="card info-card revenue-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"
-                                    ><i class="bi bi-three-dots"></i
-                                ></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
                             <div class="card-body">
-                                <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                                <h5 class="card-title">Total Categories</h5>
 
                                 <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                    >
-                                        <i class="bi bi-currency-dollar"></i>
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        {% comment %} <i class="">C</i> {% endcomment %}
                                     </div>
                                     <div class="ps-3">
-                                        <h6>$3,264</h6>
-                                        {% comment %} <span class="text-success small pt-1 fw-bold">8%</span>
-                                        <span class="text-muted small pt-2 ps-1">increase</span> {% endcomment %}
+                                        <h6>{{category}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -98,35 +54,16 @@
 
                     <!-- Customers Card -->
                     <div class="col-xxl-4 col-xl-12">
-                        <div class="card info-card customers-card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"
-                                    ><i class="bi bi-three-dots"></i
-                                ></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
+                        <div class="card info-card revenue-card">
                             <div class="card-body">
-                                <h5 class="card-title">Customers <span>| This Year</span></h5>
+                                <h5 class="card-title">Total Products</h5>
 
                                 <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                    >
-                                        <i class="bi bi-people"></i>
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        {% comment %} <i class="fa-solid fa-boot-heeled">P</i> {% endcomment %}
                                     </div>
                                     <div class="ps-3">
-                                        <h6>1244</h6>
-                                        {% comment %} <span class="text-danger small pt-1 fw-bold">12%</span>
-                                        <span class="text-muted small pt-2 ps-1">decrease</span> {% endcomment %}
+                                        <h6>{{product}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -134,13 +71,68 @@
                     </div>
                     <!-- End Customers Card -->
 
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Sales</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        {% comment %} <i class="bi bi-cart"></i> {% endcomment %}
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{sales}} <span style="font-size: medium">Products</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Revenue Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Orders</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        {% comment %} <i class="bi bi-currency">O</i> {% endcomment %}
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{orders}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Revenue Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Revenue</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="fa-solid fa-indian-rupee-sig">₹</i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>₹ {{total_income}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Revenue Card -->
+
                     <!-- Reports -->
                     <div class="col-12">
                         <div class="card">
                             <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"
-                                    ><i class="bi bi-three-dots"></i
-                                ></a>
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
                                         <h6>Filter</h6>
@@ -170,10 +162,6 @@
                                                     name: "Revenue",
                                                     data: [11, 32, 45, 32, 34, 52, 41],
                                                 },
-                                                {
-                                                    name: "Customers",
-                                                    data: [15, 11, 32, 18, 9, 24, 11],
-                                                },
                                             ],
                                             chart: {
                                                 height: 350,
@@ -185,7 +173,7 @@
                                             markers: {
                                                 size: 4,
                                             },
-                                            colors: ["#4154f1", "#2eca6a", "#ff771d"],
+                                            colors: ["#4154f1", "#2eca6a"],
                                             fill: {
                                                 type: "gradient",
                                                 gradient: {
@@ -196,11 +184,11 @@
                                                 },
                                             },
                                             dataLabels: {
-                                                enabled: false,
+                                                enabled: true,
                                             },
                                             stroke: {
                                                 curve: "smooth",
-                                                width: 2,
+                                                width: 3,
                                             },
                                             xaxis: {
                                                 type: "datetime",
@@ -211,6 +199,8 @@
                                                     "2018-09-19T03:30:00.000Z",
                                                     "2018-09-19T04:30:00.000Z",
                                                     "2018-09-19T05:30:00.000Z",
+                                                    "2018-09-19T06:30:00.000Z",
+                                                    "2018-09-19T06:30:00.000Z",
                                                     "2018-09-19T06:30:00.000Z",
                                                 ],
                                             },
@@ -230,92 +220,107 @@
                 </div>
             </div>
             <!-- End Left side columns -->
+            <hr>
+            <hr>
+            <!-- Recent Sales -->
+            <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+                    <div class="card-body">
+                        <h5 class="card-title">Recent Sales <span>| Today</span></h5>
 
-            <!-- Right side columns -->
-            <div class="col-lg-12">
-                <!-- Website Traffic -->
-                <div class="card">
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start">
-                                <h6>Filter</h6>
-                            </li>
-
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="card-body pb-0">
-                        <h5 class="card-title">Sales <span>| Overall</span></h5>
-
-                        <div id="trafficChart" style="min-height: 400px" class="echart"></div>
-
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                                echarts.init(document.querySelector("#trafficChart")).setOption({
-                                    tooltip: {
-                                        trigger: "item",
-                                    },
-                                    legend: {
-                                        top: "5%",
-                                        left: "center",
-                                    },
-                                    series: [
-                                        {
-                                            name: "Access From",
-                                            type: "pie",
-                                            radius: ["40%", "70%"],
-                                            avoidLabelOverlap: false,
-                                            label: {
-                                                show: false,
-                                                position: "center",
-                                            },
-                                            emphasis: {
-                                                label: {
-                                                    show: true,
-                                                    fontSize: "18",
-                                                    fontWeight: "bold",
-                                                },
-                                            },
-                                            labelLine: {
-                                                show: false,
-                                            },
-                                            data: [
-                                                {
-                                                    value: 1048,
-                                                    name: "Search Engine",
-                                                },
-                                                {
-                                                    value: 735,
-                                                    name: "Direct",
-                                                },
-                                                {
-                                                    value: 580,
-                                                    name: "Email",
-                                                },
-                                                {
-                                                    value: 484,
-                                                    name: "Union Ads",
-                                                },
-                                                {
-                                                    value: 300,
-                                                    name: "Video Ads",
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                });
-                            });
-                        </script>
+                        <table class="table table-borderless datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in recent_sales %}
+                                <tr>
+                                    <th scope="row">{{sale.order.order_id}}</th>
+                                    <td>{{sale.order.user}}</td>
+                                    <td>{{sale.product.title}}</td>
+                                    <td>{{sale.quantity}}</td>
+                                    <td>₹ {{sale.product.price}}</td>
+                                    {% if sale.order_status == 'Ordered' %}
+                                    <td>
+                                        <span
+                                            style="
+                                                background-color: #fff2e1 !important;
+                                                color: #fdac41 !important;
+                                                border-radius: 0;
+                                            "
+                                            class="badge"
+                                            >{{sale.order_status}}</span
+                                        >
+                                    </td>
+                                    {% elif sale.order_status == 'Refunded' %}
+                                    <td>
+                                        <span
+                                            style="
+                                                background-color: #dff9ec !important;
+                                                color: #39da8a !important;
+                                                border-radius: 0;
+                                            "
+                                            class="badge"
+                                            >{{sale.order_status}}</span
+                                        >
+                                    </td>
+                                    {% elif sale.order_status == 'Cancelled' %}
+                                    <td>
+                                        <span
+                                            style="
+                                                background-color: #ffe4e4 !important;
+                                                color: #e85a5a !important;
+                                                border-radius: 0;
+                                            "
+                                            class="badge"
+                                            >{{sale.order_status}}</span
+                                        >
+                                    </td>
+                                    {% elif sale.order_status == 'Shipped' %}
+                                    <td>
+                                        <span
+                                            style="
+                                                background-color: #e5edfc !important;
+                                                color: #6d99eb !important;
+                                                border-radius: 0;
+                                            "
+                                            class="badge"
+                                            >{{sale.order_status}}</span
+                                        >
+                                    </td>
+                                    {% comment %} {% elif sale.order_status == 'Delivered' %} {% endcomment %}
+                                    {% else %}
+                                    <td>
+                                        <span
+                                            style="
+                                                background-color: #dff9ec !important;
+                                                color: #39da8a !important;
+                                                border-radius: 0;
+                                            "
+                                            class="badge"
+                                            >{{sale.order_status}}</span
+                                        >
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <!-- End Website Traffic -->
             </div>
-            <!-- End Right side columns -->
+            <!-- End Recent Sales -->
         </div>
     </section>
 </main>
-{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/sales-chart.js' %}"></script>
+{% endblock %} {% endblock %}

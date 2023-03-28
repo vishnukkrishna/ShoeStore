@@ -1,76 +1,68 @@
-{%extends 'adminbase.html'%}
-{% load static %}
-{% block title %}Orders{% endblock  %}
+{% extends 'adminbase.html' %} 
+{% load static %} 
+{% block title %}Order management{% endblock %} 
 {% block content %}
-
 <main id="main" class="main">
-
     <div class="pagetitle">
-        <h1>Orders Lists</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
-                <li class="breadcrumb-item active">Order</li>
-            </ol>
-        </nav>
+        <h1>Order management</h1>
     </div>
+    <!-- End Page Title -->
 
-    <section class="section dashboard">
-        <div class="row">
-    </section>
+    <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+            <div class="card-body">
+                <h5 class="card-title">Orders list</h5>
 
+                {% include 'includes/alerts.html' %}
 
-    {% comment %} <div class="input-group">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-            aria-describedby="search-addon" />
-        <button type="button" class="btn btn-outline-primary">search</button>
-    </div> {% endcomment %}
-    <table class="table table-bordered">
+                <table class="table table-borderless datatable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col" class="text-center">Customer</th>
+                            <th scope="col">Delivery address</th>
+                            <th scope="col">Ordered date</th>
+                            <th scope="col">Payment</th>
+                            <th scope="col">Sub total</th>
+                            <th scope="col">Tax</th>
+                            <th scope="col">Grand Total</th>
+                            {% comment %}
+                            <th scope="col">Coupon</th>
+                            {% endcomment %}
+                            <th scope="col">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for o in orders %}
+                        <tr>
+                            <td>{{o.order_id}}</td>
+                            <td class="text-center">{{o.user.id}}</td>
+                            <td>
+                                {{o.delivery_address.full_name}}, {{o.delivery_address.house_name}},
+                                {{o.delivery_address.city}}, {{o.delivery_address.district}}, {{o.delivery_address.state}},
+                                PIN: {{o.delivery_address.pin}}
+                            </td>
+                            <td>{{o.ordered_date}}</td>
+                            <td>{{o.payment.payment_method}}</td>
+                            <td>₹{{o.payment.cart_total}}</td>
+                            <td>₹{{o.payment.tax}}</td>
+                            <td class="text-center">₹{{o.payment.grand_total}}</td>
+                            {% comment %}
+                            <td class="text-center">coupon</td>
+                            {% endcomment %}
 
-        <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Date</th>
-                <th scope="col">Customer</th>
-                <th scope="col">Product</th>
-                <th scope="col">Price</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <th scope="row">{{item.order.order_id}}</th>
-                <th scope="row">{{item.order.ordered_date}}</th>
-                <td>{{item.order.user}}</td>
-                <td>
-            
-                        {{item.product}}
-                   
-                </td>
-                <td>
-                  {{item.item_total}}
-                </td>
-                <td><span class="badge bg-success">{{item.order.status}}</span></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+                            <td>
+                                <a href="{% url 'order_items' o.id %}" type="button" class="btn"
+                                    ><i class="fa-solid fa-eye fa-lg text-warning"></i
+                                ></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    </div>
-    </div><!-- End Recent Sales -->
-
-    </div>
-    </div><!-- End Left side columns -->
-
-
-
+    {% include 'includes/alerts.html' %}
 </main>
-
-
-
-
-
-
 {% endblock %}
