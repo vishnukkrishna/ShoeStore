@@ -189,7 +189,7 @@
                                     </div>
 
                                     <div class="row p-b-25">
-                                        <div class="col-12 p-b-5">
+                                        {% comment %} <div class="col-12 p-b-5">
                                             <label class="stext-102 cl3" for="name">Review Title :</label>
                                             <input
                                                 class="size-111 bor8 stext-102 cl2 p-lr-20"
@@ -197,7 +197,7 @@
                                                 type="text"
                                                 name="subject"
                                             />
-                                        </div>
+                                        </div> {% endcomment %}
                                         <div class="col-12 p-b-5">
                                             <label class="stext-102 cl3" for="review">Your review :</label>
                                             <textarea
@@ -235,19 +235,19 @@
 
                             </div>
 
-                            <div class="block2-txt flex-w flex-t p-t-14 ">
-                                <div class="block2-txt-child1 flex-col-l justify-content-center">
+                            <div class="p-t-14 text-center">
+                                <div>
                                     <a href="" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
                                         {{r.user.first_name}}
                                     </a>
 
-                                    <p class="stext-105 cl3">
+                                    {% comment %} <p class="stext-105 cl3 text-center">
                                         {{r.subject}}
-                                    </p>
-                                    <p class="stext-105 cl3">
+                                    </p> {% endcomment %}
+                                    <p class="stext-105 cl3 text-center">
                                         {{r.review}}
                                     </p>
-                                    <p class="fs-18 cl11">
+                                    <p class="fs-18 cl11 text-center">
                                         <span>{{r.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
                                     </p>
                                 </div>

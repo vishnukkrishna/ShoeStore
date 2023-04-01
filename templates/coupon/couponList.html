@@ -31,15 +31,6 @@
                 <div class="col-12">
                     <div class="card recent-sales overflow-auto">
 
-                        {% comment %} <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-                            </ul>
-                        </div> {% endcomment %}
-
                         <div class="card-body">
 
                             <table class="table table-bordered datatable">
@@ -68,6 +59,71 @@
                                         {% endif %}
 
                                         <td>
+
+                                             <!--  Edit button -->
+                                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">
+                                                <i class="fa-sharp fa-solid fa-pen-to-square fa-xl text-warning"></i>
+                                            </button>
+
+                                            <!-- Edit Modal -->
+                                            <div class="modal fade" id="edit{{forloop.counter}}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Coupon</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+
+                                                    <!-- Edit Name-->
+                                                    <div class="modal-body">
+
+                                                        <form required action="{% url 'edit_coupon' coupon.id %}" class="mx-1 mx-md-4" method="POST">
+                                                            {% csrf_token %}
+
+                                                            <!-- Coupon code -->
+                                                            <div class="d-flex flex-row align-items-center mb-4">
+                                                                <div class="form-outline flex-fill mb-0">
+                                                                    <input type="text" value="{{ coupon.coupon_code }}" id="form3Example1c" class="form-control" name="coupon_code" required/>
+                                                                        <label class="form-label" for="form3Example1c">Coupon code</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+
+                                                                <!-- Discount Price -->
+                                                                <div class="d-flex flex-row align-items-center mb-3 col-md-6">
+                                                                <div class="form-outline flex-fill mb-0">
+                                                                    <input type="number" id="form3Example1c" class="form-control" name="dis_price" value="{{coupon.discount_price}}" required/>
+                                                                    <label class="form-label" for="form3Example1c">Discount Price</label>
+                                                                </div>
+                                                                </div>
+                                    
+                                                                <!-- Min amount -->
+                                                                <div class="d-flex flex-row align-items-center mb-3 col-md-6">
+                                                                <div class="form-outline flex-fill mb-0">
+                                                                    <input type="number" id="form3Example1c" class="form-control" name="min_amount" value="{{coupon.min_amount}}" required/>
+                                                                    <label class="form-label" for="form3Example1c">Min amount</label>
+                                                                </div>
+                                                                </div>
+                                    
+                                                            </div>
+
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-outline-dark"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-dark">Apply</button>
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end edit category -->
+
                                             <!-- Button trigger modal -->
                                             <a type="button" class="fs-4 text-danger" data-bs-toggle="modal"
                                                 data-bs-target="#confirmDelete{{forloop.counter}}">
@@ -100,9 +156,6 @@
                                                                 <button type="submit"
                                                                     class="btn btn-danger">Confirm</button>
                                                             </form>
-                                                            {% comment %} <button type="button"
-                                                                class="btn btn-secondary"
-                                                                data-dismiss="modal">Close</button> {% endcomment %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -174,12 +227,16 @@
     </div><!-- End Left side columns -->
 </main>
 
-    <script>
-        let today = new Date().toISOString().substr(0, 10);
-        document.querySelector("#form3Example3cgfdgfdg").setAttribute("min", today);
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous">
+</script>
 
-        setTimeout(function () {
-            $('#message').fadeOut('slow')
-        }, 2000)
-    </script>
+<script>
+    let today = new Date().toISOString().substr(0, 10);
+    document.querySelector("#form3Example3cgfdgfdg").setAttribute("min", today);
+
+    setTimeout(function () {
+        $('#message').fadeOut('slow')
+    }, 2000)
+</script>
 {% endblock content %}

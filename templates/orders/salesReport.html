@@ -77,21 +77,12 @@
                                             <tr>
                                                 <td>{{sale.order.order_id}}</td>
                                                 <td>{{sale.order.user}}</td>
-                                                <td>{{sale.variant}}</td>
+                                                <td>{{sale.product.title}} ({{sale.variant}})</td>
                                                 <td>{{sale.order.ordered_date.date}}</td>
                                                 <td>{{sale.item_price}}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Customer</th>
-                                                <th>Product</th>
-                                                <th>Date</th>
-                                                <th>Price</th>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                     {% endif %} {% for m in messages %}
                                     <div class="alert alert-info" id="message" role="alert">{{m}}</div>

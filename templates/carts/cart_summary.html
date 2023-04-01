@@ -129,21 +129,6 @@
                             {% endfor %}
                         </table>
                     </div>
-                    <br>
-                    <div style="padding-left: 4%;">
-                        {% if coupon %}
-                        <h5>Available Coupon</h5>
-                        {% else %}
-                        <h6>No Coupon</h6>
-                        {% endif %}
-                        {% for c in coupon %}
-                        <br>
-                        <h6 style="color:red;">{{c.coupon_code}}</h6>
-                        {% endfor %}
-                        
-
-                    </div>
-
                     <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
                         
                         {% if cart.coupon %}
@@ -154,20 +139,70 @@
                             </a>
                             
                         {% else %}
-                        <span class="m-r-10">Have Coupon?</span>
+                        <!--Section: Apply Coupon -->
                         <form action="{% url 'apply_coupon' %}" method="POST">
                             {% csrf_token %}
                             <div class="flex-w flex-m m-r-20 m-tb-5">
-                                <input required class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
-                                    name="coupon" placeholder="Coupon Code">
+                                <input required class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5"
+                                    type="text" name="coupon" placeholder="Coupon Code">
 
                                 <button
-                                    class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" type="submit">
+                                    class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
+                                    type="submit">
                                     Apply coupon
                                 </button>
                             </div>
                         </form>
+                        <br>
+
+                        <button type="button"
+                            class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 trans-04 pointer m-tb-5"
+                            data-toggle="modal" data-target="#modalDiscount">View
+                            Coupons
+                        </button>
                         
+                        <!--Modal: coupons list -->
+                        <div class="modal fade right" id="modalDiscount" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
+                            <div class="modal-dialog modal-danger" role="document">
+                                <!--Content-->
+                                <div class="modal-content">
+
+                                    <!--Body-->
+                                    <div class="modal-body modal-body-scrollable">
+
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <p class="text-center">
+
+                                                    <i class="fas fa-gift fa-4x text-danger"></i>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-9">
+                                                {% for coupon in coupon %}
+                                                <p class="text-dark"> <b class="text-danger">{{coupon.coupon_code}}</b>
+                                                    : ₹{{coupon.discount_price}} OFF on orders above
+                                                    ₹{{coupon.min_amount}} </p>
+                                                <hr>
+                                                {% endfor %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!--Footer-->
+                                    <div class="modal-footer flex-center">
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Got it
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End coupon list-->
+
                         {% endif %}
                         {% include 'includes/alerts.html' %}
 
@@ -221,13 +256,13 @@
 
                     <div class="flex-w flex-t p-t-27 p-b-33">
                         <div class="size-208">
-                            <span class="mtext-101 cl2">
-                                Total:
+                            <span class="mtext-103 cl2">
+                                Grand Total:
                             </span>
                         </div>
 
-                        <div class="size-209 p-t-1">
-                            <span class="mtext-110 cl2">
+                        <div class="size-209 p-t-6">
+                            <span class="mtext-103 cl2">
                                 Rs. {{ cart.get_grand_total }}/-
                             </span>
                         </div>
