@@ -52,42 +52,6 @@
                   <p class="card-text">{{a.pincode}} </p>
                   <div>
   
-  
-                      <a class="btn btn-sm btn-success" href="{% url 'editaddress' a.id %}">
-                          Edit
-                      </a>
-  
-                      <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_model-{{forloop.counter}}">
-                          Delete
-                      </a>
-
-  
-                      <!-- Modal -->
-                      <div class="modal fade" id="delete_model-{{forloop.counter}}" tabindex="-1"
-                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <h4 class="modal-title text-dark" id="exampleModalLabel">
-                                          Delete Address</h4>
-                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body">
-                                      Are you sure to delete this address?</span>
-  
-                                  </div>
-                                  <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary"
-                                          data-bs-dismiss="modal">Close</button>
-                                      <form action="{% url 'deleteaddress' a.id %}" style="float: right;" method="post" class="float-right d-inline">
-                                          {% csrf_token %}
-                                          <button type="submit" class="btn btn-primary">Delete</button>
-                                      </form>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
                       {% if not a.default %}
                       <a class="btn btn-sm btn-dark" href="{% url 'defaultaddress' a.id 2 %}">
                         Default

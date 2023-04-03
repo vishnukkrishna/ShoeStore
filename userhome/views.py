@@ -4,6 +4,7 @@ from .forms import AddressForm
 from django.contrib.auth.decorators import login_required
 from orders.views import checkOut
 from django.urls import reverse
+from django.contrib import messages
 # Create your views here.
 
 
@@ -39,16 +40,20 @@ def addAddress(request, num=0):
             
             if number == 1:
 
-                return HttpResponseRedirect(reverse(viewAddress))
+                return redirect(viewAddress)
             
             elif number == 2:
 
-                return HttpResponseRedirect(reverse(checkOut))
+                return redirect(checkOut)
+            
+        # if form is not valid, add an error message
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
 
         form = AddressForm()
 
-    return render(request,'userhome/addAddress.html', {'form':form, "num" : num})
+    return render(request,'userhome/addAddress.html', {'form':form, 'num' : num})
 
 
 @login_required
