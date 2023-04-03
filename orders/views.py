@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from userhome.models import userAddress
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from cart.models import Cart, CartItem
 import razorpay
 from django.conf import settings
@@ -8,6 +8,8 @@ from .models import Payment,Order,OrderItem
 from django.utils import timezone
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from productmanagement.views import superadmin_check
+from cart.views import cart_summary
 # Create your views here.
 
 
@@ -29,13 +31,17 @@ def checkOut(request):
 
         payment = client.order.create({'amount' : int(cart.get_grand_total()) * 100, 'currency' : 'INR', 'payment_capture': 1})
 
+        cart.razor_pay_order_id=payment['id']
+
+        cart.save()
+
     except:
 
-        pass #Just Ignore 
-        
-    cart.razor_pay_order_id=payment['id']
+        # messages.warning(request, 'Add product with stock')
 
-    cart.save()
+        return redirect(cart_summary)
+        
+    
 
     context = {
 
@@ -50,12 +56,18 @@ def checkOut(request):
 
 
 
-login_required
+@login_required
 def orderSuccessfully(request):
 
-    razorpay_order_id = request.GET.get('razorpay_order_id') 
-    
-    cart = Cart.objects.get(user=request.user,razor_pay_order_id=razorpay_order_id)
+    try:
+
+        razorpay_order_id = request.GET.get('razorpay_order_id') 
+        
+        cart = Cart.objects.get(user=request.user,razor_pay_order_id=razorpay_order_id)
+
+    except:
+
+        return redirect(cart_summary)
 
 
     # Payment details storing
@@ -116,7 +128,7 @@ def orderSuccessfully(request):
 
 
 
-login_required
+@login_required
 def orders_list(request):
 
     orders = Order.objects.filter(user=request.user).order_by('-id')
@@ -126,7 +138,7 @@ def orders_list(request):
 
 
 
-login_required
+@login_required
 def order_details(request,order_id):
 
     try:
@@ -145,7 +157,7 @@ def order_details(request,order_id):
 
 
 
-login_required
+@login_required
 def order_tracking(request, item_id):
 
     current_date = timezone.now()
@@ -163,7 +175,7 @@ def order_tracking(request, item_id):
 
 
 
-login_required
+@login_required
 def order_invoice(request, order_id):
 
     order = Order.objects.get(uid=order_id,user=request.user)
@@ -193,7 +205,7 @@ def cancel_order(request, item_id=None, order_id=None):
 
     item = OrderItem.objects.get(order=order, id=item_id)
 
-    item_amount = int(item.item_total) * 100
+    item_amount = item.order.payment.grand_total
 
 
     refund = client.payment.refund(payment_id,{'amount':item_amount})
@@ -202,6 +214,10 @@ def cancel_order(request, item_id=None, order_id=None):
     if refund is not None:
 
         item.order_status = 'Refunded'
+
+        item.product.stock += item.quantity
+
+        item.product.save()
 
         item.save()
 
@@ -212,10 +228,10 @@ def cancel_order(request, item_id=None, order_id=None):
         return HttpResponse('Payment Not Captured')
 
 
-
+# ................................................................................. #
 
 # Admin Side #
-
+@user_passes_test(superadmin_check)
 def orderManagement(request):
 
     context = {
@@ -231,7 +247,7 @@ def orderManagement(request):
 
 
 
-
+@user_passes_test(superadmin_check)
 def sales(request):
 
     context = {}
@@ -264,7 +280,7 @@ def sales(request):
 
 
 
-
+@user_passes_test(superadmin_check)
 def order_items(request, id):
 
     try:
@@ -283,7 +299,7 @@ def order_items(request, id):
         return redirect(orderManagement)
     
 
-
+@user_passes_test(superadmin_check)
 def status_update(request, id):
 
     try:

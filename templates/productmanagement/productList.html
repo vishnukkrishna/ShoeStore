@@ -79,6 +79,7 @@
                                 <div class="form-outline mb-3">
                                     <label class="form-label" for="form3Example3cg">Category</label>
                                     <select name="category" id="category">
+                                        <option value="{{p.category.id}}">{{p.category.name}}</option>
                                         {% for c in category %}
                                         <option value="{{ c.id }}">
                                             {{ c.name }}
@@ -90,6 +91,7 @@
                                 <div class="form-outline mb-3">
                                     <label class="form-label" for="form3Example3cg">Brand</label>
                                     <select name="brand" id="brand">
+                                        <option value="{{p.brand.id}}">{{p.brand.name}}</option>
                                         {% for b in brand %}
                                         <option value="{{ b.id }}">
                                             {{ b.name }}

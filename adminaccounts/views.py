@@ -3,18 +3,19 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import auth
 from django.contrib import messages
 from store.models import Carousel_Home, Account
-from store.models import Category, Product
 from orders.models import Order, Payment, OrderItem
-from cart.models import Coupon
-from django.db.models import  Sum
+from django.db.models import Sum, DateField
 from django.contrib.auth.decorators import login_required, user_passes_test
+from productmanagement.views import superadmin_check
+from datetime import datetime, timedelta
+from django.db.models.functions import TruncDay, Cast
 # Create your views here.
 
 
 
 
 # Admin HomePage
-@login_required(login_url='adminlogin')
+@user_passes_test(superadmin_check)
 def index(request):
 
     if not request.user.is_authenticated:
@@ -25,51 +26,39 @@ def index(request):
 
         return redirect(adminlogin)
     
+    sales = OrderItem.objects.all().count()
+
     user = Account.objects.all().count()
 
-    product = Product.objects.all().count()
-
-    category = Category.objects.all().count()
-
-    sales = OrderItem.objects.count()
-
-    orders = Order.objects.all().count()
-
-    item = OrderItem.objects.all()
-
-    delivered_orders = OrderItem.objects.filter().values('item_total')
-
-    revenue = 0
-
-    for order in delivered_orders:
-        
-        revenue += order['item_total']
+    recent_sale = Order.objects.all().order_by('-id')[:5]
 
 
-    recent_sale = OrderItem.objects.all().order_by('-id')[:5]
+    # Graph setting
+    # Getting the current date
+    today = datetime.today()
 
-    total_income = Payment.objects.aggregate(Sum('grand_total'))['grand_total__sum']
+    date_range = 8
 
-    total_income = round(total_income, 2)
+        # Get the date 7 days ago
+    four_days_ago = today - timedelta(days=date_range)
+
+    #filter orders based on the date range
+    payments = Payment.objects.filter(paid_date__gte=four_days_ago, paid_date__lte=today)
+
+    # Getting the sales amount per day
+    sales_by_day = payments.annotate(day=TruncDay('paid_date')).values('day').annotate(total_sales=Sum('grand_total')).order_by('day')
+
+    # Getting the dates which sales happpened
+    sales_dates = Payment.objects.annotate(sale_date=Cast('paid_date', output_field=DateField())).values('sale_date').distinct()
 
 
     context = {
 
         'user': user,
-
-        'category': category,
-
-        'product': product,
-
         'sales': sales,
-
-        'orders': orders,
-
-        'item': item,
-
-        'total_income': total_income,
-        
         'recent_sales':recent_sale,
+        'sales_by_day' : sales_by_day,
+        'sales_dates' :sales_dates,
 
     }
 
@@ -83,9 +72,9 @@ def index(request):
 # Admin Login Page
 def adminlogin(request):
 
-    if request.user.is_authenticated and request.user.is_superadmin:
+    # if request.user.is_authenticated and request.user.is_superadmin:
 
-        return redirect(index)
+    #     return redirect(index)
     
     if request.method == 'POST':
 
@@ -124,6 +113,7 @@ def adminlogin(request):
 
 
 # Admin logout Page
+@login_required
 def adminlogout(request):
 
     auth.logout(request)

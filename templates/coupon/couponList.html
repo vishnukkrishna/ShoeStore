@@ -36,28 +36,37 @@
                             <table class="table table-bordered datatable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#id</th>
-                                        <th scope="col">coupon code</th>
-                                        <th scope="col">discount price</th>
-                                        <th scope="col">Minimum amount</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" class="text-center">#id</th>
+                                        <th scope="col" class="text-center">coupon code</th>
+                                        <th scope="col" class="text-center">discount price</th>
+                                        <th scope="col" class="text-center">Minimum amount</th>
+                                        <th scope="col" class="text-center">Status</th>
+                                        <th scope="col" class="text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="text-center">
                                     {% for coupon in coupon %}
                                     <tr>
                                         <th scope="row">{{coupon.id}}</th>
                                         <td>{{coupon.coupon_code}}</td>
                                         <td>₹ {{coupon.discount_price}}</td>
                                         <td>₹ {{coupon.min_amount}}</td>
-                                  
-                                        {% if coupon.status %}
-                                        <td><span class="badge bg-success">In-active</span></td>
-                                        {% else %}
-                                        <td><span class="badge bg-primary">Active</span></td>
-                                        {% endif %}
-
+                                        
+                                        <td class="text-center">
+                                            <a href="{% url 'coupon_status' coupon.id %}">
+                                                {% if c.is_expired %}
+                                                <i class="fa-solid fa-unlock fa-lg text-success ms-3"></i>
+                                                {% else %}
+                                                <i class="fa-solid fa-lock fa-lg text-danger ms-3"></i>
+                                                {% endif %}
+                                            </a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            {% if coupon.is_expired %}
+                                            <span class="badge bg-success">Expired</span>
+                                            {% else %}
+                                            <span class="badge bg-primary">Active</span>
+                                            {% endif %}
+                                        </td>
                                         <td>
 
                                              <!--  Edit button -->

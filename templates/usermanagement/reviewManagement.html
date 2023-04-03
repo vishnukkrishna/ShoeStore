@@ -29,7 +29,7 @@
                             <th scope="col">Product</th>
                             <th scope="col"></th>
                             <th scope="col">User</th>
-                            <th scope="col">Title</th>
+                            {% comment %} <th scope="col">Title</th> {% endcomment %}
                             <th scope="col">Review</th>
                             <th scope="col">Rating</th>
                             <th scope="col">Delete</th>
@@ -45,7 +45,7 @@
                         </th>
                         <td>{{r.product}}</td>
                         <td>{{r.user.id}}</td>
-                        <td>{{r.subject}}</td>
+                        {% comment %} <td>{{r.subject}}</td> {% endcomment %}
                         <td>{{r.review}}</td>
                         <td>{{r.rating}}/5.0</td>
 

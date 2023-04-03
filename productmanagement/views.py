@@ -2,11 +2,17 @@ from django.shortcuts import render, redirect
 from store.models import Product, Category, Brand, multipleImage, Variation, Color
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 # Create your views here.
 
 
+def superadmin_check(user):
+    if user.is_authenticated:
+        return user.is_superadmin
+
 
 # Brand Management
+@user_passes_test(superadmin_check)
 def brandManagement(request):
 
     dict_brand={
@@ -18,6 +24,7 @@ def brandManagement(request):
 
 
 # Add Brand
+@user_passes_test(superadmin_check)
 def addBrand(request):
 
     if request.method == 'POST':
@@ -52,6 +59,7 @@ def addBrand(request):
 
 
 # Edit Brand
+@user_passes_test(superadmin_check)
 def editBrand(request, id):
 
     product = get_object_or_404(Brand, pk=id)
@@ -100,6 +108,7 @@ def editBrand(request, id):
 
 
 # Delete Brand
+@user_passes_test(superadmin_check)
 def deleteBrand(request, id):
 
     del_brand = Brand.objects.filter(id=id)
@@ -115,7 +124,7 @@ def deleteBrand(request, id):
 ########################################################################
 
 
-
+@user_passes_test(superadmin_check)
 def productManagement(request):
 
     product_dict = {
@@ -131,6 +140,7 @@ def productManagement(request):
 
 
 # Add Product
+@user_passes_test(superadmin_check)
 def addProducts(request):
 
     product_dict = {
@@ -255,6 +265,7 @@ def addProducts(request):
 
 
 # Delete Product
+@user_passes_test(superadmin_check)
 def deleteProduct(request, id):
 
     del_pro = Product.objects.filter(id=id)
@@ -267,6 +278,7 @@ def deleteProduct(request, id):
 
 
 # Edit Product
+@user_passes_test(superadmin_check)
 def editProduct(request, id):
 
     product = get_object_or_404(Product, pk=id)
@@ -380,7 +392,7 @@ def editProduct(request, id):
 
 
 
-
+@user_passes_test(superadmin_check)
 def variantsList(request):
 
     variant = Variation.objects.all()
@@ -403,7 +415,7 @@ def variantsList(request):
 
 
 
-
+@user_passes_test(superadmin_check)
 def addColor(request):
 
     if request.method == 'POST':
@@ -420,7 +432,7 @@ def addColor(request):
 
 
 
-
+@user_passes_test(superadmin_check)
 def addVariant(request):
 
     if request.method=='POST':
@@ -451,7 +463,7 @@ def addVariant(request):
         return render(request, 'productmanagement/addVariants.html')
 
 
-
+@user_passes_test(superadmin_check)
 def editVariant(request, id):
 
     if request.method == 'POST':
@@ -482,7 +494,7 @@ def editVariant(request, id):
 
 
 
-
+@user_passes_test(superadmin_check)
 def deleteVariant(request,id):
 
     del_variant = Variation.objects.filter(id=id)

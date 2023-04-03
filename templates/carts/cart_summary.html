@@ -27,7 +27,7 @@
 <!-- Cart -->
 
     <div class="container">
-        <div class="p-b-32">
+        <div class="p-b-36 p-t-6">
             <h3 class="ltext-105 cl5 txt-center respon1">
                 Shopping Cart
             </h3>
@@ -193,9 +193,7 @@
 
                                     <!--Footer-->
                                     <div class="modal-footer flex-center">
-                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Got it
-                                        </a>
-
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Got it</a>
                                     </div>
                                 </div>
 
@@ -250,19 +248,34 @@
                                 Rs. {{ cart.get_tax }}/-
                             </span>
                         </div>
-                    </div>
+                    
 
+                        {% if cart.coupon %}
+                        <br><br>
+                        <div class="size-208">
+                            <span class="stext-110 cl2">
+                                Discount:
+                            </span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2">
+                                Rs. {{ cart.coupon.discount_price }}/-
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
                     
 
                     <div class="flex-w flex-t p-t-27 p-b-33">
                         <div class="size-208">
-                            <span class="mtext-103 cl2">
+                            <span class="mtext-101 cl2">
                                 Grand Total:
                             </span>
                         </div>
 
-                        <div class="size-209 p-t-6">
-                            <span class="mtext-103 cl2">
+                        <div class="size-209 p-t-10">
+                            <span class="mtext-110 cl2">
                                 Rs. {{ cart.get_grand_total }}/-
                             </span>
                         </div>

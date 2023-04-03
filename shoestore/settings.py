@@ -88,8 +88,8 @@ TEMPLATES = [
 
                 'store.views.categories', # Updated
                 'store.views.brands', # Updated
-                # 'cart.context_processors.cart', # Updated
                 'cart.context_processors.counter', # Updated
+                'adminaccounts.context_processor.revenue_calculator',
 
             ],
         },

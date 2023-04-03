@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from .models import userAddress
 from .forms import AddressForm
 from django.contrib.auth.decorators import login_required
 from orders.views import checkOut
+from django.urls import reverse
 # Create your views here.
 
 
+@login_required
 def viewAddress(request):
 
     context = {
@@ -16,8 +18,8 @@ def viewAddress(request):
     return render(request, 'userhome/viewAddress.html', context)
 
 
-
-def addAddress(request):
+@login_required
+def addAddress(request, num=0):
 
     address = userAddress.objects.filter(user=request.user)
 
@@ -33,15 +35,23 @@ def addAddress(request):
 
             address.save()
 
-            return redirect(viewAddress)
+            number = int(request.GET.get('num'))
+            
+            if number == 1:
+
+                return HttpResponseRedirect(reverse(viewAddress))
+            
+            elif number == 2:
+
+                return HttpResponseRedirect(reverse(checkOut))
     else:
 
         form = AddressForm()
 
-    return render(request,'userhome/addAddress.html', {'form':form})
+    return render(request,'userhome/addAddress.html', {'form':form, "num" : num})
 
 
-
+@login_required
 def editAddress(request, address_id):
 
     address =userAddress.objects.get(id=address_id)
@@ -63,7 +73,7 @@ def editAddress(request, address_id):
     return render(request, 'userhome/editAddress.html', {'form': form})
 
 
-
+@login_required
 def deleteAddress(request,address_id):
 
     userAddress.objects.get(id=address_id).delete()

@@ -52,11 +52,9 @@
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </a>
-                                    <a href="{% url 'add_cart' wishlist_item.product.id %}" value="{{product.id}}">
-                                        <button type="button" class="btn btn-primary btn-floating">
-                                            <i class="fa-solid fa-cart-shopping"></i>
-                                        </button>
-                                    </a>
+                                    {% comment %} <a href="{% url 'add_cart' wishlist_item.product.id %}" class="btn btn-primary btn-floating">                                      
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </a> {% endcomment %}
                                     
                                 </td>
                                 {% endfor %} 

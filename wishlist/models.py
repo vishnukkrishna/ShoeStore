@@ -8,25 +8,25 @@ from accounts.models import Account
 
 class Wishlist(models.Model):
 
-    wishlist_id = models.CharField(max_length=250, blank=True,null=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE,null=True)
 
     date_added = models.DateField(auto_now=True)
 
 
     def __str__(self):
 
-        return str(self.cart_id) 
+        return str(self.wishlist_id) 
     
 
 
 
 class WishlistItem(models.Model):
 
-    user = models.ForeignKey(Account,on_delete=models.CASCADE,null=True)
-
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
 
     wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE, null=True)
+
+    quantity = models.IntegerField(null=True)
 
     is_active = models.BooleanField(default=True)
    

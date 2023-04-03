@@ -3,10 +3,12 @@ from accounts.models import Account
 from store.models import ReviewRating
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from productmanagement.views import superadmin_check
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Create your views here.
 
-
-
+@login_required
+@user_passes_test(superadmin_check)
 def userManagement(request):
 
     user_dict = {
@@ -19,6 +21,8 @@ def userManagement(request):
 
 
 
+@login_required
+@user_passes_test(superadmin_check)
 def blockUnblock(request, id):
 
     user=get_object_or_404(Account,id=id)
@@ -41,7 +45,8 @@ def blockUnblock(request, id):
 
 
 
-
+@login_required
+@user_passes_test(superadmin_check)
 def editUser(request, id):
 
     first_name = request.POST['name']

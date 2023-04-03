@@ -7,7 +7,7 @@ urlpatterns = [
 
     path('viewaddress', views.viewAddress, name='viewaddress'), 
 
-    path('addaddress/',views.addAddress,name='addaddress'),
+    path('addaddress/<int:num>/',views.addAddress,name='addaddress'),
 
     path('deleteaddress/<int:address_id>/', views.deleteAddress, name='deleteaddress'),
 

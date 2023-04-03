@@ -405,6 +405,7 @@ def change_password(request, user_id):
 
 
 # User Profile DP change
+@login_required(login_url = 'userlogin')
 def change_dp(request):
 
     user_id = request.user.id

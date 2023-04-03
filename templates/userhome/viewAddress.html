@@ -4,13 +4,13 @@
     <h3 class="ltext-105 cl5 txt-center respon1">Your Address</h3>
 </div>
 <div class="container" style="padding-top: 2%">
-    <div class="pb-5"><a href="{% url 'addaddress' %}" class="btn btn-outline-dark py-2">Add New Address</a></div>
+    <div class="pb-5"><a href="{% url 'addaddress' 1 %}" class="btn btn-outline-dark py-2">Add New Address</a></div>
     <table class="table table-hover table-striped" style="border-color: black">
         <tbody>
             {% for a in address %}
             <tr>
-                <th>Address 1</th>
-                <td>{{a.house_name}}</td>
+                <th></th>
+                <td>({{a.full_name}}) {{a.house_name}}</td>
                 <td class="text-center">
                     <a
                         class="btn btn-outline-danger text-dark"

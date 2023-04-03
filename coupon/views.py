@@ -135,3 +135,37 @@ def delete_coupon(request):
         messages.error(request,f'something went wrong')
 
         return redirect(couponManagement)
+    
+
+
+def coupon_status(request, id):
+
+    try:
+
+        coupon = Coupon.objects.get(id=id)
+
+        if coupon.is_expired:
+
+            coupon.is_expired = False
+
+            coupon.save()
+
+            messages.success(request, f'Coupon {coupon} activated succesfully')
+
+            return redirect(couponManagement)
+        
+        else:
+
+            coupon.is_expired = True
+
+            coupon.save()
+
+            messages.success(request, f'Coupon {coupon} deactivated succesfully')
+
+            return redirect(couponManagement)
+        
+    except Coupon.DoesNotExist:
+
+        messages.error(request, 'Oops!Something gone wrong')
+        
+        return redirect(couponManagement)

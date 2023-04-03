@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Category
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from productmanagement.views import superadmin_check
 # Create your views here.
 
 
 
 # Admin Category List
+@user_passes_test(superadmin_check)
 def categoryManagement(request):
 
     dict_category = {
@@ -17,6 +20,7 @@ def categoryManagement(request):
 
 
 # Add Category
+@user_passes_test(superadmin_check)
 def addCategory(request):
 
     if request.method == 'POST':
@@ -51,6 +55,7 @@ def addCategory(request):
 
 
 # Edit Category
+@user_passes_test(superadmin_check)
 def editCategory(request, id):
 
     product = get_object_or_404(Category, pk=id)
@@ -99,6 +104,7 @@ def editCategory(request, id):
 
 
 # Delete Category
+@user_passes_test(superadmin_check)
 def deleteCategory(request, id):
 
     delete_cat = Category.objects.filter(id=id)

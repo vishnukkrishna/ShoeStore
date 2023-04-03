@@ -18,18 +18,13 @@ def cart_summary(request):
 
     cart_items=None
 
-    coupon = Coupon.objects.all()
-
     try:
 
         cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
 
-        print(cart)
-
-        print('Loading')
-
-
         cart_items=CartItem.objects.filter(cart=cart, is_active=True)
+
+        coupon = Coupon.objects.filter(is_expired=False)
 
 
     except Exception as e:
@@ -96,12 +91,13 @@ def add_cart(request,product_id):
     product_variant = None
 
     try:
-   
+
         variation = request.GET.get('variant')
 
         color = Color.objects.get(color=variation)
        
         product = Product.objects.get(id=product_id)
+
 
         user = request.user
 
@@ -112,7 +108,6 @@ def add_cart(request,product_id):
       
         cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
        
-
         is_cart_item = CartItem.objects.filter(
 
             cart=cart, product=product, variant=product_variant
@@ -178,7 +173,7 @@ def remove_cart(request,product_id,cart_item_id):
 
         else:
           
-            pass
+            cart_item.delete()
 
     except:
 
@@ -226,142 +221,3 @@ def remove_coupon(request):
         pass
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def cart_summary(request):
-
-#     cart = Cart(request)
-    
-#     return render(request, 'carts/cart_summary.html', {'cart': cart})
-
-
-
-
-
-# def cart_add(request):
-
-#     cart = Cart(request)
-
-#     if request.POST.get('action') == 'post':
-
-#         product_id = int(request.POST.get('product_id'))
-
-#         product_quantity = int(request.POST.get('product_quantity'))
-
-#         product = get_object_or_404(Product, id=product_id)
-
-#         cart.add(product=product, product_qty=product_quantity)
-
-#         cart_quantity = cart.__len__()
-
-#         response = JsonResponse({'qty': cart_quantity})
-
-#         return response
-    
-
-
-
-
-# def cart_delete(request):
-    
-#     cart = Cart(request)
-
-#     if request.POST.get('action') == 'post':
-
-#         product_id = int(request.POST.get('product_id'))
-
-#         cart.delete(product=product_id)
-
-#         cart_quantity = cart.__len__()
-
-#         cart_total = cart.get_total()
-
-#         response = JsonResponse({'qty':cart_quantity, 'total':cart_total})
-
-#         return response
-
-
-
-
-
-# def cart_update(request):
-    
-#     cart = Cart(request)
-
-#     if request.POST.get('action') == 'post':
-
-#         product_id = int(request.POST.get('product_id'))
-
-#         print(product_id)
-
-#         product_quantity = int(request.POST.get('product_quantity'))
-
-#         cart.update(product=product_id, qty=product_quantity)
-
-#         cart_quantity = cart.__len__()
-
-#         cart_total = cart.get_total()
-
-#         response = JsonResponse({'qty':cart_quantity, 'total':cart_total})
-
-#         return response
-
-
-# def cart_update(request):
-
-#         if request.method == 'POST':
-
-#             prod_id = int(request.POST.get('product_id'))
-
-#             print(prod_id)
-
-#             if(Cart.objects.filter(user=request.user, product_id=prod_id)):
-
-#                 prod_qty = int(request.POST.get('product_qty'))
-
-#                 cart = Cart.objects.get(product_id=prod_id, user=request.user)
-                
-#                 cart.product_id = prod_qty
-
-#                 cart.save()
-
-#                 return JsonResponse({'status': "No such product found"})
-            
-#         return redirect(cart_summary)

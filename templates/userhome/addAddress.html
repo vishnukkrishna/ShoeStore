@@ -12,7 +12,7 @@
             <h1>Add Address</h1>
 
             <div class="row">
-                <form method="post" action="{% url 'addaddress' %}" class="account-form" name="address_form" enctype="multipart/form-data">
+                <form method="post" action="{% url 'addaddress' 0 %}?num={{num}}" class="account-form" name="address_form" enctype="multipart/form-data">
                     {% if form.error%}
                     <div class="alert alert-primary" role="alert">
                         Errror: Plese try agin

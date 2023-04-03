@@ -16,7 +16,7 @@
 <div class="container">
   <div class="row m-t-100">
       <!--Billing address-->
-      <aside class="col-lg-7 m-b-40 mt-3">
+        <aside class="col-lg-7 m-b-40 mt-3">
 
           <!-- breadcrumb -->
           <div class="bread-crumb flex-w p-r-15 p-t-2 mb-2 p-lr-0-lg fs-6">
@@ -100,98 +100,13 @@
           {% endfor %}
 
 
-            {% comment %} {% for a in addresses %}
-            {% if not a.id == default.default.id %}
-            <div class="row mb-3">
-                <div class="col-lg-12 mb-3">
-                    <!-- Default checked radio -->
-                    <div class="form-check h-100 border rounded-3">
-                    <div class="p-3">
-                        <input class="form-check-input" type="radio" name="addressSelect" id="{{addresses}}" value="{{addresses.id}}" checked />
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            {{a.full_name}} <br />
-                            <small class="text-muted"> {{a.house_name}} (Ho), {{a.city}} </small>
-                        </label>
-                        <br>
-                        <a class="btn btn-sm btn-success" href="{% url 'editaddress' a.id %}">
-                            Edit
-                        </a>
-    
-                        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_model-{{forloop.counter}}">
-                            Delete
-                        </a>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %} {% endcomment %}
 
-
-          <a class="btn btn-primary cap" href="{% url 'addaddress' %}">Add new address</a></button>
+          <a class="btn btn-primary cap" href="{% url 'addaddress' 2 %}">Add new address</a></button>
           <br>
           <br>
-          {% comment %} <div class="card">
-              <div class="card-body">
-                  <h4 class="card-title mb-4">Billing Address</h4>
-                  <form action="{% url 'place_order' %}" method="POST">
-                      {% csrf_token %}
-                      <div class="form-row">
-                          <div class="col-md-6 form-group">
-                              <label for="">First name</label>
-                              <input type="text" name="first_name" class="form-control" required>
-                          </div>
+          
 
-                          <div class="col-md-6 form-group">
-                              <label for="">Lastname</label>
-                              <input type="text" name="last_name" class="form-control">
-                          </div>
-
-                          <div class="col-md-6 form-group">
-                              <label for="">Email</label>
-                              <input type="email" name="email" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-6 form-group">
-                              <label for="">Phone Number</label>
-                              <input type="number" name="phone_number" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-12 form-group">
-                              <label for="">Address</label>
-                              <input type="text" name="address" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-6 form-group">
-                              <label for="">City</label>
-                              <input type="text" name="city" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-6 form-group">
-                              <label for="">District</label>
-                              <input type="text" name="district" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-4 form-group">
-                              <label for="">State</label>
-                              <input type="text" name="state" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-4 form-group">
-                              <label for="">Country</label>
-                              <input type="text" name="country" class="form-control" required>
-                          </div>
-
-                          <div class="col-md-4 form-group">
-                              <label for="">PIN code</label>
-                              <input type="text" name="pin" class="form-control" required>
-                          </div>
-                      </div>
-                 
-              </div>
-          </div> {% endcomment %}
-
-      </aside>
+        </aside>
 
 
       <!-- Order overview -->

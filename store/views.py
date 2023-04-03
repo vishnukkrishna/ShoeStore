@@ -203,7 +203,7 @@ def submit_review(request, product_id):
 
                 data = ReviewRating()
 
-                data.subject = form.cleaned_data['subject']
+                # data.subject = form.cleaned_data['subject']
 
                 data.rating = form.cleaned_data['rating']
 
