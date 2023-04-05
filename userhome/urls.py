@@ -5,11 +5,9 @@ from . import views
 
 urlpatterns = [
 
-    path('viewaddress', views.viewAddress, name='viewaddress'), 
-
     path('addaddress/<int:num>/',views.addAddress,name='addaddress'),
 
-    path('deleteaddress/<int:address_id>/', views.deleteAddress, name='deleteaddress'),
+    path('deleteaddress/<int:address_id>/<int:num>/', views.deleteAddress, name='deleteaddress'),
 
     path('editaddress/<int:address_id>/', views.editAddress, name='editaddress'), 
 

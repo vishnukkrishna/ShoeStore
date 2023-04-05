@@ -5,32 +5,30 @@
 {% block title %}Order tracking{% endblock %}
 
 {% block link %}
-<link rel="stylesheet" type="text/css" href="{% static 'user_home/css/invoice.css' %}">
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/invoice.css' %}"> {% endcomment %}
 {% endblock %}
 
 
 {% block content %}
 
 
-<div class="container m-t-150 mb-5 ">
+<div class="container m-t-100 mb-5 ">
     <div class="row d-flex justify-content-center">
         <div class="col-md-8">
-
             <div class="card border border-dark">
                 <div class="text-center logo-q1 p-2 px-5">
-                    <img src="{% static 'img/Logo.png' %}" width="200">
+                    <span class="pull-right hidden-print">
+                        <a id="print-button" onclick="print()" class="btn btn-sm text-dark m-b-6 p-l-3" ><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
+                    </span>
+                    <img src="{% static 'img/Logo.png' %}" width="200" class="pl-5">
 
-                    {% comment %} <h6 class="text-warning"><b>Order Invoice</b></h6> {% endcomment %}
                 </div>
 
                 <div class="invoice p-5">
-                    {% comment %} <h5>Your order Confirmed!</h5>
-                    <span class="font-weight-bold d-block mt-4">Hello, {{user.first_name}}</span>
-                    <span>You order has been confirmed and will be shipped in next two days!</span> {% endcomment %}
 
                     <div class="payment mt-3 mb-3 border-bottom table-responsive">
 
-                        <table class="table table-striped bg-light">
+                        <table class="table table-striped bg-light text-dark">
 
                             <tbody class="">
                                 <tr>
@@ -67,7 +65,7 @@
                                         <div class="py-2">
 
                                             <span class="d-block text-muted">Shipping Address</span>
-                                            <span>{{order.delivery_address.house_name}}(H),<br>{{order.delivery_address.city}},
+                                            <span>({{order.user.first_name}}) {{order.delivery_address.house_name}}(H),<br>{{order.delivery_address.city}},<br>
                                                 {{order.delivery_address.state}}</span>
 
                                         </div>
@@ -97,7 +95,7 @@
                                 {% for item in order_items %}
                                 <tr>
                                     <td width="20%">
-                                        <img src="{{item.product.image.url}}" width="90">
+                                        <img src="{{item.product.image.url}}" width="150">
                                     </td>
 
                                     <td width="40%">
@@ -182,22 +180,22 @@
                                         </td>
                                     </tr>
 
-                                    {% comment %}
-                                    <tr>
+                                    {% if order.coupon %}
+                                    <tr class="text-dark">
                                         <td>
                                             <div class="text-left">
 
-                                                <span class="text-muted">Discount</span>
+                                                <span>Discount</span>
 
                                             </div>
                                         </td>
                                         <td>
                                             <div class="text-right">
-                                                <span class="text-success">- ₹168.50</span>
+                                                <span><b>-₹{{order.coupon.discount_price}}.00</b> </span>
                                             </div>
                                         </td>
-                                    </tr> {% endcomment %}
-
+                                    </tr>
+                                    {% endif %}
 
                                     <tr class="border-top border-bottom">
                                         <td>

@@ -89,12 +89,21 @@ def orderSuccessfully(request):
     payment.save()
 
     # Creating the order in Order table
-    delivery_address = userAddress.objects.get(user=request.user,  default=True)
+    address_id = request.GET.get('address')
+
+    delivery_address = userAddress.objects.get(user=request.user,  id=address_id)
 
     order = Order.objects.create(
 
         order_id=razorpay_order_id, user=user, delivery_address=delivery_address, payment=payment
     )
+
+    if cart.coupon:
+
+        order.coupon = cart.coupon
+
+        order.save()
+
 
     # Storing ordered products in OrderItem table
     order_items = CartItem.objects.filter(cart=cart)

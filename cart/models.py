@@ -66,7 +66,17 @@ class Cart(models.Model):
     # tax + cart_total
     def get_grand_total(self):
 
+        total = self.get_cart_total() + self.get_tax()
+
+        if self.coupon:
+
+            if self.coupon.min_amount < total:
+                
+                return total - self.coupon.discount_price
+    
         return self.get_cart_total() + self.get_tax()
+    
+
 
 
     def _str_(self):

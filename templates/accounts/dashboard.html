@@ -131,6 +131,193 @@
                 </div>
             </div>
         </div>
+
+        {% for a in address %}
+        {% if not a.id == default.default.id %}
+        <!-- <h3>{{forloop.counter}} address {{default.default.id}}</h3> -->
+        <div class="card mb-2">
+
+            <div class="card-body text-dark">
+               
+                <h5 class="card-title fw-bold">{{a.full_name}}</h5>
+                <h6 class="card-title">{{a.house_name}} (H), {{a.city}}</h6>
+                <p class="card-text">{{a.pincode}} </p>
+
+                <div>
+
+                    <button type="button" class="btn btn-light border border-dark" data-bs-toggle="modal"  data-bs-target="#address{{forloop.counter}}">
+                        <i class="fa-solid fa-eye"></i>
+                        View
+                    </button>
+
+                    <a class="btn btn-light border border-dark" href="{% url 'editaddress' a.id %}">
+                        <i class="fa-solid fa-pen-to-square m-r-5"></i>Edit
+                    </a>
+
+                    <a class="btn btn-light border border-danger text-danger" href="" class="m-l-10" data-bs-toggle="modal"
+                        data-bs-target="#delete_model-{{forloop.counter}}">
+                        <i class="fa-solid fa-trash"></i>
+                        Delete
+                    </a>
+
+                    <!-- view Modal -->
+                    <div class="modal fade" id="address{{forloop.counter}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="staticBackdropLabel">View address</h4>
+                                    <button type="button" class="btn btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">Name</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.full_name}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">House Name</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.house_name}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">Phone number</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.phone_number}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">City</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.city}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">District</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.district}}
+                                        </div>
+                                    </div>
+                                    <hr>                                    
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">State</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.state}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">Country</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.country}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <p class="mb-0">Pincode</p>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            {{a.pincode}}
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="delete_model-{{forloop.counter}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title text-dark" id="exampleModalLabel">
+                                        Delete Address</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    Are you sure to delete this address?</span>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+
+                                    <form action="{% url 'deleteaddress' a.id 1 %}" style="float: right;" method="post"
+                                        class="float-right d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Delete Modal -->
+
+
+                </div>
+
+            </div>
+
+        </div>
+        {% endif %}
+        {% endfor %}
+
+
+
+        <a class="btn btn-primary cap" href="{% url 'addaddress' 1 %}">Add new address</a></button>
+        </a>
+        <br>
+        <br>
+
     </div>
 </section>
 <script

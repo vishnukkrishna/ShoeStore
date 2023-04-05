@@ -3,9 +3,10 @@ from . models import Category, Product, Brand, ReviewRating, multipleImage, Vari
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator
-
+from wishlist.models import WishlistItem, Wishlist
 from .forms import ReviewForm
 from django.contrib import messages
+from orders.models import OrderItem
 
 
 # Create your views here.
@@ -105,47 +106,81 @@ def list_brand(request, brand_slug=None):
 
 def product_info(request, product_slug):
 
-    product = get_object_or_404(Product, slug=product_slug)
+    in_wishlist = False
 
-    variants = Variation.objects.filter(product=product)
+    ordered = None
 
-    reviews = ReviewRating.objects.filter(product=product).count()
+    try:
+         
 
-    context = {
+        product = get_object_or_404(Product, slug=product_slug)
 
-        'product':product,
+        variants = Variation.objects.filter(product=product)
 
-        'images':multipleImage.objects.filter(product=product),
+        reviews = ReviewRating.objects.filter(product=product).count()
 
-        'review': ReviewRating.objects.filter(product=product),
+        if request.user.is_authenticated:
 
-        'variants': variants,
+            ordered = OrderItem.objects.filter(product=product, user=request.user).exists()
 
-        'reviews': reviews
 
-    }
+        context = {
 
-    if request.GET.get('variant'):
+            'product':product,
+
+            'images':multipleImage.objects.filter(product=product),
+
+            'review': ReviewRating.objects.filter(product=product),
+
+            'variants': variants,
+
+            'reviews': reviews,
+
+            'ordered' : ordered,
+
+        }
+
+        if request.GET.get('variant'):
+                
+                color = request.GET.get('variant')
+
+                variation = Color.objects.get(color=color)
+
+                variant=Variation.objects.get(color=variation,product=product)
+
+                variant_price = product.get_product_price(variation)
+
+                context['in_wishlist'] = in_wishlist
+
+                context.update({
+
+                    'selected_variant': variant,
+
+                    'variant_price': variant_price,
+
+                    'color' : color,
+                
+                })
+
+        if request.user.is_authenticated:
             
-            color = request.GET.get('variant')
+            try:
 
-            variation = Color.objects.get(color=color)
+                wishlist = Wishlist.objects.get(user=request.user)
 
-            variant=Variation.objects.get(color=variation,product=product)
+                in_wishlist = WishlistItem.objects.filter(wishlist=wishlist, product__title=product)
 
-            variant_price = product.get_product_price(variation)
+                context['in_wishlist'] = in_wishlist
 
-            context.update({
+            except:
 
-                'selected_variant': variant,
+                pass
 
-                'variant_price': variant_price,
+        return render(request, 'store/product_info.html', context)
 
-                'color' : color,
-              
-            })
-
-    return render(request, 'store/product_info.html', context)
+    except:
+         
+        return render(request, 'store/product_info.html', context)
 
 
 

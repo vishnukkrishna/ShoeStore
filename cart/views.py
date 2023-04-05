@@ -22,7 +22,7 @@ def cart_summary(request):
 
         cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
 
-        cart_items=CartItem.objects.filter(cart=cart, is_active=True)
+        cart_items=CartItem.objects.filter(cart=cart, is_active=True).order_by('id')
 
         coupon = Coupon.objects.filter(is_expired=False)
 
@@ -35,7 +35,7 @@ def cart_summary(request):
 
         coupon = request.POST.get('coupon')
 
-        coupon_obj=Coupon.objects.filter(coupon_code__icontains=coupon)
+        coupon_obj = Coupon.objects.filter(coupon_code__icontains=coupon)
 
         if not coupon_obj.exists():
 
@@ -98,7 +98,6 @@ def add_cart(request,product_id):
        
         product = Product.objects.get(id=product_id)
 
-
         user = request.user
 
         if color:
@@ -108,14 +107,8 @@ def add_cart(request,product_id):
       
         cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
        
-        is_cart_item = CartItem.objects.filter(
-
-            cart=cart, product=product, variant=product_variant
-
-        ).exists()
+        is_cart_item = CartItem.objects.filter(cart=cart, product=product, variant=product_variant).exists()
         
-        
-
         if is_cart_item:
 
             cart_item = CartItem.objects.get(
@@ -151,7 +144,7 @@ def add_cart(request,product_id):
 
 
 
-
+@login_required
 def remove_cart(request,product_id,cart_item_id):
     
     try:
@@ -185,7 +178,7 @@ def remove_cart(request,product_id,cart_item_id):
 
 
 
-
+@login_required
 def remove_cart_item(request,product_id,cart_item_id):
 
     product = Product.objects.get(id=product_id)
@@ -203,7 +196,7 @@ def remove_cart_item(request,product_id,cart_item_id):
 
 
 
-
+@login_required
 def remove_coupon(request):
 
     try:

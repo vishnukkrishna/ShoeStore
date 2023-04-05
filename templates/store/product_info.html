@@ -45,82 +45,98 @@
                 </div>
             </div>
             
-                <div class="col-md-6 col-lg-5 p-b-30">
-                        <div class="p-r-50 p-t-5 p-lr-0-lg">
-                            
-                            <h4 class="mtext-105 cl2 js-name-detail p-b-14">{{product.title}}</h4>
+            <div class="col-md-6 col-lg-5 p-b-30">
+                <div class="p-r-50 p-t-5 p-lr-0-lg">
+                    
+                    <h4 class="mtext-105 cl2 js-name-detail p-b-14">{{product.title}}</h4>
 
-                            {% if variant_price %}
-                            <h3 class="mtext-106 cl2"> ₹ {{ variant_price }}.00</h3>
-                            {% else %}
-                            <h3 class="mtext-106 cl2">₹ {{product.price}}</h3>
-                            {% endif %}
+                    {% if variant_price %}
+                    <h3 class="mtext-106 cl2"> ₹ {{ variant_price }}.00</h3>
+                    {% else %}
+                    <h3 class="mtext-106 cl2">₹ {{product.price}}</h3>
+                    {% endif %}
 
-                            <span class="fs-18 cl11">
-                                <i class="zmdi zmdi-star"></i>
-                                <i class="zmdi zmdi-star"></i>
-                                <i class="zmdi zmdi-star"></i>
-                                <i class="zmdi zmdi-star"></i>
-                                <i class="zmdi zmdi-star-half"></i>
-                            </span>
-                            <span>({{reviews}} Reviews)</span>  
-                            
+                    <span class="fs-18 cl11">
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star-half"></i>
+                    </span>
+                    <span>({{reviews}} Reviews)</span>  
+                    
 
-                            
+                    
 
-                            <p class="stext-102 cl3 p-t-23">{{product.description}}</p>
-                            <br /><br />
-                            <div class="flex-w flex-r-m p-b-10">
-                                <div class="size-203 flex-c-m respon6">Color</div>
+                    <p class="stext-102 cl3 p-t-23">{{product.description}}</p>
+                    <br /><br />
+                    <div class="p-t-30">
+                    <!-- Variation selection -->
+                    <form action="{% url 'add_cart' product.id %}?variant={{selected_variant}}" method="POST">
+                        {% csrf_token %}
+                        {% if variants %}
+                        <div class="flex-w flex-r-m p-b-10">
+                            <div class="size-203 flex-c-m respon6">Color</div>
 
-                                    <div class="size-204 respon6-next">
-                                        <div class="rs1-select2 bor8 bg0">
-                                            {% if variants %}
-                                            <select class="js-select2 form-control" name="selected_variant" onchange="get_current_price()" required>
-                                                {% if selected_variant %}
-                                                <option value="{{selected_variant}}" disabled selected>{{color}}</option>
-                                                {% else %}
-                                                <option value="">Choose Color</option>
-                                                {% endif %}
-                                                {% for variant in variants %}
-                                                <option value="{{variant}}">{{variant.color}}</option>
-                                                {% endfor %}
-                                        </select>
+                            <div class="size-204 respon6-next">
+                                <div class="rs1-select2 bor8 bg0">
+                                    
+                                    <select class="js-select2" name="selected_variant" onchange="get_current_price()" required>
+
+                                        {% if selected_variant %}
+                                        <option value="{{selected_variant}}" selected>
+                                            {{color}}
+                                        </option>
+                                        {% else %}
+                                        <option value="" selected>
+                                            Choose Color
+                                        </option>
                                         {% endif %}
+
+                                        {% for variant in variants %}
+                                        <option value="{{variant}}">
+                                            {{variant.color}}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    
+
                                     <div class="dropDownSelect2"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="align-items-center text-center">
-                            <div class="size-204 ">
-                                {% if product.stock < 1 %} 
-                                <img src="{% static 'img/out-of-stock.png' %}" width="150" height="150" alt="">
-                                    {% else %}
-                                    <a href="{% url 'add_cart' product.id %}?variant={{selected_variant}}"
-                                        type="submit" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15 js-addcart-detail m-t-10">
-                                        Add To Cart
-                                    </a>
-                                    {% endif %}
+                        {% endif %}
+                        
+                        <div class="align-items-center align-items-center">
+                            <div class="size-204 text-center">
 
-                                    {% if in_wishlist %}
-                                    <a href="{% url 'add_wishlist' product.id %}"
-                                        class="btn btn-outline-success flex-c-m size-116 bor14 p-l-15 m-t-10">
-                                        Added to Wishlist
-                                    </a>
-                                    {% else %}
-                                    <a href="{% url 'add_wishlist' product.id %}"
-                                        class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10">
-                                        Add To WishList
-                                    </a>
-                                    {% endif %}
+                                {% if product.stock < 1 %}
+                                <img src="{% static 'img/out-of-stock.png' %}" width="150" height="150" alt="">
+
+                                {% else %}
+                                <button type="submit" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
+                                    Add to cart
+                                </button>
+                                {% endif %}
+
+                                {% if in_wishlist %}
+                                <a class="btn btn-outline-success flex-c-m size-116 bor14 p-lr-15 m-t-10">
+                                    Added to Wishlist
+                                </a>
+
+                                {% else %}
+                                <a href="{% url 'add_wishlist' product.id %}"
+                                    class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10">
+                                    Add to Wishlist
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
                         <div>{% include 'includes/alerts.html' %}</div>
-                    </div>
+                    </form>
+                </div>
+                </div>
             </div>
-            
-        </div>
-        
         </div>
 
         <div class="bor10 m-t-50 p-t-43 p-b-40">
@@ -143,7 +159,11 @@
                                 <!-- Review -->
                                 <div class="flex-w flex-t p-b-68">
                                     <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                        {% if user.is_authenticated %}
                                         <img src="{{user.user_image.url}}" alt="AVATAR" />
+                                        {% else %}
+                                        <img src="{% static 'img/vk-high.png' %}" alt="AVATAR" />
+                                        {% endif %}
                                     </div>
 
                                     <div class="size-207">
@@ -164,6 +184,7 @@
                                 </div>
 
                                 <!-- Add review -->
+                                {% if user.is_authenticated %}
                                 <form action="{% url 'submit_review' product.id %}" method="POST" enctype="multipart/form-data" class="w-full">
                                     {% csrf_token %}
                                     {% if review %}
@@ -189,15 +210,6 @@
                                     </div>
 
                                     <div class="row p-b-25">
-                                        {% comment %} <div class="col-12 p-b-5">
-                                            <label class="stext-102 cl3" for="name">Review Title :</label>
-                                            <input
-                                                class="size-111 bor8 stext-102 cl2 p-lr-20"
-                                                id="name"
-                                                type="text"
-                                                name="subject"
-                                            />
-                                        </div> {% endcomment %}
                                         <div class="col-12 p-b-5">
                                             <label class="stext-102 cl3" for="review">Your review :</label>
                                             <textarea
@@ -207,15 +219,17 @@
                                             ></textarea>
                                         </div>
                                     </div>
-                                    {% if user.is_authenticated %}
-
-                                    <button
-                                        class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit"
-                                    >
-                                        Submit
-                                    </button> 
+                                    {% if ordered %}
+                                    <button type="submit"
+                                    class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+                                    Submit
+                                    </button>
                                     {% else %}
-                                    <p>You must be logged in to post a review. <span><a href="{% url 'userlogin' %}">Login Now</a></span></p>
+                                    <h6>Only buyers can submit review of the product</h6>
+                                    {% endif %}
+
+                                    {% else %}
+                                    <h6>Please login to submit your review.<a href="{% url 'userlogin' %}">Login here<a>
                                     {% endif %}
                                 </form>
                             </div>
@@ -240,10 +254,6 @@
                                     <a href="" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
                                         {{r.user.first_name}}
                                     </a>
-
-                                    {% comment %} <p class="stext-105 cl3 text-center">
-                                        {{r.subject}}
-                                    </p> {% endcomment %}
                                     <p class="stext-105 cl3 text-center">
                                         {{r.review}}
                                     </p>
@@ -272,5 +282,4 @@
         disabledOption.textContent = variant;
     }
 </script>
-
 {% endblock %}

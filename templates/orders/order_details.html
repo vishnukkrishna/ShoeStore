@@ -204,7 +204,7 @@
                                                 >Track Order</a
                                             >
 
-                                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' %}
+                                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' or item.order_status == 'Delivered' %}
                                             <a class="btn btn-sm btn-secondary text-light rounded-pill py-2"
                                                 >Cancelled Order</a
                                             >

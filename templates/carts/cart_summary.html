@@ -1,7 +1,6 @@
- {% extends 'userbase.html' %}
+{% extends 'userbase.html' %}
 
 {% load static %}
-
 
 {% block title %}Shopping Cart{% endblock title %}
 
@@ -18,7 +17,7 @@
         <h3 class="text-dark py-5 rounded fw-75">Your Cart List is empty
             <br>
         </h3>
-        <a href="{% url 'home' %}" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
+        <a href="{% url 'store' %}" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
             Continue Shopping
         </a>
     </div>
@@ -54,7 +53,7 @@
 
                     <div class="wrap-table-shopping-cart">
 
-
+                        {% include 'includes/alerts.html' %}
 
                         <table class="table-shopping-cart product_data">
                             <tr class="table_head">
@@ -202,7 +201,7 @@
                         <!-- End coupon list-->
 
                         {% endif %}
-                        {% include 'includes/alerts.html' %}
+                        
 
                     </div>
                 </div>

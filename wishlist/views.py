@@ -9,15 +9,15 @@ from django.contrib.auth.decorators import login_required
 
 
 
-def _wishlist_id(request):
+# def _wishlist_id(request):
 
-    wishlist = request.session.session_key
+#     wishlist = request.session.session_key
 
-    if not wishlist:
+#     if not wishlist:
 
-        wishlist = request.session.create()
+#         wishlist = request.session.create()
 
-    return wishlist
+#     return wishlist
 
 
 
@@ -46,13 +46,14 @@ def wishlist(request,wishlist_items=None):
 
 
 
-@login_required(login_url = 'userlogin')
+@login_required()
 def add_wishlist(request,product_id):
 
     product = Product.objects.get(id=product_id)
-    user = request.user
-    wishlist, _ = Wishlist.objects.get_or_create(user=user)
 
+    user = request.user
+    
+    wishlist, _ = Wishlist.objects.get_or_create(user=user)
     wishlist_item= WishlistItem.objects.create(wishlist=wishlist, product=product, quantity=1)
     wishlist_item.save()
 
@@ -60,14 +61,14 @@ def add_wishlist(request,product_id):
 
 
 
-
-def remove_wishlistitem(request,product_id,wishlist_item_id):
+@login_required()
+def remove_wishlistitem(request,product_id):
 
     product = Product.objects.get(id=product_id)
     user = request.user
 
     wishlist = Wishlist.objects.get(user=user)
-    wishlist_item = WishlistItem.objects.get(wishlist=wishlist, product=product)
+    wishlist_item = WishlistItem.objects.filter(wishlist=wishlist, product=product)
     wishlist_item.delete()
 
     return redirect('wishlist')

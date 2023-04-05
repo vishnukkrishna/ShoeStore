@@ -108,7 +108,7 @@
 
                             <div class="border-start h-100"></div>
 
-                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' %}
+                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' or item.order_status == 'Delivered' %}
                             <h5 class="fw-normal mb-0 text-secondary"><a>Cancelled Order</a></h5>
                             {% else %}
                             <h5 class="fw-normal mb-0 text-Primary"><a

@@ -3,20 +3,10 @@ from .models import userAddress
 from .forms import AddressForm
 from django.contrib.auth.decorators import login_required
 from orders.views import checkOut
-from django.urls import reverse
 from django.contrib import messages
+from accounts.views import dashboard
 # Create your views here.
 
-
-@login_required
-def viewAddress(request):
-
-    context = {
-
-        'address':userAddress.objects.filter(user=request.user),
-    } 
-
-    return render(request, 'userhome/viewAddress.html', context)
 
 
 @login_required
@@ -40,7 +30,7 @@ def addAddress(request, num=0):
             
             if number == 1:
 
-                return redirect(viewAddress)
+                return redirect(dashboard)
             
             elif number == 2:
 
@@ -48,7 +38,9 @@ def addAddress(request, num=0):
             
         # if form is not valid, add an error message
         else:
+            
             messages.error(request, 'Please correct the errors below.')
+
     else:
 
         form = AddressForm()
@@ -69,7 +61,7 @@ def editAddress(request, address_id):
 
             form.save()
 
-            return redirect(viewAddress)
+            return redirect(dashboard)
         
     else:
 
@@ -78,12 +70,21 @@ def editAddress(request, address_id):
     return render(request, 'userhome/editAddress.html', {'form': form})
 
 
+
+
 @login_required
-def deleteAddress(request,address_id):
+def deleteAddress(request,address_id,num):
 
     userAddress.objects.get(id=address_id).delete()
 
-    return redirect(viewAddress)
+    if num == 1:
+
+        return redirect(dashboard)
+    
+    elif num == 2:
+
+        return redirect(checkOut)
+
 
 
 
@@ -95,4 +96,4 @@ def default_address(request,address_id,num=0):
 
     userAddress.objects.filter(id=address_id,user=request.user).update(default=True)
          
-    return redirect(checkOut)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

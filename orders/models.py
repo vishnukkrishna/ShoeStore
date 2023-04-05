@@ -3,6 +3,7 @@ from accounts.models import Account
 from store.models import Product
 from userhome.models import userAddress
 from base.models import BaseModel
+from cart.models import Coupon
 # # Create your models here.
 
 
@@ -38,6 +39,8 @@ class Order(BaseModel):
     order_id = models.CharField(max_length=100, unique=True)
 
     user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
+
+    coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
 
     delivery_address = models.ForeignKey(userAddress, on_delete=models.SET_NULL, null=True)
 

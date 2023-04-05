@@ -15,7 +15,7 @@ class Wishlist(models.Model):
 
     def __str__(self):
 
-        return str(self.wishlist_id) 
+        return self.user.first_name
     
 
 
@@ -33,7 +33,7 @@ class WishlistItem(models.Model):
 
     def __str__(self):
         
-        return str(Product.objects.get(id=self.product.id))
+        return self.product.title
     
 
 

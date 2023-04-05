@@ -90,7 +90,7 @@
                                         </ul>
                                     </li>
 
-                                    <li class="main-menu {% if '/store/brand/reebok/' == request.path %}active-menu{% endif %}">
+                                    <li class="main-menu {% if '/store/brand/adidas/' == request.path %}active-menu{% endif %}">
                                         <a href="">Brands</a>
                                             <ul class="sub-menu">
                                             {% for brand in all_brands %}
@@ -116,9 +116,16 @@
                                 <div class="menu-desktop">
                                     <ul class="main-menu">
                                         <li>
+                                            {% if user.id %}
+                                            <div class="block2-pic hov-img0 text-center">
+                                                <img style="height: 30px;  width: 30px;" src="{{user.user_image.url}}" alt="AVATAR">
+                
+                                            </div>
+                                            {% else %}
                                             <a class="">                
                                                 <i style="font-size: 20px; color: black;" class="fa fa-user"></i>
                                             </a>
+                                            {% endif %}
                                             <ul class="sub-menu">
                                                 {% if user.id is None %}
                                                 <li><a href="{% url 'register' %}">Register</a></li>
@@ -135,11 +142,11 @@
                                     </ul>
                                 </div>
 
-                                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="">
+                                <a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{{wishlist_count}}">
                                     <i class="zmdi zmdi-favorite-outline"></i>
                                 </a>
                                 <a href="{% url 'cart-summary' %}">
-                                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " data-notify="">
+                                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="{{cart_count}}">
                                         <i class="zmdi zmdi-shopping-cart"></i>
                                     </div>
                                 </a>
@@ -290,8 +297,26 @@
                             {% endfor %}
                         </ul>
                     </div>
-        
+
                     <div class="col-sm-6 col-lg-3 p-b-50">
+                        <h4 class="stext-301 cl0 p-b-30">
+                            Brands
+                        </h4>
+    
+                        <ul>
+    
+                            {% for brand in all_brands %}
+                            <li class="p-b-10">
+                                <a href="{{brand.get_absolute_url}}" class="stext-107 cl7 hov-cl1 trans-04">
+                                    {{brand.name}}
+                                </a>
+                            </li>
+                            {% endfor %}
+    
+                        </ul>
+                    </div>
+        
+                    {% comment %} <div class="col-sm-6 col-lg-3 p-b-50">
                         <h4 class="stext-301 cl0 p-b-30">
                             Help
                         </h4>
@@ -321,7 +346,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> {% endcomment %}
         
                     <div class="col-sm-6 col-lg-3 p-b-50">
                         <h4 class="stext-301 cl0 p-b-30">
@@ -333,19 +358,19 @@
                         </p>
         
                         <div class="p-t-27">
-                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                                <i class="fa fa-facebook"></i>
+                            <a href="https://github.com/vishnukkrishna" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                <i class="fa-brands fa-github"></i>
                             </a>
         
-                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <a href="https://www.instagram.com/vishnu_k_krishna/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
                                 <i class="fa fa-instagram"></i>
                             </a>
         
-                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                                <i class="fa fa-pinterest-p"></i>
+                            <a href="https://www.linkedin.com/in/vishnukrishnakumar/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                                <i class="fa-brands fa-linkedin-in"></i>
                             </a>
         
-                            <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <a href="https://twitter.com/_v_i_c_h_o_o_z_" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
                                 <i class="fa fa-twitter"></i>
                             </a>
                         </div>
