@@ -32,6 +32,8 @@ def index(request):
 
     recent_sale = Order.objects.all().order_by('-id')[:5]
 
+    order = Order.objects.all().count()
+
 
     # Graph setting
     # Getting the current date
@@ -56,6 +58,7 @@ def index(request):
 
         'user': user,
         'sales': sales,
+        'order' : order,
         'recent_sales':recent_sale,
         'sales_by_day' : sales_by_day,
         'sales_dates' :sales_dates,
