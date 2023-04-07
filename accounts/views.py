@@ -4,6 +4,8 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 
 
 from store.models import Carousel_Home, Brand
@@ -26,6 +28,8 @@ from django.core.mail import EmailMessage
 
 
 # Website Home Page
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='/userlogin')
 def home(request):
 
     all_products = Product.objects.all()
@@ -154,7 +158,8 @@ def userlogin(request):
 
 
 # User Logout
-@login_required(login_url = 'userlogin')
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='/userlogin')
 def userlogout(request):
 
     auth.logout(request)
@@ -321,7 +326,8 @@ def resetPassword(request):
 
 
 # User dashboard
-@login_required(login_url = 'userlogin')
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='/userlogin')
 def dashboard(request):
 
     context = {
@@ -335,7 +341,8 @@ def dashboard(request):
 
 
 # User Profile Edit
-@login_required(login_url = 'userlogin')
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='/userlogin')
 def edit_profile(request, user_id):
 
     if request.method == 'POST':

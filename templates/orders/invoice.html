@@ -18,7 +18,7 @@
             <div class="card border border-dark">
                 <div class="text-center logo-q1 p-2 px-5">
                     <span class="pull-right hidden-print">
-                        <a id="print-button" onclick="print()" class="btn btn-sm text-dark m-b-6 p-l-3" ><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
+                        <a id="printInvoice" class="btn btn-sm text-dark m-b-6 p-l-3" ><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
                     </span>
                     <img src="{% static 'img/Logo.png' %}" width="200" class="pl-5">
 
@@ -252,5 +252,9 @@
 
 </div>
 
-
+<script>
+    document.getElementById("printInvoice").addEventListener("click", function() {
+        window.print();
+    });
+</script>
 {% endblock %}
