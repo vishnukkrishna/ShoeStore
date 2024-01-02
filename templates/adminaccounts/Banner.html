@@ -1,0 +1,181 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block title %}Banner{% endblock  %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Banner</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
+                <li class="breadcrumb-item active">Banner</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    <table class="table table-striped datatable">
+        <thead>
+            <tr class="">
+              <th scope="col">#</th>
+              <th scope="col">Banner Heading</th>
+              <th scope="col">Images</th>
+              <th scope="col">Banner text</th>
+              <th class="text-center" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in banner %}
+            <tr>
+                <th scope="row">{{b.id}}</th>
+                <td>{{b.carousel_heading}}</td>
+                <td>
+                <div style="width: 100px;" class="card-header category-image position overflow-hidden bg-transparent border p-0"><img class="img-fluid w-100" src="{{b.carousel_img.url}}" alt=""></div>
+                </td>
+                <td>{{b.carousel_text}}</td>
+                <td class="text-center">
+                <!-- Edit Button -->
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">
+                    <i class="fa-solid fa-pen-to-square" style="font-size: 30px;"></i>
+                </button>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="edit{{forloop.counter}}" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">
+                                    Edit Banner</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'editbanner' b.id %}" enctype="multipart/form-data" method="POST" class="row g-2">
+                                    {% csrf_token %}
+                                    <div class="form-outline mb-3">
+                                        <input required name="carousel_heading" value="{{b.carousel_heading}}" type="text"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                        <label label class="form-label" for="form3Example1cg">carousel_heading</label>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <input required name="carousel_text" value="{{b.carousel_text}}" type="text"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example1cg">carousel_text</label>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <input  name="carousel_img" value="{{b.carousel_img}}" type="file"
+                                        id="form3Example1cg" class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example1cg">Image</label>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Button trigger modal -->
+                <button
+                type="button"
+                class="btn btn-outline-danger text-black"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal-{{forloop.counter}}"
+                >
+                Delete
+                </button>
+
+                <!-- Modal -->
+                <div
+                class="modal fade"
+                id="exampleModal-{{forloop.counter}}"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+                >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-danger text-center" id="exampleModalLabel">
+                                Delete Banner
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-dark">{{b.carousel_heading}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <form action="{% url 'deletebanner' b.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
+    <button type="button" class="btn btn-outline-primary m-3 sticky-bottom" style="float:right" data-bs-toggle="modal"
+        data-bs-target="#addcategory_modal-{{forloop.counter}}">
+        Add Banner
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addcategory_modal-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">Add Banner</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'addbanner' %}" enctype="multipart/form-data" method="POST" class="row g-2">
+                        {% csrf_token %}
+                        
+                        <div class="form-outline mb-3">
+                            <input required name="carousel_heading"  type="text" id="form3Example1cg"
+                                class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Banner Heading</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input name="carousel_img" type="file" id="form3Example3cg" value="{{b.carousel_img}}"
+                                class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example3cg">Image</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input required name="carousel_text"  type="text" id="form3Example1cg"
+                                class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example1cg">Banner text</label>
+                        </div>
+                    
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-outline-dark btn-lg ">Save</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}

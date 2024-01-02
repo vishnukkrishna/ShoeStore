@@ -1,0 +1,251 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block title %}Coupon{% endblock  %}
+{% block content %}
+
+{% for m in messages %}
+<div id="message" class="alert alert-info" role="alert">
+    {{m}}
+</div>
+{% endfor %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Coupon</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
+                <li class="breadcrumb-item active">Coupons</li>
+            </ol>
+        </nav>
+    </div>
+
+<section class="section dashboard">
+    <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+            <div class="row">
+
+                <!-- Recent Sales -->
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+
+                            <table class="table table-bordered datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">#id</th>
+                                        <th scope="col" class="text-center">coupon code</th>
+                                        <th scope="col" class="text-center">discount price</th>
+                                        <th scope="col" class="text-center">Minimum amount</th>
+                                        <th scope="col" class="text-center">Status</th>
+                                        <th scope="col" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    {% for coupon in coupon %}
+                                    <tr>
+                                        <th scope="row">{{coupon.id}}</th>
+                                        <td>{{coupon.coupon_code}}</td>
+                                        <td>₹ {{coupon.discount_price}}</td>
+                                        <td>₹ {{coupon.min_amount}}</td>
+                                        
+                                        <td class="text-center">
+                                            <a href="{% url 'coupon_status' coupon.id %}">
+                                                {% if c.is_expired %}
+                                                <i class="fa-solid fa-unlock fa-lg text-success ms-3"></i>
+                                                {% else %}
+                                                <i class="fa-solid fa-lock fa-lg text-danger ms-3"></i>
+                                                {% endif %}
+                                            </a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            {% if coupon.is_expired %}
+                                            <span class="badge bg-success">Expired</span>
+                                            {% else %}
+                                            <span class="badge bg-primary">Active</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+
+                                             <!--  Edit button -->
+                                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">
+                                                <i class="fa-sharp fa-solid fa-pen-to-square fa-xl text-warning"></i>
+                                            </button>
+
+                                            <!-- Edit Modal -->
+                                            <div class="modal fade" id="edit{{forloop.counter}}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Coupon</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+
+                                                    <!-- Edit Name-->
+                                                    <div class="modal-body">
+
+                                                        <form required action="{% url 'edit_coupon' coupon.id %}" class="mx-1 mx-md-4" method="POST">
+                                                            {% csrf_token %}
+
+                                                            <!-- Coupon code -->
+                                                            <div class="d-flex flex-row align-items-center mb-4">
+                                                                <div class="form-outline flex-fill mb-0">
+                                                                    <input type="text" value="{{ coupon.coupon_code }}" id="form3Example1c" class="form-control" name="coupon_code" required/>
+                                                                        <label class="form-label" for="form3Example1c">Coupon code</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+
+                                                                <!-- Discount Price -->
+                                                                <div class="d-flex flex-row align-items-center mb-3 col-md-6">
+                                                                <div class="form-outline flex-fill mb-0">
+                                                                    <input type="number" id="form3Example1c" class="form-control" name="dis_price" value="{{coupon.discount_price}}" required/>
+                                                                    <label class="form-label" for="form3Example1c">Discount Price</label>
+                                                                </div>
+                                                                </div>
+                                    
+                                                                <!-- Min amount -->
+                                                                <div class="d-flex flex-row align-items-center mb-3 col-md-6">
+                                                                <div class="form-outline flex-fill mb-0">
+                                                                    <input type="number" id="form3Example1c" class="form-control" name="min_amount" value="{{coupon.min_amount}}" required/>
+                                                                    <label class="form-label" for="form3Example1c">Min amount</label>
+                                                                </div>
+                                                                </div>
+                                    
+                                                            </div>
+
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-outline-dark"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-dark">Apply</button>
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end edit category -->
+
+                                            <!-- Button trigger modal -->
+                                            <a type="button" class="fs-4 text-danger" data-bs-toggle="modal"
+                                                data-bs-target="#confirmDelete{{forloop.counter}}">
+                                                <i title="Delete Product" class="fa fa-trash"></i>
+                                            </a>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="confirmDelete{{forloop.counter}}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h2 class="modal-title fs-5" id="exampleModalLabel">Confirm
+                                                                Delete</h2>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>
+                                                                delete coupon <span
+                                                                    class="text-danger">'{{coupon.coupon_code}}'</span>
+                                                            </h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="{% url 'delete_coupon' %}" method="POST">
+                                                                {% csrf_token %}
+                                                                <input name='coupon_id' type="hidden"
+                                                                    value="{{coupon.id}}" id="form3Example3cg"
+                                                                    class="form-control form-control-lg" />
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Confirm</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                <a type="button" class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#addCoupon">
+                    <i title="Add Product" class="fa fa-plus"></i>
+                </a>
+
+                <!--Add Modal -->
+                <div class="modal fade" id="addCoupon" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Coupon</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'add_coupon'%}" enctype="multipart/form-data" method="POST">
+                                    {% csrf_token %}
+
+                                    <div class="form-outline mb-4">
+                                        <input required name='coupon_code' type="text" id="form3Example3cg"
+                                            class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example3cg">Coupon code</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input required name='discount_price' type="number" id="form3Example3cg"
+                                            class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example3cg">Discount Price</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input required name='min_amount' type="number" id="form3Example3cg"
+                                            class="form-control form-control-lg" />
+                                        <label class="form-label" for="form3Example3cg">Minimum Amount</label>
+                                    </div>
+
+                              
+
+
+
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit"
+                                            class="btn btn-danger btn-lg gradient-custom-4 w-50 text-light">Save
+                                            Changes</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Recent Sales -->
+
+        </div>
+    </div><!-- End Left side columns -->
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous">
+</script>
+
+<script>
+    let today = new Date().toISOString().substr(0, 10);
+    document.querySelector("#form3Example3cgfdgfdg").setAttribute("min", today);
+
+    setTimeout(function () {
+        $('#message').fadeOut('slow')
+    }, 2000)
+</script>
+{% endblock content %}

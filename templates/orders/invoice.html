@@ -1,0 +1,260 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% load tz %}
+
+{% block title %}Order tracking{% endblock %}
+
+{% block link %}
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/invoice.css' %}"> {% endcomment %}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container m-t-100 mb-5 ">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="card border border-dark">
+                <div class="text-center logo-q1 p-2 px-5">
+                    <span class="pull-right hidden-print">
+                        <a id="printInvoice" class="btn btn-sm text-dark m-b-6 p-l-3" ><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
+                    </span>
+                    <img src="{% static 'img/Logo.png' %}" width="200" class="pl-5">
+
+                </div>
+
+                <div class="invoice p-5">
+
+                    <div class="payment mt-3 mb-3 border-bottom table-responsive">
+
+                        <table class="table table-striped bg-light text-dark">
+
+                            <tbody class="">
+                                <tr>
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Order Date</span>
+                                            <span>{{order.ordered_date}}</span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Order No</span>
+                                            <span>{{order.order_id}}</span>
+
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Payment</span>
+                                            <span><img
+                                                    src="https://incevio.com/storage/images/79Kx4XS1MriIJPYzX9uCSpf9pKt8vPr2ZslrmbQ1.png"
+                                                    width="40" /></span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Shipping Address</span>
+                                            <span>({{order.user.first_name}}) {{order.delivery_address.house_name}}(H),<br>{{order.delivery_address.city}},<br>
+                                                {{order.delivery_address.state}}</span>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <div class="product border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+                            <thead>
+
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for item in order_items %}
+                                <tr>
+                                    <td width="20%">
+                                        <img src="{{item.product.image.url}}" width="150">
+                                    </td>
+
+                                    <td width="40%">
+                                        <span class="font-weight-bold text-danger">{{item.product.title}}</span>
+
+                                        <div class="product-qty">
+
+                                            {% if item.variant %}
+                                            <span class="text-secondary">({{item.variant}})</span>
+                                            {% endif %}
+
+                                            <span class="d-block text-secondary">Quantity:{{item.quantity}}</span>
+                                        </div>
+
+                                    </td>
+
+                                    <td class="text-left" width="20%">
+                                        <span>₹{{item.item_price}}.00</span>
+                                    </td>
+
+                                    <td width="20%">
+                                        <div class="text-center">
+                                            <span>{{item.quantity}}</span>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-left">
+                                        <span class="font-weight-bold">₹{{item.item_total}}.00</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-5">
+                            <table class="table table-borderless">
+                                <tbody class="totals">
+
+                                    <tr class="text-dark">
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span>Subtotal</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>₹{{order.payment.cart_total}}.00</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr class="text-dark">
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span>Shipping Fee</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span><b>Free Shipping</b> </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr class="text-dark">
+                                        <td>
+                                            <span>Tax Fee</span>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>₹{{order.payment.tax}}.00</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    {% if order.coupon %}
+                                    <tr class="text-dark">
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span>Discount</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span><b>-₹{{order.coupon.discount_price}}.00</b> </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+
+                                    <tr class="border-top border-bottom">
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="font-weight-bold">Subtotal</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right text-danger">
+                                                <span class="font-weight-bold">₹{{order.payment.grand_total}}.00</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+
+                    </div>
+
+
+                    {% comment %} <p>Your order will be delivered within 7 working days!</p> {% endcomment %}
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+                    <span>Team SheoStore</span>
+
+
+
+
+
+                </div>
+
+
+                <div class="d-flex justify-content-between footer p-3">
+
+                    <span>Need Help? visit our <a href="#"> help center</a></span>
+                    <span>{% now "d, M Y" %}</span>
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("printInvoice").addEventListener("click", function() {
+        window.print();
+    });
+</script>
+{% endblock %}

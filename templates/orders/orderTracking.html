@@ -1,0 +1,127 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% load tz %}
+
+{% block title %}Order tracking{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tracking.css' %}">
+{% endblock %}
+{% block content %}
+
+
+<section class="vh-100 gradient-custom-2 m-t-85">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+                <div class="card card-stepper mt-2" style="border-radius: 16px;">
+                    <div class="card-header p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-dark mb-2">Tracking ID: <span class="fw-bold text-body"><b>{{ item.id }}</b></span>
+                                </p>
+                                <p class="text-dark mb-0"> Place On: <span class="fw-bold text-body"><b>{{item.order.ordered_date}}</b></span> </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-row mb-4 pb-2">
+                            <div class="flex-fill">
+                                <h5 class="text-dark mt-4"><b>{{item.product}}</b></h5>
+                                <h6 class="bold text-dark mt-2">Price: <i class="text-danger">₹{{item.item_price}}.00 </i>
+                                    x {{item.quantity}}
+                                </h6>
+                                <h6 class="mb-3 mt-2 text-dark">Total :<i class="text-danger">₹{{item.item_total}}.00</i>
+                                    <span class="small text-muted">({{item.order.payment.payment_method}})</span></h6>
+
+                                <p class="text-dark">Tracking Status on:
+                                    <span class="text-body"><b>{{ current_date|timezone:"Asia/Kolkata"|date:"F j, Y"}}</b></span>
+                                </p>
+
+                            </div>
+
+                            <div class="m-l-50">
+                                <img class="align-self-center img-fluid"
+                                    src="{{item.product.image.url}}"
+                                    width="150">
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========== order status ================ -->
+                        <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+
+                            {% if item.order_status == 'Ordered' %}
+                            <li class="step0 active" id="step1">
+                                <spanstyle="margin-left: 22px; margin-top:12px;">ORDERED</span>
+                            </li>
+                            <li class="step0 text-muted text-center" id="step2">
+                                <span>SHIPPED</span>
+                            </li>
+                            <li class="step0 text-muted text-right" id="step3">
+                                <spanstyle="">DELIVERED</span>
+                            </li>
+                            {% comment %} <li class="step0 text-muted text-right" id="step4"><spanstyle="margin-right:
+                                    22px;">DELIVERED</span></li>
+                            <li class="step0 text-muted text-right" id="step5"><spanstyle="margin-right:
+                                    22px;">DELIVERED</span></li> {% endcomment %}
+
+                            {% elif item.order_status == 'Shipped' %}
+                            <li class="step0 active" id="step1">
+                                <spanstyle="margin-left: 22px; margin-top:12px;">ORDERED</span>
+                            </li>
+                            <li class="step0 active text-center" id="step2">
+                                <span>SHIPPED</span>
+                            </li>
+                            <li class="step0 text-muted text-right" id="step3">
+                                <spanstyle="margin-right:22px;">DELIVERED</span>
+                            </li>
+
+                            {% elif item.order_status == 'Delivered' %}
+                            <li class="step0 active" id="step1">
+                                <spanstyle="margin-left: 22px; margin-top:12px;">ORDERED</span>
+                            </li>
+                            <li class="step0 active text-center" id="step2">
+                                <span>SHIPPED</span>
+                            </li>
+                            <li class="step0 active text-right" id="step3">
+                                <spanstyle="margin-right:22px;">DELIVERED</span>
+                            </li>
+
+                            {% elif item.order_status == 'Cancelled' %}
+                            <h5> Order Cancelled. Amount will be refunded</h5>
+
+                            {% elif item.order_status == 'Refunded' %}
+                            <h5>Refund completed</h5>
+
+                            {% endif %}
+
+                        </ul>
+                        <!-- ========= order status end ============== -->
+
+                    </div>
+
+                    <div class="card-footer p-4">
+                        <div class="d-flex justify-content-between">
+
+                            <div class="border-start h-100"></div>
+
+                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' or item.order_status == 'Delivered' %}
+                            <h5 class="fw-normal mb-0 text-secondary"><a>Cancelled Order</a></h5>
+                            {% else %}
+                            <h5 class="fw-normal mb-0 text-Primary"><a
+                                    href="{% url 'cancel_order' item.id item.order.order_id %}">Cancel Order</a></h5>
+                            {% endif %}
+                            <div class="border-start h-100"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

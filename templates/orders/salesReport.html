@@ -1,0 +1,134 @@
+{% extends 'adminbase.html' %} 
+{% block title %} Admin Dashboard {% endblock title %} 
+{% block links %}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
+{% endblock links %} 
+{% block content %}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Sales Report</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="">Home</a></li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section dashboard pt-5">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Recent Sales -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <div>
+                                    <div class="container">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-4">
+                                                    <label for="start-date">Start Date</label>
+                                                    <input
+                                                        type="date"
+                                                        id="start-date"
+                                                        name="start-date"
+                                                        class="form-control"
+                                                        value="{{s_date}}"
+                                                    />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="end-date">End Date</label>
+                                                    <input
+                                                        type="date"
+                                                        id="end-date"
+                                                        name="end-date"
+                                                        class="form-control"
+                                                        value="{{e_date}}"
+                                                    />
+                                                </div>
+                                                <div class="col-md-12 d-flex justify-content-center p-3">
+                                                    <button class="btn btn-danger btn-block" type="submit">
+                                                        Generate Report
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    {% if sales %}
+                                    <table id="example" class="display nowrap" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Customer</th>
+                                                <th>Product</th>
+                                                <th>Date</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for sale in sales %}
+                                            <tr>
+                                                <td>{{sale.order.order_id}}</td>
+                                                <td>{{sale.order.user}}</td>
+                                                <td>{{sale.product.title}} ({{sale.variant}})</td>
+                                                <td>{{sale.order.ordered_date.date}}</td>
+                                                <td>{{sale.item_price}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endif %} {% for m in messages %}
+                                    <div class="alert alert-info" id="message" role="alert">{{m}}</div>
+                                    {% endfor %}
+                                    <script>
+                                        const startDate = document.getElementById("start-date");
+                                        const endDate = document.getElementById("end-date");
+
+                                        endDate.addEventListener("change", function () {
+                                            if (endDate.value < startDate.value) {
+                                                alert("End date cannot be before start date.");
+                                                endDate.value = "";
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Recent Sales -->
+                </div>
+            </div>
+            <!-- End Left side columns -->
+
+            <script>
+                setTimeout(function () {
+                    $("#message").fadeOut("slow");
+                }, 2000);
+
+                $(document).ready(function () {
+                    $("#example").DataTable({
+                        dom: "Bfrtip",
+                        buttons: ["excel", "pdf"],
+                    });
+                });
+            </script>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+        </div>
+    </section>
+</main>
+{% endblock %}

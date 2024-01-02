@@ -1,0 +1,47 @@
+/* Hide the radio Button */
+.rate > input{
+    display: none;
+  }
+  
+.rate{
+    display: inline-block;
+    border: 0;
+}
+  
+.rate > label{
+    float: right;
+}
+  
+/* Showing the Stars */
+.rate > label:before{
+    display: inline-block;
+    font-size: 1.1rem;
+    content: "\f005";
+    font-family: FontAwesome;
+    margin: 0;
+    padding: 0.3rem .2rem;
+    cursor: pointer;
+}
+  
+/* Half Star */
+.rate .half:before{
+    content: "\f089";
+    position: absolute;
+    padding-right: 0;
+}
+
+/* Check and Hover */
+input:checked ~ label, label:hover ~ label{
+    color: #ffb503;
+}
+
+/* Hover Hightlight */
+input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:hover ~ label, label:hover ~ input:checked ~ label{
+    color: #cc9000;
+}
+
+
+
+
+
+/* ########################## */

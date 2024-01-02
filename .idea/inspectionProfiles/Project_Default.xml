@@ -1,0 +1,68 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyInterpreterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="54">
+            <item index="0" class="java.lang.String" itemvalue="tzlocal" />
+            <item index="1" class="java.lang.String" itemvalue="html5lib" />
+            <item index="2" class="java.lang.String" itemvalue="PyYAML" />
+            <item index="3" class="java.lang.String" itemvalue="psycopg2-binary" />
+            <item index="4" class="java.lang.String" itemvalue="python-dotenv" />
+            <item index="5" class="java.lang.String" itemvalue="defusedxml" />
+            <item index="6" class="java.lang.String" itemvalue="pycparser" />
+            <item index="7" class="java.lang.String" itemvalue="tinycss2" />
+            <item index="8" class="java.lang.String" itemvalue="certifi" />
+            <item index="9" class="java.lang.String" itemvalue="oauthlib" />
+            <item index="10" class="java.lang.String" itemvalue="lxml" />
+            <item index="11" class="java.lang.String" itemvalue="razorpay" />
+            <item index="12" class="java.lang.String" itemvalue="asgiref" />
+            <item index="13" class="java.lang.String" itemvalue="cryptography" />
+            <item index="14" class="java.lang.String" itemvalue="reportlab" />
+            <item index="15" class="java.lang.String" itemvalue="pypdf" />
+            <item index="16" class="java.lang.String" itemvalue="click" />
+            <item index="17" class="java.lang.String" itemvalue="python3-openid" />
+            <item index="18" class="java.lang.String" itemvalue="python-bidi" />
+            <item index="19" class="java.lang.String" itemvalue="charset-normalizer" />
+            <item index="20" class="java.lang.String" itemvalue="idna" />
+            <item index="21" class="java.lang.String" itemvalue="PyJWT" />
+            <item index="22" class="java.lang.String" itemvalue="pyhanko-certvalidator" />
+            <item index="23" class="java.lang.String" itemvalue="qrcode" />
+            <item index="24" class="java.lang.String" itemvalue="cffi" />
+            <item index="25" class="java.lang.String" itemvalue="xhtml2pdf" />
+            <item index="26" class="java.lang.String" itemvalue="pycodestyle" />
+            <item index="27" class="java.lang.String" itemvalue="requests" />
+            <item index="28" class="java.lang.String" itemvalue="svglib" />
+            <item index="29" class="java.lang.String" itemvalue="sqlparse" />
+            <item index="30" class="java.lang.String" itemvalue="requests-oauthlib" />
+            <item index="31" class="java.lang.String" itemvalue="tomli" />
+            <item index="32" class="java.lang.String" itemvalue="oscrypto" />
+            <item index="33" class="java.lang.String" itemvalue="urllib3" />
+            <item index="34" class="java.lang.String" itemvalue="uritools" />
+            <item index="35" class="java.lang.String" itemvalue="pyscopg2" />
+            <item index="36" class="java.lang.String" itemvalue="cssselect2" />
+            <item index="37" class="java.lang.String" itemvalue="autopep8" />
+            <item index="38" class="java.lang.String" itemvalue="pypng" />
+            <item index="39" class="java.lang.String" itemvalue="six" />
+            <item index="40" class="java.lang.String" itemvalue="asn1crypto" />
+            <item index="41" class="java.lang.String" itemvalue="django-mathfilters" />
+            <item index="42" class="java.lang.String" itemvalue="pyHanko" />
+            <item index="43" class="java.lang.String" itemvalue="tzdata" />
+            <item index="44" class="java.lang.String" itemvalue="arabic-reshaper" />
+            <item index="45" class="java.lang.String" itemvalue="pytz-deprecation-shim" />
+            <item index="46" class="java.lang.String" itemvalue="social-auth-core" />
+            <item index="47" class="java.lang.String" itemvalue="social-auth-app-django" />
+            <item index="48" class="java.lang.String" itemvalue="colorama" />
+            <item index="49" class="java.lang.String" itemvalue="Django" />
+            <item index="50" class="java.lang.String" itemvalue="typing_extensions" />
+            <item index="51" class="java.lang.String" itemvalue="pytz" />
+            <item index="52" class="java.lang.String" itemvalue="webencodings" />
+            <item index="53" class="java.lang.String" itemvalue="Pillow" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

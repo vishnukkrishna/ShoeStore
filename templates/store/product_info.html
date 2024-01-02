@@ -1,0 +1,285 @@
+{% extends 'userbase.html' %} 
+{% load static %} 
+{% block title %}Product Info{% endblock title %} 
+{% block link %}<link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />{% endblock  %}
+{% block content %}
+
+<!-- Product Detail -->
+<section class="sec-product-detail bg0 p-t-65 p-b-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-7 p-b-30">
+                <div class="p-l-25 p-r-30 p-lr-0-lg">
+                    <div class="wrap-slick3 flex-sb flex-w">
+                        <div class="wrap-slick3-dots"></div>
+                        <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+                        <div class="slick3 gallery-lb">
+                            <div class="item-slick3" data-thumb="{{product.image.url}}">
+                                <div class="wrap-pic-w pos-relative">
+                                    <img class="big_img" src="{{product.image.url}}" alt="IMG-PRODUCT" />
+                                    
+                                    <a
+                                        class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10  hov-btn3 trans-04"
+                                        href="{{product.image.url}}">
+                                        {% comment %} <i class="fa fa-expand"></i> {% endcomment %}
+                                    </a>
+
+                                </div>
+                            </div>
+                            {% for img in images %}
+                            <div class="item-slick3" data-thumb="{{img.images.url}}">
+                                <div class="wrap-pic-w pos-relative">
+                                    <img class="big_img" src="{{img.images.url}}" alt="IMG-PRODUCT" />
+                                    
+                                    <a
+                                        class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10  hov-btn3 trans-04"
+                                        href="{{prduct.image.url}}">
+                                        {% comment %} <i class="fa fa-expand"></i> {% endcomment %}
+                                    </a>
+
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-5 p-b-30">
+                <div class="p-r-50 p-t-5 p-lr-0-lg">
+                    
+                    <h4 class="mtext-105 cl2 js-name-detail p-b-14">{{product.title}}</h4>
+
+                    {% if variant_price %}
+                    <h3 class="mtext-106 cl2"> ₹ {{ variant_price }}.00</h3>
+                    {% else %}
+                    <h3 class="mtext-106 cl2">₹ {{product.price}}</h3>
+                    {% endif %}
+
+                    <span class="fs-18 cl11">
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star"></i>
+                        <i class="zmdi zmdi-star-half"></i>
+                    </span>
+                    <span>({{reviews}} Reviews)</span>  
+                    
+
+                    
+
+                    <p class="stext-102 cl3 p-t-23">{{product.description}}</p>
+                    <br /><br />
+                    <div class="p-t-30">
+                    <!-- Variation selection -->
+                    <form action="{% url 'add_cart' product.id %}?variant={{selected_variant}}" method="POST">
+                        {% csrf_token %}
+                        {% if variants %}
+                        <div class="flex-w flex-r-m p-b-10">
+                            <div class="size-203 flex-c-m respon6">Color</div>
+
+                            <div class="size-204 respon6-next">
+                                <div class="rs1-select2 bor8 bg0">
+                                    
+                                    <select class="js-select2" name="selected_variant" onchange="get_current_price()" required>
+
+                                        {% if selected_variant %}
+                                        <option value="{{selected_variant}}" selected>
+                                            {{color}}
+                                        </option>
+                                        {% else %}
+                                        <option value="" selected>
+                                            Choose Color
+                                        </option>
+                                        {% endif %}
+
+                                        {% for variant in variants %}
+                                        <option value="{{variant}}">
+                                            {{variant.color}}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    
+
+                                    <div class="dropDownSelect2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="align-items-center align-items-center">
+                            <div class="size-204 text-center">
+
+                                {% if product.stock < 1 %}
+                                <img src="{% static 'img/out-of-stock.png' %}" width="150" height="150" alt="">
+
+                                {% else %}
+                                <button type="submit" class="btn btn-dark flex-c-m size-116 bor14 p-lr-15">
+                                    Add to cart
+                                </button>
+                                {% endif %}
+
+                                {% if in_wishlist %}
+                                <a class="btn btn-outline-success flex-c-m size-116 bor14 p-lr-15 m-t-10">
+                                    Added to Wishlist
+                                </a>
+
+                                {% else %}
+                                <a href="{% url 'add_wishlist' product.id %}"
+                                    class="btn btn-outline-dark flex-c-m size-116 bor14 p-lr-15 m-t-10">
+                                    Add to Wishlist
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>{% include 'includes/alerts.html' %}</div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bor10 m-t-50 p-t-43 p-b-40">
+            <!-- Tab01 -->
+            <div class="tab01">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs text-center" role="tablist">
+                    <li class="nav-item p-b-10">
+                        <a class="nav-link" style="font-size: large; color: black;" data-toggle="tab" href="#reviews" role="tab">Customer Reviews✨</a>
+                    </li>
+                    <hr>
+                </ul>
+
+                <hr>
+
+                <!-- Tab panes -->
+                <div class="p-t-43">
+                        <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+                            <div class="p-b-30 m-lr-15-sm">
+                                <!-- Review -->
+                                <div class="flex-w flex-t p-b-68">
+                                    <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                        {% if user.is_authenticated %}
+                                        <img src="{{user.user_image.url}}" alt="AVATAR" />
+                                        {% else %}
+                                        <img src="{% static 'img/vk-high.png' %}" alt="AVATAR" />
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="size-207">
+                                        <div class="flex-w flex-sb-m p-b-17">
+                                            <span class="mtext-107 cl2 p-r-20 p-4"> {{user.first_name}} </span>
+
+                                            <span class="fs-18 cl11">
+                                                <i class="zmdi zmdi-star"></i>
+                                                <i class="zmdi zmdi-star"></i>
+                                                <i class="zmdi zmdi-star"></i>
+                                                <i class="zmdi zmdi-star"></i>
+                                                <i class="zmdi zmdi-star-half"></i>
+                                            </span>
+                                        </div>
+                                        <br>&nbsp;&nbsp;&nbsp;
+                                        
+                                    </div>
+                                </div>
+
+                                <!-- Add review -->
+                                {% if user.is_authenticated %}
+                                <form action="{% url 'submit_review' product.id %}" method="POST" enctype="multipart/form-data" class="w-full">
+                                    {% csrf_token %}
+                                    {% if review %}
+                                    <h5 class="mtext-108 cl2 p-b-7">Edit review</h5>
+                                    {% else %}
+                                    <h5 class="mtext-108 cl2 p-b-7">Add a review</h5>
+                                    {% endif %}
+                                    <div class="flex-w flex-m p-t-50 p-b-23">
+                                        <label class="stext-102 cl3 m-r-16" for="">Your Rating</label><br>
+                                        
+                                        <div class="rate">
+                                            <input type="radio" name="rating" id="rating10" value="5" required>  <label for="rating10" title="5"></label>
+                                            <input type="radio" name="rating" id="rating9" value="4.5" required> <label for="rating9" title="4.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating8" value="4" required>   <label for="rating8" title="4"></label>
+                                            <input type="radio" name="rating" id="rating7" value="3.5" required> <label for="rating7" title="3.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating6" value="3" required>   <label for="rating6" title="3"></label>
+                                            <input type="radio" name="rating" id="rating5" value="2.5" required> <label for="rating5" title="2.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating4" value="2" required>   <label for="rating4" title="2"></label>
+                                            <input type="radio" name="rating" id="rating3" value="1.5" required> <label for="rating3" title="1.5" class="half"></label>
+                                            <input type="radio" name="rating" id="rating2" value="1" required>   <label for="rating2" title="1"></label>
+                                            <input type="radio" name="rating" id="rating1" value="0.5" required> <label for="rating1" title="0.5" class="half"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-b-25">
+                                        <div class="col-12 p-b-5">
+                                            <label class="stext-102 cl3" for="review">Your review :</label>
+                                            <textarea
+                                                class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
+                                                id="review"
+                                                name="review"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                    {% if ordered %}
+                                    <button type="submit"
+                                    class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+                                    Submit
+                                    </button>
+                                    {% else %}
+                                    <h6>Only buyers can submit review of the product</h6>
+                                    {% endif %}
+
+                                    {% else %}
+                                    <h6>Please login to submit your review.<a href="{% url 'userlogin' %}">Login here<a>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <hr>
+            <div class="container">
+                <div class="row isotope-grid">
+                    {% if review %}
+                    {% for r in review %}
+                    <div class="col-sm-6 col-md-4 col-lg-4 p-b-35 isotope-item">
+                        <!-- Block2 -->
+                        <div class="block2">
+                            <div class="block2-pic hov-img0 text-center">
+                                <img style="height: 100px;  width: 100px;" src="{{r.user.user_image.url}}" alt="AVATAR">
+
+                            </div>
+
+                            <div class="p-t-14 text-center">
+                                <div>
+                                    <a href="" class="stext-104 cl4 hov-cl1 trans-04 p-b-6">
+                                        {{r.user.first_name}}
+                                    </a>
+                                    <p class="stext-105 cl3 text-center">
+                                        {{r.review}}
+                                    </p>
+                                    <p class="fs-18 cl11 text-center">
+                                        <span>{{r.rating}} / 5.0 <i class="zmdi zmdi-star"></i></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function get_current_price(variant) {
+        var variant = document.querySelector('select[name="selected_variant"]').value;
+        window.location.href = window.location.pathname + `?variant=${variant}`
+
+        // show element with name="seleced_variant"
+        var disabledOption = selectElement.querySelector('option[disabled][selected]');
+        disabledOption.textContent = variant;
+    }
+</script>
+{% endblock %}

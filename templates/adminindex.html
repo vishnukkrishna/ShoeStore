@@ -1,0 +1,280 @@
+{% extends 'adminbase.html' %} {% load static %} {% block title %}Admin Home{% endblock %} {% block content %}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="">Home</a></li>
+            </ol>
+        </nav>
+    </div>
+    {% comment %} End Dashboard Nav {% endcomment %}
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Sales Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Users</h5>
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{user}}</h6>
+                                        <span class="small pt-1 fw-bold">Users</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Sales Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Sales</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-cart"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{sales}}</h6>
+                                        <span class="small pt-1 fw-bold">Products</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Revenue Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Revenue</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="fa-solid fa-indian-rupee-sig">₹</i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>₹ {{revenue}}</h6>
+                                        <span class="small pt-1 fw-bold">Revenue</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Revenue Card -->
+                    <hr />
+                    <!-- Reports -->
+                    {% comment %} <div class="col-12">
+                        <div class="card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Revenue <span>/Today</span></h5>
+
+                                <!-- Line Chart -->
+                                <div id="reportsChart"></div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#reportsChart"), {
+                                            series: [{
+                                                name: 'Sales',
+                                                data:[
+                                                {% for sales in sales_by_day %}
+                                                    {{ sales.total_sales }},
+                                                {% endfor %}
+                                                ],
+                                            }, 
+                                            // {
+                                            //     name: 'Revenue',
+                                            //     data: [11, 32, 45, 32, 34, 52, 41]
+                                            // }, 
+                                            // {
+                                            //     name: 'Customers',
+                                            //     data: [15, 11, 32, 18, 9, 24, 11]
+                                            // }
+                                            ],
+                                            chart: {
+                                                height: 350,
+                                                type: 'area',
+                                                toolbar: {
+                                                    show: false
+                                                },
+                                            },
+                                            markers: {
+                                                size: 4
+                                            },
+                                            colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                                            fill: {
+                                                type: "gradient",
+                                                gradient: {
+                                                    shadeIntensity: 1,
+                                                    opacityFrom: 0.3,
+                                                    opacityTo: 0.4,
+                                                    stops: [0, 90, 100]
+                                                }
+                                            },
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            stroke: {
+                                                curve: 'smooth',
+                                                width: 2
+                                            },
+                                            xaxis: {
+                                                type: 'datetime',
+                                                categories: ['2023-03-28', '2023-03-29', '2023-03-30', '2023-03-31', '2023-04-01', '2023-04-02']
+                                            },
+                                            tooltip: {
+                                                x: {
+                                                    format: 'dd/MM/yy'
+                                                },
+                                            }
+                                        }).render();
+                                    });
+                                </script>
+                                <!-- End Line Chart -->
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                    <!-- End Reports -->
+                    <div class="col-lg-12">
+                        <!-- Website Traffic -->
+                        <div class="card">
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body pb-0">
+                                <h5 class="card-title">Payment <span>/Products</span></h5>
+        
+                                <div id="trafficChart" style="min-height: 400px" class="echart"></div>
+        
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        echarts.init(document.querySelector("#trafficChart")).setOption({
+                                            tooltip: {
+                                                trigger: "item",
+                                            },
+                                            legend: {
+                                                top: "5%",
+                                                left: "center",
+                                            },
+                                            series: [
+                                                {
+                                                    name: "Access From",
+                                                    type: "pie",
+                                                    radius: ["40%", "70%"],
+                                                    avoidLabelOverlap: false,
+                                                    label: {
+                                                        show: false,
+                                                        position: "center",
+                                                    },
+                                                    emphasis: {
+                                                        label: {
+                                                            show: true,
+                                                            fontSize: "18",
+                                                            fontWeight: "bold",
+                                                        },
+                                                    },
+                                                    labelLine: {
+                                                        show: false,
+                                                    },
+                                                    data: [
+                                                        {
+                                                            value: {{ order }},
+                                                name: "Razorpay",
+                                                        },
+                                                   
+                                                    ],
+                                                },
+                                            ],
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!-- End Website Traffic -->
+                    </div>
+                    <!-- End Right side columns -->
+                </div>
+                </div>
+            </div>
+            <!-- End Left side columns -->
+            <hr />
+            <div class="col-12">
+                <div class="card top-selling overflow-auto">
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Sub Total</th>
+                                    <th scope="col">Tax</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Grand Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for sale in recent_sales %}
+                                <tr>
+                                    <td><a href="#" class="text-primary fw-bold">{{sale.order_id}}</a></td>
+                                    <td>{{sale.user}}</td>
+                                    <td>₹{{sale.payment.cart_total}}</td>
+                                    <td>₹{{sale.payment.tax}}</td>
+
+                                    {% if sale.coupon %}
+                                    <td>₹{{sale.coupon.discount_price}}</td>
+
+                                    {% else %}
+                                    <td class="ms-4">0</td>
+                                    {% endif %}
+                                    <td class="fw-bold">₹{{sale.payment.grand_total}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- End Top Selling -->
+        </div>
+    </section>
+</main>
+{% block scripts %}
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/sales-chart.js' %}"></script> {% endcomment %}
+{% endblock %} {% endblock %}

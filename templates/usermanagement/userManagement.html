@@ -1,0 +1,129 @@
+{% extends 'adminbase.html' %}  {% load static %} {% block title %}User List{% endblock %} {% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Users Lists</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Home</a></li>
+                <li class="breadcrumb-item active">Users</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+    <table class="table table-striped datatable">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Joined Date</th>
+                <th scope="col">Actions</th>
+                <th scope="col">Status</th>
+                <th scope="col">Block/Unblock</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in userdetails %}
+            <tr>
+                <th scope="row">{{u.id}}</th>
+                <td>{{u.first_name}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.phone_number}}</td>
+                <td>{{u.date_joined}}</td>
+
+                <td>
+                    <!-- Edit Button -->
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}">
+                        <i class="fa-solid fs-4 fa-user-pen text-warning"></i>
+                    </button>
+
+                    <!-- Edit Modal -->
+                    <div
+                        class="modal fade"
+                        id="edit{{ forloop.counter}}"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                    >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+
+                                <!-- Edit Name-->
+                                <div class="modal-body">
+                                    <form required action="{% url 'edituser' u.id %}" class="mx-1 mx-md-4" method="POST">
+                                        {% csrf_token %}
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                                <input
+                                                    type="text"
+                                                    value="{{u.first_name}}"
+                                                    id="form3Example1c"
+                                                    class="form-control"
+                                                    name="name"
+                                                />
+                                                {% for m in messages %}
+                                                <div class="alert alert-danger py-2" role="alert">{{ m }}</div>
+                                                {% endfor %}
+                                                <label class="form-label" for="form3Example1c">Your Name</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Edit Mail -->
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                                <input
+                                                    type="email"
+                                                    value="{{u.email}}"
+                                                    id="form3Example3c"
+                                                    class="form-control"
+                                                    name="email"
+                                                />
+                                                <label class="form-label" for="form3Example3c">Your Email</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Apply</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                {% if u.is_active%}
+                <td class="text-center text-success">ACTIVE</td>
+                {% else %}
+                <td  class="text-center text-danger">DEACTIVE</td>
+                {% endif %}
+
+                <td class="text-center">
+
+                    {% if u.is_active%}
+                    <a href="{% url 'blockunblock' u.id %}" type="submit" class="btn btn-danger">Block</a>
+                    {% else %}
+                    <a href="{% url 'blockunblock' u.id %}" type="submit" class="btn btn-success">Unblock</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}

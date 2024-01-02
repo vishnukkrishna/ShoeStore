@@ -1,0 +1,286 @@
+{% extends 'userbase.html' %} {% load static %} {% block title %}Order details{% endblock %} {% block link %}
+<link
+    rel="stylesheet"
+    href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css"
+    integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv"
+    crossorigin="anonymous"
+/>
+
+<style>
+    /* My Account */
+    .payments-item img.mr-3 {
+        width: 47px;
+    }
+
+    .order-list .btn {
+        border-radius: 2px;
+        min-width: 121px;
+        font-size: 13px;
+        padding: 7px 0 7px 0;
+    }
+
+    .osahan-account-page-left .nav-link {
+        padding: 18px 20px;
+        border: none;
+        font-weight: 600;
+        color: #eee;
+    }
+
+    .osahan-account-page-left .nav-link i {
+        width: 28px;
+        height: 28px;
+        background: #535665;
+        display: inline-block;
+        text-align: center;
+        line-height: 29px;
+        font-size: 15px;
+        border-radius: 50px;
+        margin: 0 7px 0 0px;
+        color: #fff;
+    }
+
+    .osahan-account-page-left .nav-link.active {
+        background: #eee;
+        color: #282c3f !important;
+    }
+
+    .osahan-account-page-left .nav-link.active i {
+        background: #282c3f !important;
+    }
+
+    .osahan-user-media img {
+        width: 90px;
+    }
+
+    .card offer-card h5.card-title {
+        border: 2px dotted #000;
+    }
+
+    .card.offer-card h5 {
+        border: 1px dotted #daceb7;
+        display: inline-table;
+        color: #17a2b8;
+        margin: 0 0 19px 0;
+        font-size: 15px;
+        padding: 6px 10px 6px 6px;
+        border-radius: 2px;
+        background: #fffae6;
+        position: relative;
+    }
+
+    .card.offer-card h5 img {
+        height: 22px;
+        object-fit: cover;
+        width: 22px;
+        margin: 0 8px 0 0;
+        border-radius: 2px;
+    }
+
+    .card.offer-card h5:after {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-bottom: 4px solid #daceb7;
+        content: "";
+        left: 30px;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .card.offer-card h5:before {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid #daceb7;
+        content: "";
+        left: 30px;
+        position: absolute;
+        top: 0;
+    }
+
+    .payments-item .media {
+        align-items: center;
+    }
+
+    .payments-item .media img {
+        margin: 0 40px 0 11px !important;
+    }
+
+    .reviews-members .media .mr-3 {
+        width: 56px;
+        height: 56px;
+        object-fit: cover;
+    }
+
+    .order-list img.mr-4 {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+        border-radius: 2px;
+    }
+
+    .osahan-cart-item p.text-gray.float-right {
+        margin: 3px 0 0 0;
+        font-size: 12px;
+    }
+
+    .osahan-cart-item .food-item {
+        vertical-align: bottom;
+    }
+
+    .h1,
+    .h2,
+    .h3,
+    .h4,
+    .h5,
+    .h6,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #000000;
+    }
+
+    .shadow-sm {
+        box-shadow: 0.01rem 0.01rem 0.01rem 0.05rem rgba(0, 0, 0, 0) !important;
+    }
+
+    .rounded-pill {
+        border-radius: 50rem !important;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %} {% block content %}
+
+<div class="container m-t-120 mb-5">
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-12">
+            <div class="osahan-account-page-right shadow-sm p-4 h-100">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                        <nav aria-label="breadcrumb mb-0" class="bg-dark rounded-3 p-2 mb-3">
+                            <h3 class="text-center text-light">Ordered Items</h3>
+                        </nav>
+
+                        {% for item in order_items %}
+                        <div class="bg-white card mb-2 order-list shadow-sm">
+                            <div class="gold-members p-4">
+                                <div class="media">
+                                    <img class="mr-4" src="{{item.product.image.url}}" alt="Generic placeholder image" />
+
+                                    <div class="media-body">
+                                        <a href="#">
+                                            <span class="float-right text-info"
+                                                >{{item.order_status}} <i class="icofont-check-circled text-success"></i
+                                            ></span>
+                                        </a>
+                                        <h6 class="mb-2">
+                                            <p class="text-tertiary">
+                                                Product: <a><span class="text-danger">{{item.product.title }}</span></a>
+                                            </p>
+                                            {% if item.variant %}
+                                            <p class="text-secondary mb-1 mt-1">
+                                                <i class="icofont-list"></i>({{item.variant}})
+                                            </p>
+
+                                            {% endif %}
+                                        </h6>
+
+                                        <p class="text-gray mb-3">
+                                            <i class="icofont-list"></i> Price: ₹{{item.item_price}}.00
+                                            <i class="icofont-clock-time ml-2"><br /> </i> Quantity: {{ item.quantity }}
+                                        </p>
+
+                                        <hr />
+                                        <div class="float-right">
+                                            <a
+                                                class="btn btn-sm btn-outline-dark rounded-pill py-2"
+                                                href="{% url 'tracking' item.id %}"
+                                                >Track Order</a
+                                            >
+
+                                            {% if item.order_status == 'Cancelled' or item.order_status == 'Refunded' or item.order_status == 'Delivered' %}
+                                            <a class="btn btn-sm btn-secondary text-light rounded-pill py-2"
+                                                >Cancelled Order</a
+                                            >
+                                            {% else %}
+                                            <button
+                                                type="button"
+                                                class="btn btn-dark rounded-pill py-2"
+                                                data-toggle="modal"
+                                                data-target="#cancelOrder-{{forloop.counter}}"
+                                            >
+                                                Cancel Order
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                        <p class="mb-0 text-black text-danger pt-2">
+                                            <span class="text-black font-weight-bold"> Total Paid:</span> ₹{{item.item_total}}.00
+                                        </p>
+                                    </div>
+
+                                    <!--Modal: modalConfirmDelete-->
+                                    <div
+                                        class="modal fade"
+                                        id="cancelOrder-{{forloop.counter}}"
+                                        tabindex="-1"
+                                        role="dialog"
+                                        aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                                            <!--Content-->
+                                            <div class="modal-content text-center">
+                                                <!--Header-->
+                                                <div class="modal-header d-flex justify-content-center">
+                                                    <p class="heading text-dark">
+                                                        Are you sure you want to cancel the order?
+                                                    </p>
+                                                </div>
+
+                                                <!--Body-->
+                                                <div class="modal-body">
+                                                    <i class="fas fa-times fa-4x animated rotateIn text-dark"></i>
+                                                </div>
+
+                                                <!--Footer-->
+                                                <div class="modal-footer flex-center">
+                                                    <a
+                                                        href="{% url 'cancel_order' item.id item.order.order_id %}"
+                                                        class="btn btn-outline-danger"
+                                                        >Yes</a
+                                                    >
+                                                    <a
+                                                        type="button"
+                                                        class="btn btn-danger waves-effect text-light"
+                                                        data-dismiss="modal"
+                                                        >No</a
+                                                    >
+                                                </div>
+                                            </div>
+                                            <!--/.Content-->
+                                        </div>
+                                    </div>
+                                    <!--Modal: modalConfirmDelete-->
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"
+></script>
+
+{% endblock %}

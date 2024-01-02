@@ -1,0 +1,187 @@
+{% extends 'userbase.html' %} 
+{% load static %} 
+{% block title %}{{category.name}}{% endblock title %} 
+{% block content %}
+
+<!-- Product -->
+
+<!-- Product -->
+<div class="bg0 m-t-23 p-b-140">
+    <div class="container">
+        <br><br>
+        {% comment %} <div class="p-b-32">
+            <h3 class="ltext-105 cl5 txt-center respon1">
+                BEST OF {{category.name | upper}}
+            </h3>
+        </div> {% endcomment %}
+        <div class="flex-w flex-sb-m p-b-52">
+            <div class="flex-w flex-l-m filter-tope-group m-tb-10">
+                {% comment %} <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+                    {{category.name | upper}}
+                </button> {% endcomment %}
+                <h2>{{category.name | upper}}</h2>
+            </div>
+
+            <div class="flex-w flex-c-m m-tb-10">
+                <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter bor17">
+                    <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+                    <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                    Filter
+                </div>
+
+                <form action="{% url 'search' %}" method="GET">
+                    <div class="bor17 of-hidden pos-relative">
+                        <input class="stext-103 cl2 plh4 size-101 p-l-28 p-r-55" type="text" name="keyword" placeholder="Search">
+                        <button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Search product -->
+            <div class="dis-none panel-search w-full p-t-10 p-b-15">
+                <div class="bor8 dis-flex p-l-15">
+                    <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+                        <i class="zmdi zmdi-search"></i>
+                    </button>
+
+                    <input
+                        class="mtext-107 cl2 size-114 plh2 p-r-15"
+                        type="text"
+                        name="search-product"
+                        placeholder="Search"
+                    />
+                </div>
+            </div>
+
+            <!-- Filter -->
+            <div class="dis-none panel-filter w-full p-t-10 text-center">
+                <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm d-flex justify-content-between">
+                    <div class="filter-col1 p-r-15 p-b-27">
+                        <div class="mtext-102 cl2 p-b-15">Sort By</div>
+
+                        <ul>
+                            {% comment %} <li class="p-b-6">
+                                <a href="#" class="filter-link stext-106 trans-04"> Default </a>
+                            </li> {% endcomment %}
+
+                            <li class="p-b-6">
+                                <a href="{% url 'sorting' %}?sortby=new" class="filter-link stext-106 trans-04 filter-link-active"> Newness </a>
+                            </li>
+
+                            <li class="p-b-6">
+                                <a href="{% url 'sorting' %}?sortby=lth" class="filter-link stext-106 trans-04"> Price: Low to High </a>
+                            </li>
+
+                            <li class="p-b-6">
+                                <a href="{% url 'sorting' %}?sortby=htl" class="filter-link stext-106 trans-04"> Price: High to Low </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-col1 p-r-15 p-b-27">
+                        <div class="mtext-102 cl2 p-b-15">Category</div>
+
+                        <ul>
+                            {% for category in all_categories %}
+                                <li>
+                                    <a class="filter-link stext-106 trans-04" href="{{category.get_absolute_url}}">{{category.name | capfirst}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% comment %} Products List {% endcomment %}
+        <div class="row isotope-grid">
+            {% for product in products %}
+            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
+                <!-- Block2 -->
+                <div class="block2">
+                    <div class="block2-pic hov-img0">
+                        <img src="{{product.image.url}}" alt="IMG-PRODUCT" />
+
+                        <a
+                            href="{{product.get_absolute_url}}"
+                            class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04"
+                        >
+                            Quick View
+                        </a>
+                    </div>
+
+                    <div class="block2-txt flex-w flex-t p-t-14">
+                        <div class="block2-txt-child1 flex-col-l">
+                            <a href="{{product.get_absolute_url}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                {{product.title | capfirst}}
+                            </a>
+
+                            <span class="stext-105 cl3"> Rs. {{product.price}} </span>
+                            {% comment %} <span class="fs-18 cl11">
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star"></i>
+                                <i class="zmdi zmdi-star-half"></i>
+                            </span> {% endcomment %}
+                        </div>
+
+                        <div class="block2-txt-child2 flex-r p-t-3">
+                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                {% comment %} <img
+                                    class="icon-heart1 dis-block trans-04"
+                                    src="{% static 'images/icons/icon-heart-01.png' %}"
+                                    alt="ICON"
+                                /> {% endcomment %}
+                                <img
+                                    class="icon-heart2 dis-block trans-04 ab-t-l"
+                                    src="{% static 'images/icons/icon-heart-02.png' %}"
+                                    alt="ICON"
+                                />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+        <!-- Paginator buttons -->
+        <div class="flex-c-m flex-w w-full">
+            <nav aria-label="page navigation sample">
+                {% if products.has_other_pages %}
+                <ul class="pagination">
+
+                    {% if products.has_previous %}
+                    <li class="page-item "><a href="?page={{products.previous_page_number}}"
+                            class="page-link text-dark">Previous</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
+                    {% endif %}
+
+                    {% for i in products.paginator.page_range %}
+                    {% if products.number == i %}
+                    <li class="page-item active"><a href="#" class="page-link">{{i}}</a></li>
+                    {% else %}
+                    <li class="page-item"><a href="?page={{i}}" class="page-link text-dark">{{i}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if products.has_next %}
+                    <li class="page-item"><a href="?page={{products.next_page_number}}"
+                            class="page-link text-dark p-lr-25">Next</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="#" class="page-link p-lr-25">Next</a></li>
+                    {% endif %}
+                </ul>
+
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+</div>
+<!--End Products card-->
+{% endblock content %}

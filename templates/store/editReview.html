@@ -1,0 +1,41 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% block title %}Edit Review{% endblock  %}
+{% block content %}
+
+
+<div class="d-flex justify-content-center mt-5 mb-5">
+
+    <div class="col-md-6">
+        <div class="row mt-5">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="rounded-3 p-3 mb-4">
+                </nav>
+            </div>
+        </div>
+        <form style="align-items: center;" action="{% url 'editreview' review.id %}" method="POST" class="border border-dark rounded p-4">
+            {% csrf_token %}
+            <div class="text-center text-dark">
+            <h3>Edit Review</h3>
+            </div>
+            <hr>
+            <div class="form-group mt-4">
+                <label for="name">Review Title :</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{user.name.id}}">
+            </div>
+            {% comment %} <div class="form-group mt-4">
+                <label for="name">Edit Image :</label>
+                <input type="file" class="form-control" id="image" name="image" value="">
+            </div> {% endcomment %}
+            <div class="form-group mt-4">
+                <label for="name">Your Review :</label>
+                <textarea name="review" id="review" cols="10" rows="5" class="form-control">{{product.review}}</textarea>
+            </div>
+            <a href="" class="btn btn-close btn-outline-dark mt-4 p-2">Cancel</a>
+            <button type="submit" class="btn btn-dark mt-4 p-2">Save Changes</button>
+        </form> 
+    
+    </div>
+</div>
+
+{% endblock  %}

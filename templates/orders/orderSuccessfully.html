@@ -1,0 +1,29 @@
+{% extends 'userbase.html' %} 
+{% load static %} 
+{% block title %}Order Successfully{% endblock %} 
+{% block content %}
+
+<div class="container mt-4 mb-4v">
+    <div class="row d-flex cart align-items-center justify-content-center rounded" style="padding-bottom: 10%;">
+        <div class="col-md-10">
+            <div class="card m-2">
+                <div class="row g-0">
+                    <div class="col-md-12 border-right p-5">
+                        <div class="text-center order-details">
+                            <span class="font-weight-bold fs-25">Your order has been received</span><br><br><br>
+                            <div class="d-flex justify-content-center mb-5 flex-column align-items-center">
+                                <span class="check1"><img src="{% static 'img/check.png' %}" class="w-100 h-100" alt=""></span><br>
+                                <span class="font-weight-bold fs-20">Thank you for your purchase!</span>
+                                <small class="mt-2 fs-15">Your order ID is : {{order_id}}</small>
+                            </div>
+                            <a href="{% url 'home' %}"><button class="btn btn-danger order-button rounded">CONTINUE SHOPPING</button></a>
+                            <a href="{% url 'orders_list' %}"><button class="btn btn-danger order-button rounded">TRACK YOUR ORDER</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

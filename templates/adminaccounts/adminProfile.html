@@ -1,0 +1,167 @@
+{% extends 'adminbase.html' %} {% load static %} {% block title %}Admin Profile{% endblock %} {% block content %}
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Profile</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'adminindex' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Admin Profile</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+            <img src="{{request.user.user_image.url}}" alt="Profile" class="rounded-circle">
+            <h2>{{request.user.first_name}}</h2>
+            <br>
+            <h3>ShoeStore Admin</h3>
+          
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xl-8">
+
+        <div class="card rounded">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+
+            {% for m in messages %}
+            <div class="alert alert-info text-center py-1" role="alert">{{m}}</div>
+            {% endfor %}
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+
+
+              <li class="nav-item ">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-1">Edit Profile</button>
+              </li>
+
+
+              {% comment %} <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-2">Change Password</button>
+              </li> {% endcomment %}
+
+            </ul>
+            <div class="tab-content pt-2">
+
+              
+
+              <div class="tab-pane fade show active profile-1 pt-3" id="profile-1">
+
+                <!-- Profile Edit Form -->
+                <form action="{% url 'admin_profile_edit' %}" method="POST" >
+                  {% csrf_token %}
+                  <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                    <div class="col-md-8 col-lg-9">
+                      <img style="width:100px"src="{{request.user.user_image.url}}" alt="Profile">
+                      <div class="pt-2">
+                        <a href="" class="btn btn-primary btn-sm" title="Upload new profile image" data-bs-toggle="modal" data-bs-target="#changedp"><i class="bi bi-upload"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+                   
+
+                  <div class="row mb-3">
+                    <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="name" type="text" class="form-control"  value="{{request.user.first_name}}">
+                    </div>
+                  </div>
+
+
+                  <div class="row mb-3">
+                    <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="email" type="email" class="form-control" id="company" value="{{request.user.email}}">
+                    </div>
+                  </div>
+
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form><!-- End Profile Edit Form -->
+
+              </div>
+
+              
+              
+              
+
+              <div class="tab-pane profile-2 fade pt-3  " id="profile-2">
+                <!-- Change Password Form -->
+                <form action="{% url 'change_admin_password' user.id %}" method="POST" >
+                  {% csrf_token %}
+
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="old_password" type="password" class="form-control" >
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="new_password" type="password" class="form-control" >
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="confirm_new_password" type="password" class="form-control" >
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </div>
+                </form><!-- End Change Password Form -->
+
+              </div>
+              <!--Edit Modal -->
+          <div class="modal fade" id="changedp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="" id="exampleModalLabel">Admin profile</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="{% url 'admin_change_dp' %}" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+    
+                    <div class="form-outline mb-4">
+                      <input name='user_image'   type="file" id="form3Example3cg" class="form-control form-control-lg" />
+                      <label class="form-label" for="form3Example3cg">Admin Image</label>
+                    </div>
+    
+                    <div class="d-flex justify-content-center">
+                      <button type="submit" class="btn btn-outline-dark w-50">Save Changes</button>
+                    </div>
+    
+                  </form>
+                </div>
+              </div>
+            </div>
+            </div><!-- End Bordered Tabs -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}
