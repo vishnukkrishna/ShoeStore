@@ -156,8 +156,7 @@
 
                         <button type="button"
                             class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 trans-04 pointer m-tb-5"
-                            data-toggle="modal" data-target="#modalDiscount">View
-                            Coupons
+                            data-toggle="modal" data-target="#modalDiscount">View Coupons
                         </button>
                         
                         <!--Modal: coupons list -->
@@ -173,18 +172,19 @@
                                         <div class="row">
                                             <div class="col-3">
                                                 <p class="text-center">
-
                                                     <i class="fas fa-gift fa-4x text-danger"></i>
                                                 </p>
                                             </div>
-
+                                            {% if not coupon%}
+                                            <h2 class="pt-3">No Coupons</h2>
+                                            {% endif %}
                                             <div class="col-9">
                                                 {% for coupon in coupon %}
                                                 <p class="text-dark"> <b class="text-danger">{{coupon.coupon_code}}</b>
                                                     : ₹{{coupon.discount_price}} OFF on orders above
                                                     ₹{{coupon.min_amount}} </p>
                                                 <hr>
-                                                {% endfor %}
+                                                {% endfor %}    
                                             </div>
 
                                         </div>
