@@ -101,16 +101,14 @@ WSGI_APPLICATION = "shoestore.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "shoestore",
-        "USER": "postgres",
-        "port": 5432,
-        "PASSWORD": 3254595,
-        "HOST": "localhost",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
     }
 }
+
 
 AUTH_USER_MODEL = "accounts.Account"
 
