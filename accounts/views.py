@@ -29,7 +29,7 @@ from django.core.mail import EmailMessage
 
 # Website Home Page
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# @login_required(login_url="/userlogin")
+@login_required(login_url="/userlogin")
 def home(request):
     all_products = Product.objects.all()
     context = {
